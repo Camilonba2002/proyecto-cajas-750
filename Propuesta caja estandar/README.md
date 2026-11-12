@@ -49,9 +49,10 @@ Las celdas de las particiones muestran tres botellas distintas:
 | 60003020 *(no activo)* | x6 Real 24° Gold | 318×212×238 | C540 KF | 460×1110 | 0,511 | Licorera sin score | Verde 3213 + Negro 90 |
 
 ### 1.4 Lo más importante: muchas cajas ya son la misma caja
-- **Las 8 x12 de Antioqueño** tienen la misma caja (384×245×210, C620KF, hoja 464×1308), la misma
-  partición (378×236×200) y la misma división (343×222). **Solo cambian el color de la tinta y el arte.**
-  La única excepción es la partición de 60002597 (384×241×208).
+- **Las 8 x12 de Antioqueño** tienen la misma caja (384×245×210, C620KF, hoja 464×1308) y la misma
+  división (343×222). La partición (378×236×200) es igual en 7 de las 8; la excepción es 60002597
+  (384×241×208). **La estructura es la misma, pero el arte no**: además de la marca y el color, cambian
+  varios textos y avisos. El detalle está en la [sección 1.6](#16-revisión-detallada-de-las-8-cajas-x12).
 - **Las 2 x20 de Antioqueño** (60002579 y 60002580) son idénticas entre sí.
 - **Las 2 x6 Herencia** (60003228 y 60003229) son idénticas entre sí.
 - Las 2 cajas Real NI ya se imprimen en **una sola tinta (Negro 90)**: están a un paso de ser estándar.
@@ -60,10 +61,10 @@ Las celdas de las particiones muestran tres botellas distintas:
 
 | Información | ¿Cambia por referencia? | ¿Quién la imprime en la propuesta? |
 |---|---|---|
-| Cantidad y "750 ml / Glass bottles" | No, depende del formato | Proveedor (fija) |
+| Cantidad y "750 ml / Glass bottles" | No, depende del formato (pero hoy el texto tiene 2 versiones, ver 1.6) | Proveedor (fija) |
 | Sello Fábrica de Licores, certificaciones, reciclaje | No | Proveedor (fija) |
-| Símbolos de manejo (frágil, este lado arriba, no carear) y esquema de estibado | No | Proveedor (fija) |
-| Peso aproximado de la caja vacía | No, depende del formato | Proveedor (fija) |
+| Símbolos de manejo (frágil, este lado arriba, no carear) y esquema de estibado | No debería (hoy hay versiones distintas, ver 1.6) | Proveedor (fija) |
+| Peso aproximado de la caja vacía | No debería (hoy hay 3 valores para la misma caja, ver 1.6) | Proveedor (fija) |
 | Guía-señal y ranuras de trazabilidad del proveedor | No | Proveedor (fija) |
 | Logo de marca (Antioqueño, Real, Herencia) | **Sí** | **Planta** |
 | Variedad (Sin azúcar, Tradicional, 24°, 29°) y su color | **Sí** | **Planta** |
@@ -71,6 +72,52 @@ Las celdas de las particiones muestran tres botellas distintas:
 | Código ITF-14 / DUN-14 | **Sí, uno por referencia** | **Planta** |
 | Lote, fecha, booking | **Sí, por producción** | **Planta** |
 | Frases legales ("El exceso de alcohol…", "Prohíbase el expendio…") | Depende del mercado | **Planta** (o fija si aplica a todos los mercados) |
+
+### 1.6 Revisión detallada de las 8 cajas x12
+
+Comparación de las 8 fichas, zona por zona y a la misma escala. Las láminas están en
+[`revision-x12/`](revision-x12) ([PDF con todas las zonas](revision-x12/comparativo_8_cajas_x12.pdf)).
+
+**Estructura: igual en las 8.**
+
+| | Caja | Partición | División |
+|---|---|---|---|
+| 7 referencias | 384×245×210, C620KF, hoja 464×1308 | 378×236×200, BX1K, hoja 542×542 | 343×222, BX1K, hoja 1110×1029 |
+| 60002597 | Igual | **384×241×208, hoja 557×557** | Igual |
+
+**Arte: elemento por elemento.**
+
+| Elemento | 2594 | 2595 | 2597 | 2600 | 2608 | 2609 | 2652 | 2904 |
+|---|---|---|---|---|---|---|---|---|
+| Mercado | USA | USA | USA | Chile | Gene Exp | Gene Exp | Gene Exp | Exp |
+| **Marca (logo)** | Aguardiente Antioqueño | Aguardiente Antioqueño | Aguardiente Antioqueño | **Antioqueño Antioqueño** | Aguardiente Antioqueño | Aguardiente Antioqueño | Aguardiente Antioqueño | **Antioqueño Antioqueño** |
+| **Variedad en el logo** | SIN AZÚCAR | (ninguna, Tradicional) | 24° SIN AZÚCAR | SIN AZÚCAR | (ninguna, Tradicional) | SIN AZÚCAR | 24° SIN AZÚCAR | 24° SIN AZÚCAR |
+| **Color variedad** (botella, logo, guía) | Azul 39 | Rojo 74 | Verde 2081 | Azul 39 | **Rojo 73** | Azul 39 | Verde 2081 | Verde 2081 |
+| Texto de unidades | Glass bottles | Glass bottles | Glass bottles | UN. en vidrio / Glass bottles | UN. en vidrio / Glass bottles | UN. en vidrio / Glass bottles | UN. en vidrio / Glass bottles | UN. en vidrio / Glass bottles |
+| Destino | FOR EXPORT | FOR EXPORT | FOR EXPORT | PARA EXPORTACIÓN / FOR EXPORT | PARA EXPORTACIÓN / FOR EXPORT | PARA EXPORTACIÓN / FOR EXPORT | PARA EXPORTACIÓN / FOR EXPORT | PARA EXPORTACIÓN / FOR EXPORT |
+| Frases legales (caras 2 y 4) | No | No | No | **Chile:** "Beber con moderación / Prohibida su venta a menores de 18 años" | Colombia (3 líneas) | Colombia (3 líneas) | Colombia (3 líneas) | Colombia (3 líneas) |
+| ITF-14 | 1 06 64858 00011 6 | 1 06 64858 00003 1 | 1 06 64858 00032 1 | 1 77 02049 00106 1 | 1 77 02049 00172 6 | 1 77 02049 00169 6 | 1 77 02049 00186 3 | 1 77 02049 00204 4 |
+| Aviso aleta sup. cara 1 | FRAGILE | FRAGILE | FRAGILE | DELICADO / FRAGILE | DELICADO / FRAGILE | DELICADO / FRAGILE | DELICADO / FRAGILE | DELICADO / FRAGILE |
+| "DELICADO ESTE LADO ARRIBA" (aleta sup. cara 3) | No | No | No | No | **Sí** | No | No | **Sí** |
+| Estibado (cajas × tendidos) | 10 × 5 | 10 × 6 | 10 × 6 | 10 × 6 | 10 × 5 | 10 × 6 | 10 × 6 | 10 × 5 |
+| Peso caja vacía | 0,339 kg | 0,339 kg | 0,339 kg | **0,322 kg** | 0,334 kg | 0,334 kg | 0,334 kg | 0,334 kg |
+| Sellos aleta inf. cara 1 | 6 sellos | 6 | 6 | 6 | 6 | **5 (sin "empaque reciclable")** | 6 | 6 |
+| Calendario de fecha del proveedor (aleta inf. cara 2) | Sí | No | No | Sí | No | No | Sí | Sí |
+
+**Lo que se repite en las 8:** sello Fábrica de Licores de Antioquia (aleta sup. cara 1 y caras 2 y 4),
+"12", "750 ml / 0.75 L", estiba 1,20 × 1,00 m y el dibujo del estibado.
+
+### 1.7 Clasificación corregida: tres tipos de elemento
+
+| Tipo | Elementos | Qué hacer |
+|---|---|---|
+| **Negro: igual en las 8** | Sello FLA, "12", "750 ml / 0.75 L", estiba 1,20 × 1,00 | Lo imprime el proveedor, sin discusión |
+| **Naranja: va en negro, pero hoy hay versiones distintas** | Aviso FRAGILE / DELICADO FRAGILE · "Glass bottles" / "UN. en vidrio / Glass bottles" · "DELICADO ESTE LADO ARRIBA" · tendidos 5 o 6 · peso 0,339 / 0,334 / 0,322 · juego de sellos · calendario de fecha | **Escoger una sola versión** con Logística, Calidad y Comercio Exterior. Sugerencia: la versión bilingüe ("DELICADO / FRAGILE", "UN. en vidrio / Glass bottles"), que ya usan 5 de las 8 y sirve para todos los mercados. Si un dato depende de verdad del mercado (por ejemplo los tendidos por contenedor), pasa a rojo |
+| **Rojo: cambia por referencia** | Marca (2 logos: "Aguardiente Antioqueño" y "Antioqueño Antioqueño") · variedad (Sin azúcar, Tradicional, 24° Sin azúcar) · color (azul, rojo, verde) · destino (FOR EXPORT o PARA EXPORTACIÓN / FOR EXPORT) · frases legales (ninguna, Chile o Colombia) · ITF-14 (8 códigos, 2 prefijos: 1 06 64858 para USA y 1 77 02049 para el resto) | Se imprime en planta |
+
+**Combinaciones de rojo que hay hoy:** 2 marcas × 3 variedades × 3 mercados (USA, Chile, exportación
+general). Con impresión en planta, una referencia nueva, por ejemplo "Antioqueño Antioqueño Tradicional
+USA", no requiere una caja nueva: solo un archivo de impresión y su ITF-14.
 
 ---
 
@@ -110,6 +157,7 @@ En [`maqueta/`](maqueta) está la caja x12 armada con el arte real de la ficha 6
 lo que imprime el proveedor (negro) y lo que imprimimos nosotros (rojo):
 [comparativo PNG](maqueta/CE-12-ANT_comparativo.png) · [comparativo PDF](maqueta/CE-12-ANT_comparativo.pdf).
 
+> En naranja se marcan los elementos en negro que hoy no son iguales en las 8 fichas (sección 1.7).
 > El rojo solo indica **quién** imprime. En la caja real el ITF-14 debe ir en negro o en un color
 > oscuro: los lectores de código de barras usan luz roja y no leen barras rojas.
 
@@ -159,8 +207,9 @@ códigos. La norma GS1 exige grado C o mejor.
    CON SCORE ADICIONAL".
 4. **60002652:** la página de la división tiene como título "60002609 … (DIV)". El código CD02128203 sí
    es el correcto.
-5. **Excel:** 60002652 aparece dos veces, y 60002600 dice "ANTIO ANTIO 29°" mientras la ficha dice
-   "SIN AZ CHILE".
+5. **Excel:** 60002652 aparece dos veces. Para 60002600, el Excel dice "SIN AZ ANTIO ANTIO 29° 750" y
+   la ficha dice "SIN AZ CHILE 750 KIT". Las dos cosas coinciden en parte: el arte sí usa el logo
+   "Antioqueño Antioqueño" y es para Chile. Lo que no aparece en la caja es el "29°".
 
 ---
 

@@ -54,6 +54,30 @@ VARIABLES = {
     "Frases legales según mercado (cara 4)": (1035, 290, 1205, 317),
 }
 
+# Elementos que van en NEGRO pero que hoy NO son iguales en las 8 fichas: hay que escoger una versión.
+NARANJA = (235, 120, 0)
+A_UNIFICAR = [
+    (1, (250, 35, 370, 105)),     # DELICADO / FRAGILE
+    (2, (228, 145, 390, 230)),    # 12 UN. en vidrio / Glass bottles (cara 1)
+    (2, (440, 145, 600, 215)),    # cara 2
+    (2, (833, 145, 995, 230)),    # cara 3
+    (2, (1045, 145, 1205, 215)),  # cara 4
+    (3, (730, 30, 910, 110)),     # estibado
+    (4, (730, 375, 910, 412)),    # peso
+    (5, (85, 355, 330, 415)),     # certificaciones
+    (5, (440, 355, 600, 420)),    # calendario de fecha del proveedor (aleta inf. cara 2)
+]
+NOTAS = [
+    "1. Aviso de la aleta: las 3 de USA dicen solo \"FRAGILE\"; las otras 5, \"DELICADO / FRAGILE\".",
+    "2. Texto de unidades: las 3 de USA dicen \"Glass bottles\"; las otras 5, \"UN. en vidrio / Glass bottles\".",
+    "3. Estibado: 10 cajas x 5 tendidos (1280 mm) en 60002594, 2608 y 2904; 10 x 6 (1500 mm) en las otras 5. "
+    "60002608 y 60002904 agregan \"DELICADO ESTE LADO ARRIBA\".",
+    "4. Peso de la caja vacía: 0,339 kg (USA), 0,334 kg (Gene Exp y Antio Antio) y 0,322 kg (Chile), "
+    "aunque la caja es la misma.",
+    "5. Sellos: 60002609 no trae el sello \"empaque reciclable\". El calendario de fecha del proveedor "
+    "(aleta inf. cara 2) solo está en 4 de las 8.",
+]
+
 # Geometría de la caja desplegada (px del recorte, 1 mm ≈ 2,82 px)
 TOP, CUERPO_Y0, CUERPO_Y1, BOT = 33, 377, 1000, 1344
 ALETAS = [(106, 1182), (1209, 1891), (1921, 2998), (3026, 3715)]
@@ -114,27 +138,51 @@ def rotular_caras(im):
         d.text(((x0 + x1) / 2, CUERPO_Y1 - 22), f"CARA {i}", font=f, fill=(120, 95, 55), anchor="mm")
 
 
-def hoja(vistas, ancho=2200):
+def marcar_unificar(im):
+    d = ImageDraw.Draw(im)
+    f = ImageFont.truetype(FUENTE_B, 34)
+    for n, (x0, y0, x1, y1) in A_UNIFICAR:
+        X0, Y0, X1, Y1 = x0 * 3 - 6, y0 * 3 - 6, x1 * 3 + 6, y1 * 3 + 6
+        for x in range(X0, X1, 28):          # rectángulo punteado
+            d.line([(x, Y0), (min(x + 16, X1), Y0)], fill=NARANJA, width=6)
+            d.line([(x, Y1), (min(x + 16, X1), Y1)], fill=NARANJA, width=6)
+        for y in range(Y0, Y1, 28):
+            d.line([(X0, y), (X0, min(y + 16, Y1))], fill=NARANJA, width=6)
+            d.line([(X1, y), (X1, min(y + 16, Y1))], fill=NARANJA, width=6)
+        d.ellipse([X1 - 26, Y0 - 26, X1 + 26, Y0 + 26], fill=NARANJA)
+        d.text((X1, Y0), str(n), font=f, fill="white", anchor="mm")
+
+
+def hoja(vistas, ancho=2200, notas=()):
     f_t = ImageFont.truetype(FUENTE_B, 40)
     f_s = ImageFont.truetype(FUENTE, 24)
     f_v = ImageFont.truetype(FUENTE_B, 30)
     esc = (ancho - 80) / vistas[0][1].width
     alto_v = int(vistas[0][1].height * esc)
-    H = 210 + len(vistas) * (alto_v + 80) + 40
+    H = 250 + len(vistas) * (alto_v + 80) + 40 + (60 + 36 * len(notas) if notas else 0)
     out = Image.new("RGB", (ancho, H), "white")
     d = ImageDraw.Draw(out)
     d.text((40, 30), "Caja estándar x12 Aguardiente Antioqueño 750 · CE-12-ANT", font=f_t, fill=(20, 20, 20))
     d.text((40, 88), "Base: arte real de la ficha 60002609 (384 x 245 x 210 mm int., hoja 464 x 1308, C620KF kraft). "
                      "Aplica a las 8 referencias x12.", font=f_s, fill=(70, 70, 70))
     d.rectangle([40, 140, 70, 170], fill=NEGRO)
-    d.text((82, 142), "NEGRO = lo imprime el proveedor (fijo, igual para las 8)", font=f_s, fill=NEGRO)
+    d.text((82, 142), "NEGRO = lo imprime el proveedor (fijo para el formato)", font=f_s, fill=NEGRO)
     d.rectangle([900, 140, 930, 170], fill=ROJO)
     d.text((942, 142), "ROJO = lo imprimimos en planta (cambia según la referencia)", font=f_s, fill=ROJO)
-    y = 210
+    if notas:
+        for x in range(40, 72, 10):
+            d.line([(x, 197), (x + 5, 197)], fill=NARANJA, width=4)
+        d.text((82, 184), "NARANJA = va en negro, pero hoy hay versiones distintas entre las 8: "
+                          "hay que escoger una (ver notas abajo)", font=f_s, fill=NARANJA)
+    y = 250
     for titulo, im in vistas:
         d.text((40, y), titulo, font=f_v, fill=(30, 30, 30))
         out.paste(im.resize((ancho - 80, alto_v), Image.LANCZOS), (40, y + 50))
         y += alto_v + 80
+    if notas:
+        d.text((40, y + 10), "Notas: qué hay que unificar antes de pedir la caja estándar", font=f_v, fill=NARANJA)
+        for i, n in enumerate(notas):
+            d.text((40, y + 60 + 36 * i), n, font=f_s, fill=(40, 40, 40))
     return out
 
 
@@ -148,11 +196,13 @@ if __name__ == "__main__":
     rotular_caras(final)
 
     final.save(AQUI / "CE-12-ANT_final_negro_rojo.png")
+    proveedor_m = proveedor.copy(); marcar_unificar(proveedor_m)
+    final_m = final.copy(); marcar_unificar(final_m)
     proveedor.save(AQUI / "CE-12-ANT_1_como_llega_del_proveedor.png")
     planta.save(AQUI / "CE-12-ANT_2_lo_que_imprimimos.png")
-    lamina = hoja([("1. Como llega del proveedor (solo negro)", proveedor),
+    lamina = hoja([("1. Como llega del proveedor (solo negro)", proveedor_m),
                    ("2. Lo que imprimimos en planta (solo rojo)", planta),
-                   ("3. Caja terminada (negro + rojo)", final)])
+                   ("3. Caja terminada (negro + rojo)", final_m)], notas=NOTAS)
     lamina.save(AQUI / "CE-12-ANT_comparativo.png")
     lamina.save(AQUI / "CE-12-ANT_comparativo.pdf", resolution=150)
     print("listo")
