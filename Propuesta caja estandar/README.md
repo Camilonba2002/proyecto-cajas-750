@@ -105,6 +105,16 @@ Los planos de la carpeta [`planos/`](planos) muestran la caja desplegada con dos
 
 ![CE-12-ANT](planos/CE-12-ANT.svg)
 
+### Maqueta con el arte real: negro = proveedor, rojo = planta
+En [`maqueta/`](maqueta) está la caja x12 armada con el arte real de la ficha 60002609, separado en
+lo que imprime el proveedor (negro) y lo que imprimimos nosotros (rojo):
+[comparativo PNG](maqueta/CE-12-ANT_comparativo.png) · [comparativo PDF](maqueta/CE-12-ANT_comparativo.pdf).
+
+> El rojo solo indica **quién** imprime. En la caja real el ITF-14 debe ir en negro o en un color
+> oscuro: los lectores de código de barras usan luz roja y no leen barras rojas.
+
+![Comparativo](maqueta/CE-12-ANT_comparativo.png)
+
 ---
 
 ## 3. Tres niveles de "caja neutra" para escoger
