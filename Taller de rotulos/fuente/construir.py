@@ -1,4 +1,4 @@
-"""Arma la carpeta publicable del taller.
+"""Arma la carpeta publicable del taller (con --solo-pagina actualiza solo index.html).
 - index.html: la plantilla con los rótulos base incrustados.
 - catalogo.json, el/*.png: rotulado real extraído de las fichas (extraer_todo.py).
 - fonts/: Oswald para que la ficha PDF salga con la misma letra.
@@ -7,13 +7,15 @@ import base64, json, shutil, sys
 from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 RAIZ = AQUI.parent
-EXT = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "datos"
+EXT = Path(sys.argv[1]) if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else RAIZ / "datos"
 PUB = RAIZ / "publicar"
 ROT = RAIZ / "rotulos"
 meta = json.loads((ROT / "meta.json").read_text())
 assets = {k: {"src": "data:image/png;base64," + base64.b64encode((ROT / f"{k}.png").read_bytes()).decode(),
               "w": m["w"], "h": m["h"], "mono": m["modo"] == "mono"} for k, m in meta.items()}
 html = (AQUI / "taller.template.html").read_text(encoding="utf-8").replace("/*__ASSETS__*/{}", json.dumps(assets, separators=(",", ":")))
+if "--solo-pagina" in sys.argv:
+    (PUB / "index.html").write_text(html, encoding="utf-8"); print("index.html actualizado"); sys.exit(0)
 if PUB.exists(): shutil.rmtree(PUB)
 (PUB / "el").mkdir(parents=True); (PUB / "fonts").mkdir()
 (PUB / "index.html").write_text(html, encoding="utf-8")

@@ -528,7 +528,7 @@ function dibujar3D(){
 function aplicarRot(){ $("#cubo").style.transform = `rotateX(${S.rot.x}deg) rotateY(${S.rot.y}deg)`; }
 
 /* ---------- Render general ---------- */
-function render(){ dibujarPlano(); dibujar3D(); panelRotulo(); panelCapas(); leyenda(); medidas(); }
+function render(){ dibujarPlano(); dibujar3D(); panelRotulo(); panelCapas(); leyenda(); medidas(); setTimeout(()=>S.items.forEach(it=>mapaAlfa(srcDe(it))), 50); }
 function medidas(){
   const r = CAT.referencias[S.refCode], d = r ? r.dims : null;
   $("#medidas").innerHTML = (d?`int. <b>${d[0]} × ${d[1]} × ${d[2]}</b> mm · `:"") + (G.troquel ? `plano <b>${G.TH} × ${G.TW}</b> mm` : `hoja <b>${G.TH} × ${G.TW}</b> mm`);
@@ -601,6 +601,18 @@ async function agregar(ref, cara=S.cara, x, y){
   toast(`${l.nombre} → ${geom().caras[cara]?.nombre||""}`);
 }
 function cambiar(it, cambios, conHistoria=true){ if(conHistoria) guardarHistoria(); Object.assign(it, cambios); render(); borrador(); }
+function iguales(it){ return S.items.filter(o=>o!==it && o.tipo===it.tipo && o.ref===it.ref && (it.tipo==="el"||it.tipo==="img")); }
+function verReales(){
+  if(S.colores!=="quien") return;
+  S.colores = "reales"; document.querySelectorAll("#segColores button").forEach(x=>x.setAttribute("aria-pressed", x.dataset.v==="reales"));
+  toast("Cambié a «Tintas reales» para que veas el color");
+}
+function ponerColor(it, color){
+  verReales();
+  const igs = iguales(it), todos = $("#fTodos")?.checked;
+  guardarHistoria(); it.color = color; if(todos) igs.forEach(o=>o.color = color);
+  render(); borrador();
+}
 function ponerTexto(it, texto){ if(it.tipo!=="texto"){ it.p.texto = texto; return; } const fs = tam(it).fs; it.p.texto = texto; const m = Math.max(1, ...lineas(it).map(s=>s.length)); it.w = r1(fs*m*0.5); }
 function eliminar(id){ guardarHistoria(); S.items = S.items.filter(i=>i.id!==id); if(S.sel===id) S.sel=null; render(); borrador(); }
 function duplicar(id){ const it=S.items.find(i=>i.id===id); if(!it) return; guardarHistoria(); const n=JSON.parse(JSON.stringify(it)); n.id=nid(); n.x+=8; n.y+=8; S.items.push(n); S.sel=n.id; render(); borrador(); }
@@ -609,6 +621,35 @@ function duplicar(id){ const it=S.items.find(i=>i.id===id); if(!it) return; guar
 const plano = $("#plano");
 function aMM(ev){ const pt = plano.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(plano.getScreenCTM().inverse()); }
 function caraEn(x, y){ for(const [id,c] of Object.entries(G.caras)){ if(x>=c.x && x<=c.x+c.w && y>=c.y && y<=c.y+c.h) return id; } return null; }
+const ALFA = new Map();
+function mapaAlfa(src){
+  if(!src) return null;
+  if(ALFA.has(src)) return ALFA.get(src);
+  ALFA.set(src, null);
+  const im = new Image();
+  im.onload = ()=>{ const w = Math.min(400, im.naturalWidth), h = Math.max(1, Math.round(im.naturalHeight*w/im.naturalWidth)), cv = document.createElement("canvas"); cv.width=w; cv.height=h;
+    const cx = cv.getContext("2d", {willReadFrequently:true}); cx.drawImage(im,0,0,w,h); try{ ALFA.set(src, {w, h, d: cx.getImageData(0,0,w,h).data}); }catch(e){} };
+  im.src = src; return null;
+}
+function srcDe(it){ return it.tipo==="el" ? IMG[it.ref] : it.tipo==="img" ? asset(it.ref)?.src : null; }
+function tintaEn(it, lx, ly){
+  const {w,h} = tam(it); const src = srcDe(it);
+  if(!src) return true;                                // textos, códigos, estiba: toda su caja cuenta
+  const m = mapaAlfa(src); if(!m) return true;
+  const px = Math.floor(lx/w*m.w), py = Math.floor(ly/h*m.h);
+  for(let dy=-2; dy<=2; dy++) for(let dx=-2; dx<=2; dx++){ const x=px+dx, y=py+dy; if(x>=0&&y>=0&&x<m.w&&y<m.h && m.d[(y*m.w+x)*4+3] > 40) return true; }
+  return false;
+}
+function rotuloEn(p){
+  const cand = [];
+  S.items.forEach((it, z)=>{ if(!visible(it)) return; const c = G.caras[it.cara]; if(!c) return;
+    const {w,h} = tam(it), cx = c.x+it.x+w/2, cy = c.y+it.y+h/2, a = -(it.rot||0)*Math.PI/180;
+    const dx = p.x-cx, dy = p.y-cy, lx = dx*Math.cos(a)-dy*Math.sin(a)+w/2, ly = dx*Math.sin(a)+dy*Math.cos(a)+h/2;
+    if(lx>=0 && ly>=0 && lx<=w && ly<=h) cand.push({it, z, area:w*h, tinta: tintaEn(it, lx, ly)}); });
+  if(!cand.length) return null;
+  const conTinta = cand.filter(c=>c.tinta).sort((a,b)=>a.area-b.area || b.z-a.z);
+  return (conTinta[0] || cand.sort((a,b)=>a.area-b.area)[0]).it;
+}
 let arrastre = null;
 plano.addEventListener("pointerdown", ev=>{
   const p = aMM(ev);
@@ -616,9 +657,10 @@ plano.addEventListener("pointerdown", ev=>{
     const it = S.items.find(i=>i.id===S.sel); if(!it) return;
     arrastre = {modo:"tam", it, p0:p, w0:it.w, hist:foto()}; plano.setPointerCapture(ev.pointerId); ev.preventDefault(); return;
   }
-  const g = ev.target.closest(".it");
+  const it0 = ev.target.closest(".it") ? rotuloEn(p) : null;
+  const g = it0 ? plano.querySelector(`.it[data-id="${it0.id}"]`) : null;
   if(g){
-    const it = S.items.find(i=>i.id===g.dataset.id); if(!it) return;
+    const it = it0;
     S.sel = it.id; S.cara = it.cara; $("#caraActiva").value = it.cara;
     arrastre = {modo:"mover", it, p0:p, x0:it.x, y0:it.y, g, hist:foto(), movio:false};
     plano.setPointerCapture(ev.pointerId); dibujarSeleccion(); panelRotulo(); panelCapas(); mostrarPanel("rotulo"); ev.preventDefault(); return;
@@ -757,7 +799,8 @@ function panelRotulo(){
     <div class="fila"><label for="fCara">Cara</label><select id="fCara">${opts}</select></div>
     <div class="fila2"><div><label class="ayuda" for="fX">X (mm)</label><input id="fX" type="number" step="1" value="${it.x}"></div><div><label class="ayuda" for="fY">Y (mm)</label><input id="fY" type="number" step="1" value="${it.y}"></div></div>
     <div class="fila2"><div><label class="ayuda" for="fW">Ancho (mm)</label><input id="fW" type="number" step="1" min="3" value="${it.w}"></div><div><label class="ayuda" for="fRot">Giro (°)</label><select id="fRot">${[0,90,180,270].map(r=>`<option ${it.rot===r?"selected":""}>${r}</option>`).join("")}</select></div></div>
-    <div><span class="ayuda">Tinta${S.colores==="quien"?" (se ve al volver a «Tintas reales»)":""}</span><div class="swatches" id="fColor">${(it.tipo==="el"||(it.tipo==="img"&&!asset(it.ref)?.mono))?`<button class="orig" data-c="" aria-pressed="${!it.color}">Original</button>`:""}${TINTAS.map(([n,c])=>`<button title="${n}" aria-label="${n}" data-c="${c}" style="background:${c}" aria-pressed="${String(it.color).toLowerCase()===c}"></button>`).join("")}<input type="color" id="fColorLibre" value="${it.color||"#1d1d1b"}" title="Otro color" aria-label="Otro color"></div></div>
+    <div><span class="ayuda">Tinta${S.colores==="quien"?" · al elegir una se pasa a «Tintas reales»":""}</span><div class="swatches" id="fColor">${(it.tipo==="el"||(it.tipo==="img"&&!asset(it.ref)?.mono))?`<button class="orig" data-c="" aria-pressed="${!it.color}">Original</button>`:""}${TINTAS.map(([n,c])=>`<button title="${n}" aria-label="${n}" data-c="${c}" style="background:${c}" aria-pressed="${String(it.color).toLowerCase()===c}"></button>`).join("")}<input type="color" id="fColorLibre" value="${it.color||"#1d1d1b"}" title="Otro color" aria-label="Otro color"></div></div>
+    ${(()=>{ const n = iguales(it).length; return n ? `<label class="ayuda" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="fTodos" ${S.colorTodos!==false?"checked":""}> Cambiar también los ${n} iguales en otras caras</label>` : ""; })()}
     ${especificos}
     <div class="botones"><button class="btn" id="fOcultar">${it.oculto?"Mostrar":"Ocultar"}</button><button class="btn" id="fDup">Duplicar</button><button class="btn" id="fFrente">Al frente</button><button class="btn peligro" id="fBorrar">Quitar</button></div>`;
   const num = v => { const n = parseFloat(v); return isNaN(n)?0:n; };
@@ -765,14 +808,18 @@ function panelRotulo(){
   $("#fCara").onchange = ev=>{ const c = geom().caras[ev.target.value]; const {w,h}=tam(it); cambiar(it,{cara:ev.target.value, x:r1(Math.min(it.x, c.w-w/2)), y:r1(Math.min(it.y, c.h-h/2))}); S.cara=ev.target.value; $("#caraActiva").value=S.cara; };
   $("#fX").onchange = ev=>cambiar(it,{x:num(ev.target.value)}); $("#fY").onchange = ev=>cambiar(it,{y:num(ev.target.value)});
   $("#fW").onchange = ev=>cambiar(it,{w:Math.max(3,num(ev.target.value))}); $("#fRot").onchange = ev=>cambiar(it,{rot:+ev.target.value});
-  el.querySelectorAll("#fColor button").forEach(b=>b.onclick=()=>cambiar(it,{color:b.dataset.c||null}));
-  $("#fColorLibre").onchange = ev=>cambiar(it,{color:ev.target.value});
+  el.querySelectorAll("#fColor button").forEach(b=>b.onclick=()=>ponerColor(it, b.dataset.c||null));
+  let histColor = null;
+  $("#fColorLibre").addEventListener("pointerdown", ()=>{ histColor = foto(); });
+  $("#fColorLibre").addEventListener("input", ev=>{ if(!histColor) histColor = foto(); verReales(); it.color = ev.target.value; if($("#fTodos")?.checked) iguales(it).forEach(o=>o.color = it.color); dibujarPlano(); dibujar3D(); });
+  $("#fColorLibre").addEventListener("change", ev=>{ if(histColor){ historia.push(histColor); histColor = null; } it.color = ev.target.value; if($("#fTodos")?.checked) iguales(it).forEach(o=>o.color = it.color); render(); borrador(); });
   const p = (k,v)=>cambiar(it,{p:{...it.p,[k]:v}});
   if($("#fTexto")) $("#fTexto").onchange = ev=>{ guardarHistoria(); ponerTexto(it, ev.target.value); render(); borrador(); };
   if($("#fN")){ $("#fN").onchange=ev=>p("n",ev.target.value); $("#fL1").onchange=ev=>p("l1",ev.target.value); $("#fL2").onchange=ev=>p("l2",ev.target.value); }
   if($("#fCod")) $("#fCod").onchange = ev=>p("codigo", ev.target.value.replace(/\D/g,""));
   if($("#fT1")){ $("#fT1").onchange=ev=>p("tendido",ev.target.value); $("#fT2").onchange=ev=>p("tendidos",ev.target.value); }
   if($("#fR")) $("#fR").onchange = ev=>p("r", Math.max(0.2,num(ev.target.value)));
+  if($("#fTodos")) $("#fTodos").onchange = ev=>{ S.colorTodos = ev.target.checked; };
   $("#fOcultar").onclick = ()=>cambiar(it,{oculto:!it.oculto});
   $("#fDup").onclick = ()=>duplicar(it.id);
   $("#fFrente").onclick = ()=>{ guardarHistoria(); S.items = S.items.filter(i=>i!==it).concat(it); render(); borrador(); };
