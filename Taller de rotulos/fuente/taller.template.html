@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller de rótulos de cajas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Mesa de trabajo: barra de control arriba; biblioteca | caja (desarmada + 3D) | propiedades */
+  --bg:#ece7dd; --panel:#faf8f3; --line:#d6cdbb; --text:#24211b; --muted:#6c6454; --accent:#1d5f7c;
+  --planta:#d0312d; --prov:#1d1d1b; --kraft:#d4af6d; --kraft-edge:#8a6a32; --sel:#1d8fd6;
+  --display:"Oswald","Arial Narrow",sans-serif; --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#191815; --panel:#23211d; --line:#3b372f; --text:#ece6d8; --muted:#a49b88; --accent:#62acd0;
+  --planta:#ec5a4f; --prov:#f0ece4; --kraft:#c9a461; --kraft-edge:#6f5426; --sel:#4fb3f2; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#191815; --panel:#23211d; --line:#3b372f; --text:#ece6d8; --muted:#a49b88; --accent:#62acd0;
+  --planta:#ec5a4f; --prov:#f0ece4; --kraft:#c9a461; --kraft-edge:#6f5426; --sel:#4fb3f2; color-scheme:dark;}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font:14px/1.4 var(--body);display:flex;flex-direction:column;min-height:0}
+button,select,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--sel);outline-offset:2px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line)}
+h1{font:600 20px/1 var(--display);letter-spacing:.02em;margin:0;text-transform:uppercase;text-wrap:balance}
+h1 small{display:block;font:500 11px/1.3 var(--body);letter-spacing:0;text-transform:none;color:var(--muted);margin-top:3px}
+.grupo{display:flex;align-items:center;gap:6px}
+.grupo label{font-size:12px;color:var(--muted)}
+select,input[type=text],input[type=number],textarea{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;min-width:0}
+textarea{width:100%;resize:vertical}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:5px 10px;font-size:13px;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.btn{border:1px solid var(--line);background:var(--bg);border-radius:6px;padding:5px 10px;font-size:13px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.peligro{color:var(--planta)}
+.btn:disabled{opacity:.45;cursor:default}
+.medidas{font:500 13px/1.2 var(--display);letter-spacing:.03em;font-variant-numeric:tabular-nums;color:var(--muted)}
+.medidas b{color:var(--text);font-weight:600}
+.espacio{flex:1}
+#estado{font-size:12px;color:var(--muted)}
+main{flex:1;min-height:0;display:grid;grid-template-columns:240px minmax(0,1fr) 310px;grid-template-rows:minmax(0,1fr)}
+aside{background:var(--panel);overflow:auto;min-height:0}
+#biblioteca{border-right:1px solid var(--line);padding:12px}
+#lado{border-left:1px solid var(--line);display:flex;flex-direction:column}
+.titulo-sec{font:600 12px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;display:flex;align-items:center;gap:6px}
+.titulo-sec:first-child{margin-top:0}
+.punto{width:9px;height:9px;border-radius:50%;display:inline-block}
+.lib{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lib button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px 5px;border:1px solid var(--line);border-radius:7px;background:var(--bg);font-size:11px;line-height:1.2;text-align:center;min-height:74px}
+.lib button:hover{border-color:var(--sel)}
+.lib .mini{height:36px;width:100%;display:flex;align-items:center;justify-content:center;background:var(--kraft);border-radius:4px;overflow:hidden}
+.lib .mini svg{max-height:32px;max-width:92%}
+.ayuda{font-size:12px;color:var(--muted);margin:6px 0}
+#escenario{display:flex;flex-direction:column;min-height:0;min-width:0}
+.barra-vista{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.leyenda{display:flex;gap:12px;font-size:12px;color:var(--muted)}
+.leyenda span{display:inline-flex;align-items:center;gap:5px}
+#vistas{flex:1;min-height:0;display:grid;grid-template-rows:minmax(0,1.15fr) minmax(0,1fr)}
+#vistas[data-v="plano"]{grid-template-rows:1fr 0}
+#vistas[data-v="3d"]{grid-template-rows:0 1fr}
+#vistas[data-v="plano"] #zona3d,#vistas[data-v="3d"] #zonaPlano{display:none}
+#zonaPlano{position:relative;min-height:0;overflow:auto;padding:8px 12px}
+#plano{width:100%;height:100%;display:block;touch-action:none;user-select:none}
+#zona3d{position:relative;min-height:0;border-top:1px solid var(--line);overflow:hidden;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--panel) 70%,transparent),transparent 70%)}
+#escena{position:absolute;inset:0;perspective:1600px;display:flex;align-items:center;justify-content:center;touch-action:none;cursor:grab}
+#escena:active{cursor:grabbing}
+#cubo{position:relative;transform-style:preserve-3d}
+#cubo .cara{position:absolute;backface-visibility:hidden;outline:1px solid rgba(0,0,0,.28)}
+#cubo .cara svg{display:block;width:100%;height:100%}
+#cubo .cara::after{content:"";position:absolute;inset:0;pointer-events:none;background:var(--sombra,transparent)}
+.controles3d{position:absolute;left:10px;bottom:10px;display:flex;flex-wrap:wrap;gap:6px}
+.controles3d .btn{background:var(--panel)}
+.nota3d{position:absolute;right:10px;top:8px;font-size:12px;color:var(--muted)}
+.pestanas{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;position:sticky;top:0;z-index:2;background:var(--panel);flex:none}
+.pestanas button{flex:1;border:0;background:transparent;padding:10px 6px;font:500 12px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.pestanas button[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent)}
+.panel{padding:12px;display:none;flex-direction:column;gap:10px}
+.panel.activo{display:flex}
+.fila{display:grid;grid-template-columns:88px 1fr;align-items:center;gap:8px}
+.fila>label{font-size:12px;color:var(--muted)}
+.fila2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fila2 input{width:100%}
+.swatches{display:flex;flex-wrap:wrap;gap:5px}
+.swatches button{width:22px;height:22px;border-radius:50%;border:2px solid var(--panel);box-shadow:0 0 0 1px var(--line);padding:0}
+.swatches button[aria-pressed="true"]{box-shadow:0 0 0 2px var(--sel)}
+.vacio{color:var(--muted);font-size:13px;padding:8px 0}
+.lista{display:flex;flex-direction:column;gap:4px}
+.capa{display:grid;grid-template-columns:24px 1fr auto;align-items:center;gap:6px;padding:5px 6px;border:1px solid var(--line);border-radius:6px;background:var(--bg);font-size:12px;text-align:left}
+.capa.sel{border-color:var(--sel)}
+.capa .ojo{border:0;background:none;padding:0;font-size:14px;color:var(--muted)}
+.pill{font:600 10px/1 var(--body);padding:3px 6px;border-radius:999px;color:#fff;letter-spacing:.03em}
+.pill.prov{background:var(--prov);color:var(--panel)}
+.pill.planta{background:var(--planta)}
+.tarjeta{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--bg);display:flex;flex-direction:column;gap:4px}
+.tarjeta .meta{font-size:11px;color:var(--muted)}
+.tarjeta .acciones{display:flex;gap:6px;flex-wrap:wrap}
+.botones{display:flex;flex-wrap:wrap;gap:6px}
+.aviso{font-size:12px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:6px;padding:6px 8px}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--text);color:var(--panel);padding:8px 14px;border-radius:8px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.ver{opacity:1}
+#defs{position:absolute;width:0;height:0;overflow:hidden}
+@media (max-width:1100px){main{grid-template-columns:200px minmax(0,1fr) 280px}}
+@media (max-width:860px){
+  body{height:auto;min-height:100%}
+  main{display:flex;flex-direction:column}
+  #escenario{order:1;height:78vh}
+  #biblioteca{order:2;border-right:0;border-top:1px solid var(--line)}
+  #lado{order:3;border-left:0;border-top:1px solid var(--line)}
+  .lib{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+}
+@media (prefers-reduced-motion:reduce){#cubo{transition:none!important}}
+</style>
+</head>
+<body>
+<svg id="defs" aria-hidden="true"><defs id="defsInner"></defs></svg>
+
+<header>
+  <h1>Taller de rótulos<small>Caja estándar: lo fijo del proveedor y lo que se imprime en planta</small></h1>
+  <div class="grupo"><label for="tipo">Tipo de caja</label><select id="tipo"></select></div>
+  <div class="medidas" id="medidas"></div>
+  <div class="espacio"></div>
+  <div class="grupo"><label>Colores</label>
+    <div class="seg" id="segColores"><button data-v="reales" aria-pressed="true">Tintas reales</button><button data-v="quien" aria-pressed="false">Quién imprime</button></div></div>
+  <div class="grupo"><label for="filtro">Mostrar</label>
+    <select id="filtro"><option value="todo">Todo</option><option value="proveedor">Solo proveedor</option><option value="planta">Solo planta</option></select></div>
+  <span id="estado"></span>
+</header>
+
+<main>
+  <aside id="biblioteca" aria-label="Biblioteca de rótulos">
+    <div class="titulo-sec">Agregar en</div>
+    <select id="caraActiva" style="width:100%"></select>
+    <p class="ayuda">Toca un rótulo para ponerlo en esa cara, o arrástralo sobre la caja desarmada.</p>
+    <div id="libContenido"></div>
+    <div class="titulo-sec">Rótulo nuevo</div>
+    <div id="subida">
+      <input type="text" id="nuevoNombre" placeholder="Nombre del rótulo" style="width:100%;margin-bottom:6px">
+      <div class="botones">
+        <select id="nuevoGrupo"><option value="planta">Planta</option><option value="proveedor">Proveedor</option></select>
+        <label class="btn" for="nuevoArchivo">Subir imagen…</label>
+        <input type="file" id="nuevoArchivo" accept="image/png,image/jpeg,image/svg+xml,image/webp" hidden>
+      </div>
+      <p class="ayuda" id="subidaAyuda">PNG con fondo transparente o SVG. Queda en la biblioteca para todos.</p>
+    </div>
+  </aside>
+
+  <section id="escenario" aria-label="Caja">
+    <div class="barra-vista">
+      <div class="seg" id="segVista"><button data-v="ambas" aria-pressed="true">Ambas</button><button data-v="plano" aria-pressed="false">Desarmada</button><button data-v="3d" aria-pressed="false">Armada 3D</button></div>
+      <div class="leyenda" id="leyenda"></div>
+      <div class="espacio"></div>
+      <button class="btn" id="deshacer" title="Deshacer (Ctrl+Z)">Deshacer</button>
+    </div>
+    <div id="vistas" data-v="ambas">
+      <div id="zonaPlano"><svg id="plano" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caja desarmada"></svg></div>
+      <div id="zona3d">
+        <div id="escena"><div id="cubo"></div></div>
+        <div class="controles3d">
+          <button class="btn" data-rot="-18,-34">3/4 frente</button>
+          <button class="btn" data-rot="-18,146">3/4 atrás</button>
+          <button class="btn" data-rot="-70,-20">Arriba</button>
+          <button class="btn" data-rot="65,-20">Abajo</button>
+          <button class="btn" id="girar" aria-pressed="false">Girar</button>
+        </div>
+        <div class="nota3d">Arrastra para girar · toca una cara para elegirla</div>
+      </div>
+    </div>
+  </section>
+
+  <aside id="lado" aria-label="Propiedades">
+    <div class="pestanas" role="tablist">
+      <button role="tab" data-p="rotulo" aria-selected="true">Rótulo</button>
+      <button role="tab" data-p="capas" aria-selected="false">Capas</button>
+      <button role="tab" data-p="plantillas" aria-selected="false">Plantillas</button>
+      <button role="tab" data-p="disenos" aria-selected="false">Diseños</button>
+      <button role="tab" data-p="ideas" aria-selected="false">Ideas</button>
+    </div>
+    <div class="panel activo" id="p-rotulo"></div>
+    <div class="panel" id="p-capas"></div>
+    <div class="panel" id="p-plantillas"></div>
+    <div class="panel" id="p-disenos"></div>
+    <div class="panel" id="p-ideas"></div>
+  </aside>
+</main>
+<div id="toast" role="status"></div>
+
+<script>
+"use strict";
+const ASSETS = /*__ASSETS__*/{};
+
+/* ---------- Datos de los 22 tipos (medidas internas y hoja neta de las fichas) ---------- */
+const TIPOS = [
+ ["TIPO 01","x30 · 375 ml · Aguardiente y Doble Anís",476,302,200,512,"30","375 ml / 0.375 L"],
+ ["TIPO 02","x30 · 330 ml · Doble Anís",467,297,185,491,"30","330 ml / 0.33 L"],
+ ["TIPO 03","x20 · 750 ml · Aguardiente nacional",482,324,208,542,"20","750 ml / 0.75 L"],
+ ["TIPO 04","x12 · 750 ml · Doble Anís 30°",372,278,252,542,"12","750 ml / 0.75 L"],
+ ["TIPO 05","x12 · 1000 ml · Aguardiente nacional",384,242,264,516,"12","1000 ml / 1 L"],
+ ["TIPO 06","x12 · 1000 ml · Ron 3 años",377,282,292,584,"12","1000 ml / 1 L"],
+ ["TIPO 07","x6 · 1750 ml · Aguardiente y Doble Anís",372,247,298,560,"6","1750 ml / 1.75 L"],
+ ["TIPO 08","x6 · 2000 ml · Aguardiente y Ron",386,256,320,586,"6","2000 ml / 2 L"],
+ ["TIPO 09","x30 · 375 ml · Ron y Licor de Ron",417,348,218,576,"30","375 ml / 0.375 L"],
+ ["TIPO 10","x20 · 750 ml · Ron y Licor de Ron",442,354,253,617,"20","750 ml / 0.75 L"],
+ ["TIPO 11","x12 · 750 ml · Ron 8 y 12 años",507,326,218,554,"12","750 ml / 0.75 L"],
+ ["TIPO 12","x20 · 375 ml · Ron 8 años",522,340,173,523,"20","375 ml / 0.375 L"],
+ ["TIPO 13","x6 · 750/700 ml · Ron exportación y Crema de Ron",323,255,222,486,"6","750 ml / 0.75 L"],
+ ["TIPO 14","x12 · 1050 ml · Envase multicapa (bandeja troquelada)",280,238,231,0,"12","1050 ml"],
+ ["TIPO 15","x24 · 260 ml · Envase multicapa (bandeja troquelada)",297,212,129,0,"24","260 ml"],
+ ["TIPO 16","x24 · 375 ml · Aguardiente exportación",385,302,200,512,"24","375 ml / 0.375 L"],
+ ["TIPO 17","x12 · 750/700 ml · Aguardiente exportación",384,245,210,464,"12","750 ml / 0.75 L"],
+ ["TIPO 18","x12 · 750/700 ml · Ron 3 años exportación",350,262,253,525,"12","750 ml / 0.75 L"],
+ ["TIPO 19","x12 · 1000 ml · Aguardiente exportación",384,242,264,516,"12","1000 ml / 1 L"],
+ ["TIPO 20","x6 · estuche Ron + 1 vaso",444,360,224,594,"6","750 ml"],
+ ["TIPO 21","x24 · 375 ml · Ron 3 años exportación",414,274,218,508,"24","375 ml / 0.375 L"],
+ ["TIPO 22","x30 · 375 ml PET · Aguardiente",473,298,208,518,"30","375 ml / 0.375 L"],
+].map(([k,d,L,A,H,hoja,n,ml])=>({k,d,L,A,H,hoja,n,ml}));
+
+const TINTAS = [
+ ["Negro 90","#1d1d1b"],["Azul 39","#1f66b3"],["Rojo 74","#e2231a"],["Rojo 73","#c8102e"],["Verde 2081","#78b52b"],
+ ["Verde 29","#2f9a3c"],["Verde 2008","#3c7a3a"],["Morado P-2068U","#6c2a3b"],["Azul 30","#0b4f9c"],["Azul 31","#3a6db5"],
+ ["Dorado","#b98a2e"],["Café 52","#6b4423"],["Gris H1709","#8a8d8f"],["Blanco","#ffffff"]];
+const NEGRO="#1d1d1b", ROJO_PLANTA="#d0312d";
+const VARIEDAD = {
+  sinaz:{nombre:"Sin azúcar", color:"#1f66b3", marca:"marca_sin_azucar"},
+  trad:{nombre:"Tradicional", color:"#e2231a", marca:null},
+  g24:{nombre:"24° Sin azúcar", color:"#78b52b", marca:"marca_24_sin_azucar"},
+};
+const LEGAL_COL = "EL EXCESO DE ALCOHOL ES PERJUDICIAL PARA LA SALUD\nPROHÍBASE EL EXPENDIO DE BEBIDAS EMBRIAGANTES A MENORES DE EDAD\nTOMAR BEBIDAS ALCOHÓLICAS EN EXCESO ES DAÑINO";
+const LEGAL_CHILE = "BEBER CON MODERACIÓN\nPROHIBIDA SU VENTA A MENORES DE 18 AÑOS";
+
+/* ---------- Biblioteca de rótulos conocidos ---------- */
+const LIB = [
+ // grupo, ref, nombre, tipo, ancho mm, color, rol, props
+ ["proveedor","sello_fla","Sello FLA","img",80,NEGRO,"",{}],
+ ["proveedor","unidades","Unidades y volumen","unidades",160,NEGRO,"unidades",{}],
+ ["proveedor","delicado_fragile","DELICADO / FRAGILE","texto",110,NEGRO,"",{texto:"DELICADO\nFRAGILE"}],
+ ["proveedor","delicado_arriba","DELICADO / ESTE LADO ARRIBA","texto",130,NEGRO,"",{texto:"DELICADO\nESTE LADO ARRIBA"}],
+ ["proveedor","estiba","Estibado 1,20 × 1,00","estiba",175,NEGRO,"",{tendido:10,tendidos:6,estibas:1}],
+ ["proveedor","certificaciones","Certificaciones","img",260,NEGRO,"",{}],
+ ["proveedor","peso","Peso de la caja","texto",160,NEGRO,"",{texto:"0.334 kg Aprox."}],
+ ["planta","logo_aguardiente_antioqueno","Aguardiente Antioqueño","img",175,NEGRO,"marca",{}],
+ ["planta","logo_antioqueno_antioqueno","Antioqueño Antioqueño","img",175,NEGRO,"marca",{}],
+ ["planta","marca_sin_azucar","Sin azúcar","img",70,"#1f66b3","variedad",{}],
+ ["planta","marca_24_sin_azucar","24° Sin azúcar","img",70,"#78b52b","variedad",{}],
+ ["planta","botella","Botella de color","img",10,"#1f66b3","colorvar",{}],
+ ["planta","guia","Guía-señal de color","rect",9,"#1f66b3","colorvar",{r:3}],
+ ["planta","destino","Destino (exportación)","texto",160,NEGRO,"destino",{texto:"PARA EXPORTACIÓN / FOR EXPORT"}],
+ ["planta","legal","Frases legales","texto",215,NEGRO,"legal",{texto:LEGAL_COL}],
+ ["planta","itf14","Código ITF-14","itf",165,NEGRO,"",{codigo:"1770204900169"}],
+ ["planta","lote","Lote y fecha","texto",120,NEGRO,"",{texto:"LOTE: ________\nFECHA: ________"}],
+ ["planta","logo_doble_anis","Doble Anís","img",120,NEGRO,"marca",{}],
+ ["planta","franja_doble_anis","Franja Doble Anís","img",380,NEGRO,"",{}],
+ ["planta","logo_ron_medellin_anejo","Ron Medellín Añejo","img",170,NEGRO,"marca",{}],
+ ["planta","logo_ron_medellin_extra_anejo","Ron Medellín Extra Añejo","img",180,"#6c2a3b","marca",{}],
+ ["planta","logo_licor_ron_medellin","Licor de Ron Medellín","img",180,NEGRO,"marca",{}],
+ ["planta","grado_29","29°","img",55,"#2f9a3c","",{}],
+ ["planta","anos_3","3 años","img",38,NEGRO,"",{}],
+ ["planta","anos_8","8 años","img",42,"#6c2a3b","",{}],
+ ["planta","texto","Texto libre","texto",120,NEGRO,"",{texto:"TEXTO"}],
+].map(([grupo,ref,nombre,tipo,w,color,rol,p])=>({grupo,ref,nombre,tipo,w,color,rol,p}));
+let LIB_CUSTOM = []; // rótulos subidos (db)
+
+/* ---------- Estado ---------- */
+const S = {
+  tipo:"TIPO 17", items:[], sel:null, cara:"c1", colores:"reales", filtro:"todo", vista:"ambas",
+  nombre:"Ejemplo 60002609 · Sin azúcar · Exportación genérica", disenoId:null, rot:{x:-18,y:-34}, girar:false
+};
+const historia = [];
+let uid = 1;
+const nid = () => "i" + Date.now().toString(36) + (uid++);
+
+/* ---------- Utilidades ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const r1 = v => Math.round(v * 10) / 10;
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("ver"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("ver"),2200); }
+function libDe(ref){ return LIB.find(l=>l.ref===ref) || LIB_CUSTOM.find(l=>l.ref===ref); }
+function asset(ref){ return ASSETS[ref] || (LIB_CUSTOM.find(l=>l.ref===ref)||{}).a; }
+
+/* ---------- Geometría de la caja ---------- */
+function geom(k = S.tipo){
+  const t = TIPOS.find(x=>x.k===k) || TIPOS[16];
+  const P = [t.L+4, t.A+6, t.L+6, t.A+4], G = 30, B = t.H+10;
+  const F = t.hoja ? Math.round((t.hoja - B)/2) : Math.round((t.A+6)/2);
+  const caras = {};
+  let x = G;
+  P.forEach((w,i)=>{
+    const n=i+1;
+    caras["t"+n] = {x, y:0, w, h:F, nombre:`Aleta superior cara ${n}`, oculta: n%2===0};
+    caras["c"+n] = {x, y:F, w, h:B, nombre:`Cara ${n}`};
+    caras["b"+n] = {x, y:F+B, w, h:F, nombre:`Aleta inferior cara ${n}`, oculta: n%2===0};
+    x += w;
+  });
+  return {t, P, G, B, F, caras, TW: x, TH: 2*F+B, aprox: !t.hoja};
+}
+
+/* ---------- Tamaño de cada rótulo ---------- */
+function lineas(it){ return String(it.p.texto ?? "").split("\n"); }
+function tam(it){
+  const w = it.w;
+  switch(it.tipo){
+    case "img": { const a = asset(it.ref); return {w, h: a ? w*a.h/a.w : w*0.5}; }
+    case "texto": { const L=lineas(it); const m=Math.max(1,...L.map(s=>s.length)); const fs=w/(m*0.5); return {w,h:L.length*fs*1.16,fs}; }
+    case "unidades": { const p=it.p, m=Math.max(1,(p.l1||"").length,(p.l2||"").length); const fs=w/(m*0.47); return {w,h:fs*2.5+fs*2.4,fs}; }
+    case "itf": return {w, h:w*0.36};
+    case "estiba": return {w, h:w*0.5};
+    case "rect": return {w, h:w*(it.p.r||3)};
+  }
+  return {w, h:w};
+}
+
+/* ---------- Color efectivo y filtros de tinte ---------- */
+function colorDe(it){ return S.colores==="quien" ? (it.quien==="planta"?ROJO_PLANTA:NEGRO) : it.color; }
+const tintes = new Set();
+function tinte(hex){
+  const id = "tn" + hex.replace("#","");
+  if(!tintes.has(id)){
+    tintes.add(id);
+    const f = document.createElementNS("http://www.w3.org/2000/svg","filter");
+    f.setAttribute("id",id); f.setAttribute("x","0"); f.setAttribute("y","0"); f.setAttribute("width","1"); f.setAttribute("height","1");
+    f.setAttribute("color-interpolation-filters","sRGB");
+    f.innerHTML = `<feFlood flood-color="${hex}"/><feComposite in2="SourceAlpha" operator="in"/>`;
+    $("#defsInner").appendChild(f);
+  }
+  return id;
+}
+function registrarSimbolo(ref, a){
+  if(document.getElementById("a-"+ref)) return;
+  const s = document.createElementNS("http://www.w3.org/2000/svg","symbol");
+  s.setAttribute("id","a-"+ref); s.setAttribute("viewBox",`0 0 ${a.w} ${a.h}`); s.setAttribute("preserveAspectRatio","none");
+  s.innerHTML = `<image href="${a.src}" width="${a.w}" height="${a.h}" preserveAspectRatio="none"/>`;
+  $("#defsInner").appendChild(s);
+}
+
+/* ---------- ITF-14 ---------- */
+const ITF = ["NNWWN","WNNNW","NWNNW","WWNNN","NNWNW","WNWNN","NWWNN","NNNWW","WNNWN","NWNWN"];
+function digito(cod13){ let s=0; for(let i=0;i<13;i++){ const d=+cod13[12-i]; s += d*(i%2===0?3:1); } return (10 - s%10)%10; }
+function itfCodigo(c){ const d=String(c||"").replace(/\D/g,"").padStart(13,"0").slice(0,13); return d + digito(d); }
+function itfSVG(it, w, h, col){
+  const code = itfCodigo(it.p.codigo), WR = 2.5;
+  const seq = [[1,1],[1,0],[1,1],[1,0]]; // inicio: barra-espacio-barra-espacio angostos
+  for(let i=0;i<14;i+=2){ const a=ITF[+code[i]], b=ITF[+code[i+1]]; for(let k=0;k<5;k++){ seq.push([a[k]==="W"?WR:1,1]); seq.push([b[k]==="W"?WR:1,0]); } }
+  seq.push([WR,1],[1,0],[1,1]);
+  const M = seq.reduce((s,x)=>s+x[0],0);
+  const bt = w*0.032, q = w*0.075, hb = h*0.78;
+  const x0 = bt+q, ancho = w-2*bt-2*q, k = ancho/M;
+  let x = x0, barras = "";
+  for(const [m,es] of seq){ if(es) barras += `<rect x="${r1(x)}" y="${r1(bt)}" width="${(m*k).toFixed(2)}" height="${r1(hb-2*bt)}"/>`; x += m*k; }
+  const txt = `${code[0]}  ${code.slice(1,3)}  ${code.slice(3,8)}  ${code.slice(8,13)}  ${code[13]}`;
+  return `<g fill="${col}"><path fill-rule="evenodd" d="M0 0H${w}V${hb}H0Z M${bt} ${bt}V${hb-bt}H${w-bt}V${bt}Z"/>${barras}
+    <text x="${w/2}" y="${r1(hb + h*0.17)}" text-anchor="middle" font-family="Oswald, 'Arial Narrow', sans-serif" font-size="${r1(h*0.15)}" letter-spacing="${r1(w*0.006)}">${txt}</text></g>`;
+}
+
+/* ---------- Dibujo de un rótulo (en su origen) ---------- */
+function contenido(it){
+  const {w,h,fs} = tam(it), col = colorDe(it);
+  const fam = `font-family="Oswald, 'Arial Narrow', 'Roboto Condensed', sans-serif"`;
+  switch(it.tipo){
+    case "img": {
+      const a = asset(it.ref); if(!a) return `<rect width="${w}" height="${h}" fill="none" stroke="${col}" stroke-dasharray="4 3"/>`;
+      registrarSimbolo(it.ref, a);
+      const usarTinte = a.mono || S.colores==="quien";
+      return `<use href="#a-${it.ref}" width="${r1(w)}" height="${r1(h)}"${usarTinte?` filter="url(#${tinte(col)})"`:""}/>`;
+    }
+    case "texto": {
+      const L = lineas(it), peso = it.p.peso || (L.length<=2 && fs>12 ? 600 : 500);
+      return L.map((s,i)=>`<text x="${r1(w/2)}" y="${r1(fs*(i*1.16+0.92))}" text-anchor="middle" ${fam} font-weight="${peso}" font-size="${r1(fs)}" fill="${col}">${esc(s)}</text>`).join("");
+    }
+    case "unidades": {
+      const p = it.p, big = fs*2.5;
+      return `<text x="${r1(w/2)}" y="${r1(big*0.86)}" text-anchor="middle" ${fam} font-weight="500" font-size="${r1(big)}" fill="${col}">${esc(p.n)}</text>
+        <text x="${r1(w/2)}" y="${r1(big+fs*1.0)}" text-anchor="middle" ${fam} font-weight="400" font-size="${r1(fs)}" fill="${col}">${esc(p.l1)}</text>
+        <text x="${r1(w/2)}" y="${r1(big+fs*2.2)}" text-anchor="middle" ${fam} font-weight="400" font-size="${r1(fs)}" fill="${col}">${esc(p.l2)}</text>`;
+    }
+    case "itf": return itfSVG(it, w, h, col);
+    case "estiba": {
+      const a = ASSETS.estiba; registrarSimbolo("estiba", a);
+      const iw = w*0.4, ih = iw*a.h/a.w, tx = w*0.45, tw = w*0.55, rh = h*0.2, f = rh*0.5;
+      const filas = [[it.p.tendido,"CAJAS x TENDIDO"],[it.p.tendidos,"TENDIDOS"],[it.p.estibas,"ESTIBA"]];
+      let tabla = `<text x="${r1(tx+tw/2)}" y="${r1(h*0.16)}" text-anchor="middle" ${fam} font-weight="600" font-size="${r1(f*0.95)}" fill="${col}">ESTIBA DE 1,20 x 1,00 m</text>`;
+      const y0 = h*0.24, c1 = tw*0.36, c2 = tw*0.12;
+      tabla += `<g fill="none" stroke="${col}" stroke-width="${r1(w*0.006)}"><rect x="${r1(tx)}" y="${r1(y0)}" width="${r1(tw)}" height="${r1(rh*3)}"/>`;
+      tabla += `<line x1="${r1(tx+c1)}" y1="${r1(y0)}" x2="${r1(tx+c1)}" y2="${r1(y0+rh*3)}"/><line x1="${r1(tx+c1+c2)}" y1="${r1(y0)}" x2="${r1(tx+c1+c2)}" y2="${r1(y0+rh*3)}"/>`;
+      tabla += `<line x1="${r1(tx+c1)}" y1="${r1(y0+rh)}" x2="${r1(tx+tw)}" y2="${r1(y0+rh)}"/><line x1="${r1(tx+c1)}" y1="${r1(y0+rh*2)}" x2="${r1(tx+tw)}" y2="${r1(y0+rh*2)}"/></g>`;
+      tabla += `<text x="${r1(tx+c1/2)}" y="${r1(y0+rh*1.35)}" text-anchor="middle" ${fam} font-weight="600" font-size="${r1(f*0.85)}" fill="${col}">ARRUME</text><text x="${r1(tx+c1/2)}" y="${r1(y0+rh*2.05)}" text-anchor="middle" ${fam} font-weight="600" font-size="${r1(f*0.85)}" fill="${col}">MÁXIMO</text>`;
+      filas.forEach(([n,l],i)=>{ const yy=y0+rh*(i+0.7);
+        tabla += `<text x="${r1(tx+c1+c2/2)}" y="${r1(yy)}" text-anchor="middle" ${fam} font-weight="600" font-size="${r1(f)}" fill="${col}">${esc(n)}</text><text x="${r1(tx+c1+c2+(tw-c1-c2)/2)}" y="${r1(yy)}" text-anchor="middle" ${fam} font-weight="500" font-size="${r1(f*0.8)}" fill="${col}">${esc(l)}</text>`; });
+      const tin = ` filter="url(#${tinte(col)})"`;
+      return `<use href="#a-estiba" y="${r1((h-ih)/2)}" width="${r1(iw)}" height="${r1(ih)}"${tin}/>` + tabla;
+    }
+    case "rect": return `<rect width="${r1(w)}" height="${r1(h)}" fill="${col}"/>`;
+  }
+  return "";
+}
+function visible(it){ return !it.oculto && (S.filtro==="todo" || S.filtro===it.quien); }
+function itemSVG(it, dx=0, dy=0, interactivo=false){
+  const {w,h} = tam(it);
+  const tr = `translate(${r1(it.x+dx)} ${r1(it.y+dy)})` + (it.rot ? ` rotate(${it.rot} ${r1(w/2)} ${r1(h/2)})` : "");
+  return `<g ${interactivo?`class="it" data-id="${it.id}"`:""} transform="${tr}">${interactivo?`<rect width="${r1(w)}" height="${r1(h)}" fill="transparent"/>`:""}${contenido(it)}</g>`;
+}
+
+/* ---------- Vista desarmada ---------- */
+let G = geom();
+function dibujarPlano(paraExportar=false){
+  G = geom();
+  const {caras, TW, TH, G:gl, B, F} = G, pad = 14;
+  let s = "";
+  s += `<polygon points="${gl},${F+4} 4,${F+20} 4,${F+B-20} ${gl},${F+B-4}" fill="var(--kraft)" stroke="var(--kraft-edge)" stroke-width="1"/>`;
+  if(!paraExportar) s += `<text x="${gl/2}" y="${F+B/2}" text-anchor="middle" font-size="7" fill="var(--kraft-edge)" transform="rotate(-90 ${gl/2} ${F+B/2})">PEGUE</text>`;
+  for(const [id,c] of Object.entries(caras)){
+    const ins = id[0]==="c" ? 0 : 2.5;
+    s += `<rect class="cara" data-cara="${id}" x="${c.x+ins}" y="${c.y}" width="${c.w-2*ins}" height="${c.h}" fill="var(--kraft)" stroke="var(--kraft-edge)" stroke-width="1"/>`;
+  }
+  const dash = `stroke="var(--kraft-edge)" stroke-width="0.8" stroke-dasharray="5 4" fill="none"`;
+  s += `<line x1="${gl}" y1="${F}" x2="${TW}" y2="${F}" ${dash}/><line x1="${gl}" y1="${F+B}" x2="${TW}" y2="${F+B}" ${dash}/>`;
+  if(!paraExportar){
+    for(let i=1;i<=4;i++){ const c=caras["c"+i];
+      s += `<text x="${c.x+c.w/2}" y="-5" text-anchor="middle" font-family="Oswald, sans-serif" font-size="9" letter-spacing="1" fill="var(--muted)">CARA ${i} · ${c.w} mm</text>`;
+      for(const p of ["t","b"]){ const a=caras[p+i]; if(a.oculta) s += `<text x="${a.x+a.w/2}" y="${a.y+a.h/2}" text-anchor="middle" font-size="7" fill="var(--kraft-edge)" opacity=".8">queda por dentro al cerrar</text>`; }
+    }
+    s += `<text x="-6" y="${F/2}" text-anchor="end" font-size="8" fill="var(--muted)">${F}</text><text x="-6" y="${F+B/2}" text-anchor="end" font-size="8" fill="var(--muted)">${B}</text><text x="-6" y="${F+B+F/2}" text-anchor="end" font-size="8" fill="var(--muted)">${F}</text>`;
+    const a = caras[S.cara]; if(a) s += `<rect x="${a.x+1}" y="${a.y+1}" width="${a.w-2}" height="${a.h-2}" fill="none" stroke="var(--sel)" stroke-width="1.6" stroke-dasharray="6 4" pointer-events="none"/>`;
+  }
+  for(const it of S.items){ if(!visible(it)) continue; const c = caras[it.cara]; if(!c) continue; s += itemSVG(it, c.x, c.y, !paraExportar); }
+  if(!paraExportar) s += `<g id="seleccion"></g>`;
+  const vb = `${-pad-14} ${-pad-10} ${TW+2*pad+14} ${TH+2*pad+10}`;
+  if(paraExportar) return {s, TW, TH};
+  const svg = $("#plano"); svg.setAttribute("viewBox", vb); svg.innerHTML = s;
+  dibujarSeleccion();
+}
+function dibujarSeleccion(){
+  const g = $("#seleccion"); if(!g) return;
+  const it = S.items.find(i=>i.id===S.sel); if(!it || !visible(it)){ g.innerHTML=""; return; }
+  const c = G.caras[it.cara], {w,h} = tam(it);
+  const tr = `translate(${r1(c.x+it.x)} ${r1(c.y+it.y)})` + (it.rot?` rotate(${it.rot} ${r1(w/2)} ${r1(h/2)})`:"");
+  g.innerHTML = `<g transform="${tr}"><rect x="-1.5" y="-1.5" width="${r1(w+3)}" height="${r1(h+3)}" fill="none" stroke="var(--sel)" stroke-width="1.2" stroke-dasharray="4 2" pointer-events="none"/>
+    <circle class="tirador" cx="${r1(w+1.5)}" cy="${r1(h+1.5)}" r="5" fill="var(--sel)" stroke="#fff" stroke-width="1.2" style="cursor:nwse-resize"/></g>`;
+}
+
+/* ---------- Vista armada 3D ---------- */
+function caraSVG(id, W, H, extra=""){
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><rect width="${W}" height="${H}" fill="var(--kraft)"/>${extra}`;
+  for(const it of S.items){ if(it.cara===id && visible(it)) s += itemSVG(it); }
+  return s + `</svg>`;
+}
+function tapaSVG(fr, at, W, D, F){
+  // fr = aleta que nace en el borde frontal (abajo en la vista), at = la de atrás (girada 180°)
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${D}" preserveAspectRatio="none"><rect width="${W}" height="${D}" fill="var(--kraft)"/>`;
+  const gi = id => S.items.filter(it=>it.cara===id && visible(it)).map(it=>itemSVG(it)).join("");
+  if(fr.arriba){ // tapa superior: aleta frontal abajo, trasera arriba girada
+    s += `<g transform="translate(0 ${D-F})">${gi(fr.id)}</g><g transform="rotate(180 ${W/2} ${D/2}) translate(0 ${D-F})">${gi(at.id)}</g>`;
+  } else {      // fondo: aleta frontal arriba, trasera abajo girada
+    s += `<g>${gi(fr.id)}</g><g transform="rotate(180 ${W/2} ${D/2})">${gi(at.id)}</g>`;
+  }
+  s += `<line x1="0" y1="${D/2}" x2="${W}" y2="${D/2}" stroke="var(--kraft-edge)" stroke-width="0.8"/>`;
+  return s + `</svg>`;
+}
+function dibujar3D(){
+  const z = $("#escena"), cubo = $("#cubo");
+  const ancho = z.clientWidth, alto = z.clientHeight;
+  if(!ancho || !alto) return;
+  const {P, B, F} = G;
+  const W = P[0], D = P[1], H = B;
+  const k = Math.min(ancho*0.62, alto*0.95) / Math.max(W, D, H) * 0.78;
+  const w=W*k, d=D*k, h=H*k;
+  cubo.style.width = w+"px"; cubo.style.height = h+"px";
+  const caras = [
+    ["c1", w, h, 0, 0, `translateZ(${d/2}px)`, "transparent", caraSVG("c1",P[0],B)],
+    ["c3", w, h, 0, 0, `rotateY(180deg) translateZ(${d/2}px)`, "rgba(0,0,0,.16)", caraSVG("c3",P[2],B)],
+    ["c2", d, h, (w-d)/2, 0, `rotateY(90deg) translateZ(${w/2}px)`, "rgba(0,0,0,.08)", caraSVG("c2",P[1],B)],
+    ["c4", d, h, (w-d)/2, 0, `rotateY(-90deg) translateZ(${w/2}px)`, "rgba(0,0,0,.2)", caraSVG("c4",P[3],B)],
+    ["tapa", w, d, 0, (h-d)/2, `rotateX(90deg) translateZ(${h/2}px)`, "rgba(255,255,255,.07)", tapaSVG({id:"t1",arriba:true},{id:"t3"},W,D,F)],
+    ["fondo", w, d, 0, (h-d)/2, `rotateX(-90deg) translateZ(${h/2}px)`, "rgba(0,0,0,.24)", tapaSVG({id:"b1",arriba:false},{id:"b3"},W,D,F)],
+  ];
+  cubo.innerHTML = caras.map(([id,cw,ch,l,t,tr,sh,svg])=>`<div class="cara" data-cara3d="${id}" style="width:${cw}px;height:${ch}px;left:${l}px;top:${t}px;transform:${tr};--sombra:${sh}">${svg}</div>`).join("");
+  aplicarRot();
+}
+function aplicarRot(){ $("#cubo").style.transform = `rotateX(${S.rot.x}deg) rotateY(${S.rot.y}deg)`; }
+
+/* ---------- Render general ---------- */
+function render(){
+  dibujarPlano(); dibujar3D(); panelRotulo(); panelCapas(); leyenda(); medidas();
+}
+function medidas(){
+  const g = geom(), t = g.t;
+  $("#medidas").innerHTML = `${esc(t.d)} · int. <b>${t.L} × ${t.A} × ${t.H}</b> mm · hoja <b>${g.TH} × ${g.TW}</b> mm${g.aprox?" · <span title='La ficha es una bandeja troquelada; aquí se muestra como caja regular aproximada'>vista aproximada</span>":""}`;
+}
+function leyenda(){
+  const np = S.items.filter(i=>i.quien==="proveedor" && !i.oculto).length, nl = S.items.filter(i=>i.quien==="planta" && !i.oculto).length;
+  $("#leyenda").innerHTML = `<span><i class="punto" style="background:var(--prov)"></i>Proveedor: ${np}</span><span><i class="punto" style="background:var(--planta)"></i>Planta: ${nl}</span>`;
+}
+
+/* ---------- Historia ---------- */
+function guardarHistoria(){ historia.push(JSON.stringify({tipo:S.tipo, items:S.items})); if(historia.length>80) historia.shift(); }
+function deshacer(){ const h = historia.pop(); if(!h) return toast("No hay nada para deshacer"); const o = JSON.parse(h); S.tipo=o.tipo; S.items=o.items; $("#tipo").value=S.tipo; S.sel=null; render(); borrador(); }
+function borrador(){ try{ localStorage.setItem("taller-borrador", JSON.stringify({tipo:S.tipo,items:S.items,nombre:S.nombre,disenoId:S.disenoId})); }catch(e){} }
+
+/* ---------- Crear y editar rótulos ---------- */
+function nuevoItem(l, cara, x, y){
+  const it = {id:nid(), ref:l.ref, tipo:l.tipo, nombre:l.nombre, cara, x:0, y:0, w:l.w, rot:0, color:l.color, quien:l.grupo, rol:l.rol, oculto:false, p:JSON.parse(JSON.stringify(l.p||{}))};
+  if(l.tipo==="unidades"){ const t=geom().t; it.p={n:t.n, l1:"UN. en vidrio / Glass bottles", l2:t.ml}; }
+  const c = geom().caras[cara];
+  if(it.w > c.w*0.92) it.w = Math.round(c.w*0.92);
+  const {w,h} = tam(it);
+  it.x = x==null ? (c.w-w)/2 : x - w/2; it.y = y==null ? (c.h-h)/2 : y - h/2;
+  it.x = r1(Math.max(-w/2, Math.min(c.w-w/2, it.x))); it.y = r1(Math.max(-h/2, Math.min(c.h-h/2, it.y)));
+  return it;
+}
+function agregar(ref, cara=S.cara, x, y){
+  const l = libDe(ref); if(!l) return;
+  guardarHistoria();
+  const it = nuevoItem(l, cara, x, y); S.items.push(it); S.sel = it.id;
+  render(); borrador(); mostrarPanel("rotulo");
+  toast(`${l.nombre} → ${geom().caras[cara].nombre}`);
+}
+function ponerTexto(it, texto){
+  if(it.tipo!=="texto"){ it.p.texto = texto; return; }
+  const fs = tam(it).fs; it.p.texto = texto;
+  const m = Math.max(1, ...lineas(it).map(s=>s.length)); it.w = r1(fs * m * 0.5);
+}
+function cambiar(it, cambios, conHistoria=true){ if(conHistoria) guardarHistoria(); Object.assign(it, cambios); render(); borrador(); }
+function eliminar(id){ guardarHistoria(); S.items = S.items.filter(i=>i.id!==id); if(S.sel===id) S.sel=null; render(); borrador(); }
+function duplicar(id){ const it=S.items.find(i=>i.id===id); if(!it) return; guardarHistoria(); const n=JSON.parse(JSON.stringify(it)); n.id=nid(); n.x+=8; n.y+=8; S.items.push(n); S.sel=n.id; render(); borrador(); }
+
+/* ---------- Interacción en la vista desarmada ---------- */
+const plano = $("#plano");
+function aMM(ev){ const pt = plano.createSVGPoint(); pt.x=ev.clientX; pt.y=ev.clientY; return pt.matrixTransform(plano.getScreenCTM().inverse()); }
+function caraEn(x, y){ for(const [id,c] of Object.entries(G.caras)){ if(x>=c.x && x<=c.x+c.w && y>=c.y && y<=c.y+c.h) return id; } return null; }
+let arrastre = null;
+plano.addEventListener("pointerdown", ev=>{
+  const p = aMM(ev);
+  if(ev.target.classList.contains("tirador")){
+    const it = S.items.find(i=>i.id===S.sel); if(!it) return;
+    arrastre = {modo:"tam", it, p0:p, w0:it.w, hist:JSON.stringify({tipo:S.tipo,items:S.items})};
+    plano.setPointerCapture(ev.pointerId); ev.preventDefault(); return;
+  }
+  const g = ev.target.closest(".it");
+  if(g){
+    const it = S.items.find(i=>i.id===g.dataset.id); if(!it) return;
+    S.sel = it.id; S.cara = it.cara; $("#caraActiva").value = it.cara;
+    arrastre = {modo:"mover", it, p0:p, x0:it.x, y0:it.y, g, hist:JSON.stringify({tipo:S.tipo,items:S.items}), movio:false};
+    plano.setPointerCapture(ev.pointerId); dibujarSeleccion(); panelRotulo(); panelCapas(); mostrarPanel("rotulo"); ev.preventDefault(); return;
+  }
+  const c = caraEn(p.x, p.y);
+  if(c){ S.cara = c; $("#caraActiva").value = c; }
+  S.sel = null; dibujarPlano(); panelRotulo(); panelCapas();
+});
+plano.addEventListener("pointermove", ev=>{
+  if(!arrastre) return;
+  const p = aMM(ev), a = arrastre, it = a.it, c = G.caras[it.cara];
+  if(a.modo==="mover"){
+    it.x = r1(a.x0 + p.x - a.p0.x); it.y = r1(a.y0 + p.y - a.p0.y); a.movio = true;
+    const {w,h} = tam(it);
+    a.g.setAttribute("transform", `translate(${r1(c.x+it.x)} ${r1(c.y+it.y)})` + (it.rot?` rotate(${it.rot} ${r1(w/2)} ${r1(h/2)})`:""));
+    dibujarSeleccion();
+  } else {
+    const rad = -(it.rot||0)*Math.PI/180, dx = p.x-a.p0.x, dy = p.y-a.p0.y;
+    const lx = dx*Math.cos(rad) - dy*Math.sin(rad), ly = dx*Math.sin(rad) + dy*Math.cos(rad);
+    const r0 = tam({...it, w:a.w0}); const esc2 = Math.max((a.w0+lx)/a.w0, (r0.h+ly)/r0.h);
+    it.w = r1(Math.max(4, a.w0*esc2)); dibujarPlano();
+  }
+});
+function soltar(){
+  if(!arrastre) return;
+  const a = arrastre, it = a.it; arrastre = null;
+  if(a.modo==="mover" && !a.movio) return;
+  historia.push(a.hist); if(historia.length>80) historia.shift();
+  if(a.modo==="mover"){
+    const c = G.caras[it.cara], {w,h} = tam(it), cx = c.x+it.x+w/2, cy = c.y+it.y+h/2;
+    const nueva = caraEn(cx, cy);
+    if(nueva && nueva!==it.cara){ const n = G.caras[nueva]; it.x = r1(c.x+it.x-n.x); it.y = r1(c.y+it.y-n.y); it.cara = nueva; S.cara = nueva; $("#caraActiva").value = nueva; }
+  }
+  render(); borrador();
+}
+plano.addEventListener("pointerup", soltar); plano.addEventListener("pointercancel", soltar);
+plano.addEventListener("dragover", ev=>{ ev.preventDefault(); ev.dataTransfer.dropEffect="copy"; });
+plano.addEventListener("drop", ev=>{
+  ev.preventDefault(); const ref = ev.dataTransfer.getData("text/plain"); if(!ref) return;
+  const p = aMM(ev), c = caraEn(p.x, p.y); if(!c) return toast("Suelta el rótulo sobre una cara o aleta");
+  const cc = G.caras[c]; S.cara = c; $("#caraActiva").value = c; agregar(ref, c, p.x-cc.x, p.y-cc.y);
+});
+document.addEventListener("keydown", ev=>{
+  const enCampo = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName);
+  if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="z" && !enCampo){ ev.preventDefault(); deshacer(); return; }
+  if(enCampo) return;
+  const it = S.items.find(i=>i.id===S.sel); if(!it) return;
+  if(ev.key==="Delete"||ev.key==="Backspace"){ ev.preventDefault(); eliminar(it.id); }
+  else if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="d"){ ev.preventDefault(); duplicar(it.id); }
+  else if(ev.key.startsWith("Arrow")){ ev.preventDefault(); const d = ev.shiftKey?10:1;
+    const m = {ArrowLeft:[-d,0],ArrowRight:[d,0],ArrowUp:[0,-d],ArrowDown:[0,d]}[ev.key]; cambiar(it,{x:r1(it.x+m[0]), y:r1(it.y+m[1])}); }
+});
+
+/* ---------- Interacción 3D ---------- */
+(function(){
+  const z = $("#escena"); let d = null;
+  z.addEventListener("pointerdown", ev=>{ d = {x:ev.clientX, y:ev.clientY, rx:S.rot.x, ry:S.rot.y, movio:false, t:ev.target}; z.setPointerCapture(ev.pointerId); });
+  z.addEventListener("pointermove", ev=>{ if(!d) return; const dx=ev.clientX-d.x, dy=ev.clientY-d.y; if(Math.abs(dx)+Math.abs(dy)>3) d.movio=true;
+    S.rot.y = d.ry + dx*0.45; S.rot.x = Math.max(-89, Math.min(89, d.rx - dy*0.45)); aplicarRot(); });
+  z.addEventListener("pointerup", ev=>{
+    if(d && !d.movio){
+      const el = document.elementFromPoint(ev.clientX, ev.clientY)?.closest(".cara");
+      if(el){ let c = el.dataset.cara3d; const r = el.getBoundingClientRect();
+        if(c==="tapa") c = (ev.clientY - r.top) > r.height/2 ? "t1" : "t3";
+        if(c==="fondo") c = (ev.clientY - r.top) < r.height/2 ? "b1" : "b3";
+        S.cara = c; $("#caraActiva").value = c; dibujarPlano(); toast("Cara activa: " + G.caras[c].nombre); }
+    }
+    d = null;
+  });
+  document.querySelectorAll(".controles3d [data-rot]").forEach(b=>b.addEventListener("click",()=>{ const [x,y]=b.dataset.rot.split(",").map(Number); S.rot={x,y}; const c=$("#cubo"); c.style.transition="transform .5s"; aplicarRot(); setTimeout(()=>c.style.transition="",520); }));
+  $("#girar").addEventListener("click",()=>{ S.girar=!S.girar; $("#girar").setAttribute("aria-pressed",S.girar); if(S.girar) girar(); });
+  function girar(){ if(!S.girar) return; if(!matchMedia("(prefers-reduced-motion: reduce)").matches){ S.rot.y += 0.4; aplicarRot(); } requestAnimationFrame(girar); }
+  new ResizeObserver(()=>dibujar3D()).observe($("#zona3d"));
+})();
+
+/* ---------- Biblioteca ---------- */
+function miniatura(l){
+  const it = nuevoItem({...l, w:100}, "c1"); it.x=0; it.y=0;
+  const {w,h} = tam(it);
+  return `<svg viewBox="-2 -2 ${r1(w+4)} ${r1(h+4)}" preserveAspectRatio="xMidYMid meet">${contenido(it)}</svg>`;
+}
+function dibujarBiblioteca(){
+  const grupos = [["proveedor","Proveedor (fijo)","var(--prov)"],["planta","Planta (variable)","var(--planta)"]];
+  let s = "";
+  for(const [g,t,col] of grupos){
+    const ls = [...LIB, ...LIB_CUSTOM].filter(l=>l.grupo===g);
+    s += `<div class="titulo-sec"><i class="punto" style="background:${col}"></i>${t}</div><div class="lib">`;
+    s += ls.map(l=>`<button draggable="true" data-ref="${esc(l.ref)}" title="Agregar ${esc(l.nombre)}"><span class="mini">${miniatura(l)}</span>${esc(l.nombre)}</button>`).join("");
+    s += `</div>`;
+  }
+  $("#libContenido").innerHTML = s;
+  $("#libContenido").querySelectorAll("button[data-ref]").forEach(b=>{
+    b.addEventListener("click",()=>agregar(b.dataset.ref));
+    b.addEventListener("dragstart",ev=>{ ev.dataTransfer.setData("text/plain", b.dataset.ref); ev.dataTransfer.effectAllowed="copy"; });
+  });
+}
+function llenarCaras(){
+  const g = geom();
+  $("#caraActiva").innerHTML = Object.entries(g.caras).sort((a,b)=>a[0].slice(1)-b[0].slice(1) || "tcb".indexOf(a[0][0])-"tcb".indexOf(b[0][0]))
+    .map(([id,c])=>`<option value="${id}">${esc(c.nombre)}${c.oculta?" (por dentro)":""}</option>`).join("");
+  $("#caraActiva").value = S.cara;
+}
+
+/* ---------- Panel: rótulo seleccionado ---------- */
+function panelRotulo(){
+  const it = S.items.find(i=>i.id===S.sel), el = $("#p-rotulo");
+  if(!it){ el.innerHTML = `<p class="vacio">Toca un rótulo en la caja desarmada para editarlo, o agrega uno desde la biblioteca.</p>
+    <div class="aviso"><b>Atajos:</b> flechas para mover (Shift = 10 mm), Supr para borrar, Ctrl+D duplicar, Ctrl+Z deshacer. El círculo azul cambia el tamaño.</div>`; return; }
+  const g = geom(), opts = Object.entries(g.caras).map(([id,c])=>`<option value="${id}" ${id===it.cara?"selected":""}>${esc(c.nombre)}</option>`).join("");
+  let especificos = "";
+  if(it.tipo==="texto") especificos = `<div><label for="fTexto" class="ayuda">Texto (Enter = nueva línea)</label><textarea id="fTexto" rows="3">${esc(it.p.texto)}</textarea></div>`;
+  if(it.tipo==="unidades") especificos = `<div class="fila"><label for="fN">Cantidad</label><input id="fN" type="text" value="${esc(it.p.n)}"></div>
+    <div class="fila"><label for="fL1">Línea 1</label><input id="fL1" type="text" value="${esc(it.p.l1)}"></div>
+    <div class="fila"><label for="fL2">Línea 2</label><input id="fL2" type="text" value="${esc(it.p.l2)}"></div>`;
+  if(it.tipo==="itf") especificos = `<div class="fila"><label for="fCod">Código (13)</label><input id="fCod" type="text" inputmode="numeric" maxlength="13" value="${esc(String(it.p.codigo).slice(0,13))}"></div>
+    <p class="ayuda">ITF-14 completo: <b>${itfCodigo(it.p.codigo)}</b> (dígito de control calculado).</p>`;
+  if(it.tipo==="estiba") especificos = `<div class="fila2"><div><label class="ayuda" for="fT1">Cajas x tendido</label><input id="fT1" type="number" min="1" value="${it.p.tendido}"></div><div><label class="ayuda" for="fT2">Tendidos</label><input id="fT2" type="number" min="1" value="${it.p.tendidos}"></div></div>`;
+  if(it.tipo==="rect") especificos = `<div class="fila"><label for="fR">Alto / ancho</label><input id="fR" type="number" step="0.5" min="0.2" value="${it.p.r}"></div>`;
+  el.innerHTML = `
+    <div class="tarjeta"><b>${esc(it.nombre)}</b><span class="meta">${esc(g.caras[it.cara].nombre)}${g.caras[it.cara].oculta?" · queda por dentro al cerrar":""}</span></div>
+    <div class="fila"><label>Quién imprime</label><div class="seg" id="fQuien"><button data-v="proveedor" aria-pressed="${it.quien==="proveedor"}">Proveedor</button><button data-v="planta" aria-pressed="${it.quien==="planta"}">Planta</button></div></div>
+    <div class="fila"><label for="fCara">Cara</label><select id="fCara">${opts}</select></div>
+    <div class="fila2"><div><label class="ayuda" for="fX">X (mm)</label><input id="fX" type="number" step="1" value="${it.x}"></div><div><label class="ayuda" for="fY">Y (mm)</label><input id="fY" type="number" step="1" value="${it.y}"></div></div>
+    <div class="fila2"><div><label class="ayuda" for="fW">Ancho (mm)</label><input id="fW" type="number" step="1" min="3" value="${it.w}"></div><div><label class="ayuda" for="fRot">Giro (°)</label><select id="fRot">${[0,90,180,270].map(r=>`<option ${it.rot===r?"selected":""}>${r}</option>`).join("")}</select></div></div>
+    <div><span class="ayuda">Tinta${S.colores==="quien"?" (se ve al volver a «Tintas reales»)":""}</span><div class="swatches" id="fColor">${TINTAS.map(([n,c])=>`<button title="${n}" aria-label="${n}" data-c="${c}" style="background:${c}" aria-pressed="${it.color.toLowerCase()===c}"></button>`).join("")}<input type="color" id="fColorLibre" value="${it.color}" title="Otro color" aria-label="Otro color"></div></div>
+    ${especificos}
+    <div class="botones"><button class="btn" id="fOcultar">${it.oculto?"Mostrar":"Ocultar"}</button><button class="btn" id="fDup">Duplicar</button><button class="btn" id="fFrente">Al frente</button><button class="btn peligro" id="fBorrar">Quitar</button></div>`;
+  const num = v => { const n = parseFloat(v); return isNaN(n)?0:n; };
+  el.querySelectorAll("#fQuien button").forEach(b=>b.onclick=()=>cambiar(it,{quien:b.dataset.v}));
+  $("#fCara").onchange = e=>{ const c = geom().caras[e.target.value]; const {w,h}=tam(it); cambiar(it,{cara:e.target.value, x:r1(Math.min(it.x, c.w-w/2)), y:r1(Math.min(it.y, c.h-h/2))}); S.cara=e.target.value; $("#caraActiva").value=S.cara; };
+  $("#fX").onchange = e=>cambiar(it,{x:num(e.target.value)}); $("#fY").onchange = e=>cambiar(it,{y:num(e.target.value)});
+  $("#fW").onchange = e=>cambiar(it,{w:Math.max(3,num(e.target.value))}); $("#fRot").onchange = e=>cambiar(it,{rot:+e.target.value});
+  el.querySelectorAll("#fColor button").forEach(b=>b.onclick=()=>cambiar(it,{color:b.dataset.c}));
+  $("#fColorLibre").onchange = e=>cambiar(it,{color:e.target.value});
+  const p = (k,v)=>cambiar(it,{p:{...it.p,[k]:v}});
+  if($("#fTexto")) $("#fTexto").onchange = e=>{ guardarHistoria(); ponerTexto(it, e.target.value); render(); borrador(); };
+  if($("#fN")){ $("#fN").onchange=e=>p("n",e.target.value); $("#fL1").onchange=e=>p("l1",e.target.value); $("#fL2").onchange=e=>p("l2",e.target.value); }
+  if($("#fCod")) $("#fCod").onchange = e=>p("codigo", e.target.value.replace(/\D/g,""));
+  if($("#fT1")){ $("#fT1").onchange=e=>p("tendido",e.target.value); $("#fT2").onchange=e=>p("tendidos",e.target.value); }
+  if($("#fR")) $("#fR").onchange = e=>p("r", Math.max(0.2,num(e.target.value)));
+  $("#fOcultar").onclick = ()=>cambiar(it,{oculto:!it.oculto});
+  $("#fDup").onclick = ()=>duplicar(it.id);
+  $("#fFrente").onclick = ()=>{ guardarHistoria(); S.items = S.items.filter(i=>i!==it).concat(it); render(); borrador(); };
+  $("#fBorrar").onclick = ()=>eliminar(it.id);
+}
+
+/* ---------- Panel: capas ---------- */
+function panelCapas(){
+  const el = $("#p-capas"), g = geom();
+  if(!S.items.length){ el.innerHTML = `<p class="vacio">La caja no tiene rótulos. Agrega desde la biblioteca o carga una plantilla.</p>`; return; }
+  const orden = Object.keys(g.caras);
+  const items = [...S.items].sort((a,b)=>orden.indexOf(a.cara)-orden.indexOf(b.cara));
+  el.innerHTML = `<p class="ayuda">${S.items.length} rótulos. El ojo los pone o los quita sin borrarlos.</p><div class="lista">` + items.map(it=>`
+    <div class="capa ${it.id===S.sel?"sel":""}" data-id="${it.id}">
+      <button class="ojo" data-ojo="${it.id}" aria-label="${it.oculto?"Mostrar":"Ocultar"} ${esc(it.nombre)}" title="${it.oculto?"Mostrar":"Ocultar"}">${it.oculto?"○":"●"}</button>
+      <span style="${it.oculto?"opacity:.5":""}">${esc(it.nombre)}<br><span class="ayuda" style="margin:0">${esc(g.caras[it.cara]?.nombre||it.cara)}</span></span>
+      <span class="pill ${it.quien==="planta"?"planta":"prov"}">${it.quien==="planta"?"PLANTA":"PROV."}</span>
+    </div>`).join("") + `</div>`;
+  el.querySelectorAll(".capa").forEach(c=>c.addEventListener("click",ev=>{
+    const id = c.dataset.id, it = S.items.find(i=>i.id===id);
+    if(ev.target.dataset.ojo){ cambiar(it,{oculto:!it.oculto}); return; }
+    S.sel = id; S.cara = it.cara; $("#caraActiva").value = it.cara; render(); mostrarPanel("rotulo");
+  }));
+}
+
+/* ---------- Panel: plantillas ---------- */
+function aplicarVariedad(k){
+  const v = VARIEDAD[k]; guardarHistoria();
+  for(const it of S.items){
+    if(it.rol==="colorvar") it.color = v.color;
+    if(it.rol==="variedad"){ if(v.marca){ it.ref=v.marca; it.nombre=libDe(v.marca).nombre; it.color=v.color; it.oculto=false; } else it.oculto=true; }
+  }
+  if(v.marca && !S.items.some(i=>i.rol==="variedad")){
+    for(const m of S.items.filter(i=>i.rol==="marca" && i.cara[0]==="c")){
+      const n = nuevoItem(libDe(v.marca), m.cara); n.w = r1(m.w*0.42); n.x = r1(m.x + m.w*0.6); n.y = r1(m.y + tam(m).h*0.72); S.items.push(n);
+    }
+  }
+  render(); borrador(); toast("Variedad: " + v.nombre);
+}
+function aplicarMarca(ref){
+  guardarHistoria();
+  let n = 0; for(const it of S.items){ if(it.rol==="marca"){ it.ref=ref; it.nombre=libDe(ref).nombre; n++; } }
+  render(); borrador(); toast(n ? "Marca cambiada en " + n + " rótulos" : "No hay logos de marca en la caja");
+}
+function aplicarMercado(m){
+  guardarHistoria();
+  const conf = {
+    nacional:{destino:null, legal:LEGAL_COL, l1:"Unidades en vidrio"},
+    usa:{destino:"FOR EXPORT", legal:null, l1:"Glass bottles"},
+    exp:{destino:"PARA EXPORTACIÓN / FOR EXPORT", legal:LEGAL_COL, l1:"UN. en vidrio / Glass bottles"},
+    chile:{destino:"PARA EXPORTACIÓN / FOR EXPORT", legal:LEGAL_CHILE, l1:"UN. en vidrio / Glass bottles"},
+  }[m];
+  for(const it of S.items){
+    if(it.rol==="destino"){ if(conf.destino){ ponerTexto(it, conf.destino); it.oculto=false; } else it.oculto=true; }
+    if(it.rol==="legal"){ if(conf.legal){ ponerTexto(it, conf.legal); it.oculto=false; } else it.oculto=true; }
+    if(it.rol==="unidades"){ it.p.l1 = conf.l1; }
+  }
+  render(); borrador(); toast("Mercado aplicado");
+}
+function panelPlantillas(){
+  $("#p-plantillas").innerHTML = `
+    <div class="titulo-sec">Partir de un diseño</div>
+    <div class="botones"><button class="btn pri" id="plEjemplo">Ejemplo real 60002609</button><button class="btn" id="plNeutra">Solo lo del proveedor</button><button class="btn peligro" id="plVaciar">Caja vacía</button></div>
+    <p class="ayuda">El ejemplo reproduce la caja x12 Sin azúcar de exportación genérica con su arte real. «Solo lo del proveedor» deja la caja como llegaría para rotular en planta.</p>
+    <div class="titulo-sec">Variedad</div>
+    <div class="botones">${Object.entries(VARIEDAD).map(([k,v])=>`<button class="btn" data-var="${k}"><i class="punto" style="background:${v.color}"></i> ${v.nombre}</button>`).join("")}</div>
+    <p class="ayuda">Cambia la marca de variedad y el color de la botella y de la guía-señal.</p>
+    <div class="titulo-sec">Marca</div>
+    <div class="botones"><button class="btn" data-marca="logo_aguardiente_antioqueno">Aguardiente Antioqueño</button><button class="btn" data-marca="logo_antioqueno_antioqueno">Antioqueño Antioqueño</button></div>
+    <div class="titulo-sec">Mercado</div>
+    <div class="botones"><button class="btn" data-mer="nacional">Nacional</button><button class="btn" data-mer="usa">USA</button><button class="btn" data-mer="exp">Exportación genérica</button><button class="btn" data-mer="chile">Chile</button></div>
+    <p class="ayuda">Ajusta destino, frases legales y el texto de unidades, como en las fichas actuales.</p>
+    <div class="titulo-sec">Al cambiar el tipo de caja</div>
+    <p class="ayuda">Los rótulos se reubican en proporción a cada cara, así puedes probar el mismo diseño en las 22 cajas.</p>`;
+  $("#plEjemplo").onclick = ()=>{ guardarHistoria(); cargarEjemplo(); toast("Ejemplo 60002609 cargado en " + S.tipo); };
+  $("#plNeutra").onclick = ()=>{ guardarHistoria(); S.items = S.items.filter(i=>i.quien==="proveedor"); S.sel=null; render(); borrador(); };
+  $("#plVaciar").onclick = ()=>{ guardarHistoria(); S.items = []; S.sel=null; render(); borrador(); };
+  document.querySelectorAll("[data-var]").forEach(b=>b.onclick=()=>aplicarVariedad(b.dataset.var));
+  document.querySelectorAll("[data-marca]").forEach(b=>b.onclick=()=>aplicarMarca(b.dataset.marca));
+  document.querySelectorAll("[data-mer]").forEach(b=>b.onclick=()=>aplicarMercado(b.dataset.mer));
+}
+
+/* ---------- Ejemplo: ficha 60002609 (posiciones medidas sobre la ficha, en mm por cara) ---------- */
+const EJEMPLO = [
+ ["botella","c1",12,10,10],["logo_aguardiente_antioqueno","c1",10,40,178],["marca_sin_azucar","c1",120,150,70],
+ ["unidades","c1",212,8,165],["destino","c1",214,107,160],["itf14","c1",212,128,165],
+ ["botella","c2",12,10,10],["unidades","c2",45,8,160],["sello_fla","c2",85,88,80],["legal","c2",18,172,215],
+ ["botella","c3",12,10,10],["logo_aguardiente_antioqueno","c3",10,40,178],["marca_sin_azucar","c3",120,150,70],
+ ["unidades","c3",212,8,165],["destino","c3",214,107,160],["itf14","c3",212,128,165],["guia","c3",380,138,9],
+ ["botella","c4",12,10,10],["unidades","c4",44,8,160],["sello_fla","c4",84,88,80],["legal","c4",17,172,215],
+ ["logo_aguardiente_antioqueno","t1",18,14,108],["marca_sin_azucar","t1",82,70,40],["sello_fla","t1",140,22,80],["delicado_fragile","t1",240,26,110],
+ ["estiba","t3",108,14,178],["certificaciones","b1",55,38,260],["peso","b3",115,44,160],
+];
+const BASE_EJ = {c:[388,220],t:[388,122],b:[388,122]};
+function cargarEjemplo(){
+  const g = geom(); S.items = [];
+  for(const [ref,cara,x,y,w] of EJEMPLO){
+    const l = libDe(ref), c = g.caras[cara], [bw,bh] = BASE_EJ[cara[0]];
+    const sx = c.w/bw, sy = c.h/bh, it = nuevoItem(l, cara);
+    it.w = r1(w*Math.min(sx,sy*1.15)); it.x = r1(x*sx); it.y = r1(y*sy);
+    S.items.push(it);
+  }
+  S.nombre = "Ejemplo 60002609 · Sin azúcar · Exportación genérica"; S.disenoId = null; S.sel = null;
+  render(); borrador(); panelDisenos();
+}
+function cambiarTipo(k){
+  const g0 = geom(S.tipo), g1 = geom(k);
+  guardarHistoria();
+  for(const it of S.items){
+    const a = g0.caras[it.cara], b = g1.caras[it.cara]; if(!a||!b) continue;
+    const sx = b.w/a.w, sy = b.h/a.h;
+    it.x = r1(it.x*sx); it.y = r1(it.y*sy); it.w = r1(it.w*Math.min(sx, sy*1.15));
+    if(it.tipo==="unidades"){ it.p.n = g1.t.n; it.p.l2 = g1.t.ml; }
+  }
+  S.tipo = k; llenarCaras(); render(); borrador();
+}
+
+/* ---------- Guardado compartido (db) ---------- */
+let db = null, usuario = null, assets = null, descargas = null, miId = null;
+let DISENOS = [], IDEAS = [];
+function panelDisenos(){
+  const el = $("#p-disenos");
+  const lista = DISENOS.length ? DISENOS.map(d=>`<div class="tarjeta"><b>${esc(d.nombre||"Sin nombre")}</b>
+      <span class="meta">${esc(d.tipo)} · ${(d.items||[]).length} rótulos · ${new Date(d.actualizado||0).toLocaleString("es-CO",{dateStyle:"medium",timeStyle:"short"})}</span>
+      <div class="acciones"><button class="btn" data-abrir="${d.id}">Abrir</button><button class="btn peligro" data-borrar="${d.id}">Borrar</button></div></div>`).join("")
+    : `<p class="vacio">Aún no hay diseños guardados.</p>`;
+  el.innerHTML = `
+    <div class="fila"><label for="dNombre">Nombre</label><input id="dNombre" type="text" value="${esc(S.nombre)}"></div>
+    <div class="botones"><button class="btn pri" id="dGuardar">${S.disenoId?"Guardar cambios":"Guardar diseño"}</button>${S.disenoId?`<button class="btn" id="dNuevo">Guardar como nuevo</button>`:""}</div>
+    <div class="botones" id="dExport"></div>
+    <p class="aviso" id="dAviso">${db?"Los diseños quedan guardados en este artefacto y los ve todo el que lo abra.":"Sin conexión al almacenamiento compartido: los diseños se guardan solo en este navegador."}</p>
+    <div class="titulo-sec">Guardados</div><div class="lista">${lista}</div>`;
+  $("#dNombre").onchange = e=>{ S.nombre = e.target.value; borrador(); };
+  $("#dGuardar").onclick = ()=>guardarDiseno(false);
+  if($("#dNuevo")) $("#dNuevo").onclick = ()=>guardarDiseno(true);
+  el.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>{ const d = DISENOS.find(x=>x.id===b.dataset.abrir); if(!d) return; guardarHistoria();
+    S.tipo=d.tipo; S.items=JSON.parse(JSON.stringify(d.items||[])); S.nombre=d.nombre; S.disenoId=d.id; S.sel=null; $("#tipo").value=S.tipo; llenarCaras(); render(); borrador(); panelDisenos(); toast("Diseño abierto"); });
+  el.querySelectorAll("[data-borrar]").forEach(b=>b.onclick=async()=>{ if(b.dataset.ok!=="1"){ b.dataset.ok="1"; b.textContent="¿Seguro? Borrar"; return; }
+    await borrarDiseno(b.dataset.borrar); });
+  const ex = $("#dExport");
+  ex.innerHTML = descargas ? `<button class="btn" id="xPng">Descargar PNG desarmada</button><button class="btn" id="xJson">Descargar JSON</button>` : `<button class="btn" id="xCopiar">Copiar diseño (JSON)</button>`;
+  if($("#xPng")) $("#xPng").onclick = exportarPNG;
+  if($("#xJson")) $("#xJson").onclick = async()=>{ try{ await descargas.save({filename:`${S.tipo} - ${S.nombre}.json`.replace(/[\\/:*?"<>|]/g,"-"), data:JSON.stringify({tipo:S.tipo,nombre:S.nombre,items:S.items},null,1)}); }catch(e){ if(e?.code!=="declined") toast("No se pudo descargar"); } };
+  if($("#xCopiar")) $("#xCopiar").onclick = async()=>{ try{ await navigator.clipboard.writeText(JSON.stringify({tipo:S.tipo,nombre:S.nombre,items:S.items})); toast("Copiado"); }catch(e){ toast("El navegador no permitió copiar"); } };
+}
+function guardarLocal(clave, lista){ try{ localStorage.setItem(clave, JSON.stringify(lista)); }catch(e){} }
+function leerLocal(clave){ try{ return JSON.parse(localStorage.getItem(clave)||"[]"); }catch(e){ return []; } }
+async function guardarDiseno(comoNuevo){
+  const doc = {nombre:S.nombre||"Sin nombre", tipo:S.tipo, items:S.items, actualizado:Date.now(), autor:miId||""};
+  try{
+    if(db){
+      const ref = (!comoNuevo && S.disenoId) ? db.collection("disenos").doc(S.disenoId) : db.collection("disenos").doc();
+      await ref.set(doc); S.disenoId = ref.id;
+    } else {
+      const id = (!comoNuevo && S.disenoId) || nid(); const l = leerLocal("taller-disenos").filter(d=>d.id!==id); l.unshift({...doc,id}); guardarLocal("taller-disenos", l); DISENOS = l; S.disenoId = id;
+    }
+    toast("Diseño guardado"); borrador(); panelDisenos();
+  }catch(e){ toast(e?.code==="quota_exceeded" ? "El almacenamiento está lleno: borra diseños viejos" : "No se pudo guardar (" + (e?.code||"error") + ")"); }
+}
+async function borrarDiseno(id){
+  try{
+    if(db) await db.collection("disenos").doc(id).delete();
+    else { DISENOS = leerLocal("taller-disenos").filter(d=>d.id!==id); guardarLocal("taller-disenos", DISENOS); }
+    if(S.disenoId===id) S.disenoId=null; toast("Diseño borrado"); panelDisenos();
+  }catch(e){ toast("No se pudo borrar"); }
+}
+
+/* ---------- Ideas ---------- */
+function panelIdeas(){
+  const el = $("#p-ideas");
+  el.innerHTML = `<label for="iTexto" class="ayuda">Anota ideas mientras trabajas: qué unificar, qué probar con el proveedor, qué imprimir en planta.</label>
+    <textarea id="iTexto" rows="3" placeholder="Ej.: probar si la x30 PET cabe en la caja del TIPO 01"></textarea>
+    <div class="botones"><button class="btn pri" id="iAgregar">Agregar idea</button></div>
+    <div class="lista" id="iLista">${IDEAS.length ? IDEAS.map(i=>`<div class="tarjeta"><span>${esc(i.texto)}</span><span class="meta"><span data-autor="${esc(i.autor||"")}"></span>${esc(i.tipo||"")} · ${new Date(i.fecha||0).toLocaleDateString("es-CO",{dateStyle:"medium"})}</span>
+      <div class="acciones"><button class="btn peligro" data-bidea="${i.id}">Borrar</button></div></div>`).join("") : `<p class="vacio">Todavía no hay ideas.</p>`}</div>`;
+  $("#iAgregar").onclick = async()=>{
+    const t = $("#iTexto").value.trim(); if(!t) return;
+    const doc = {texto:t, tipo:S.tipo, fecha:Date.now(), autor:miId||""};
+    try{ if(db) await db.collection("ideas").add(doc); else { IDEAS = [{...doc,id:nid()}, ...leerLocal("taller-ideas")]; guardarLocal("taller-ideas", IDEAS); panelIdeas(); }
+      $("#iTexto").value=""; toast("Idea agregada"); }catch(e){ toast("No se pudo guardar la idea"); }
+  };
+  el.querySelectorAll("[data-bidea]").forEach(b=>b.onclick=async()=>{ if(b.dataset.ok!=="1"){ b.dataset.ok="1"; b.textContent="¿Seguro?"; return; }
+    try{ if(db) await db.collection("ideas").doc(b.dataset.bidea).delete(); else { IDEAS = leerLocal("taller-ideas").filter(i=>i.id!==b.dataset.bidea); guardarLocal("taller-ideas", IDEAS); panelIdeas(); } }catch(e){ toast("No se pudo borrar"); } });
+  nombresAutores();
+}
+async function nombresAutores(){
+  if(!usuario?.profiles) return;
+  const ids = [...new Set([...document.querySelectorAll("[data-autor]")].map(e=>e.dataset.autor).filter(Boolean))]; if(!ids.length) return;
+  try{ const ps = await usuario.profiles(ids); document.querySelectorAll("[data-autor]").forEach(e=>{ const n = ps?.[e.dataset.autor]?.name; if(n) e.textContent = n + " · "; }); }catch(e){}
+}
+
+/* ---------- Rótulos subidos ---------- */
+function fileADataURL(f){ return new Promise((ok,mal)=>{ const r=new FileReader(); r.onload=()=>ok(r.result); r.onerror=mal; r.readAsDataURL(f); }); }
+function medirImagen(src){ return new Promise((ok,mal)=>{ const i=new Image(); i.onload=()=>ok({w:i.naturalWidth||300,h:i.naturalHeight||150}); i.onerror=mal; i.src=src; }); }
+$("#nuevoArchivo").addEventListener("change", async ev=>{
+  const f = ev.target.files[0]; ev.target.value = ""; if(!f) return;
+  const nombre = $("#nuevoNombre").value.trim() || f.name.replace(/\.[^.]+$/,""), grupo = $("#nuevoGrupo").value;
+  try{
+    const dataURL = await fileADataURL(f), dim = await medirImagen(dataURL);
+    let doc = {nombre, grupo, w:dim.w, h:dim.h, creado:Date.now(), autor:miId||""};
+    if(assets){ const r = await assets.upload(f); doc.asset = r.id; }
+    else if(dataURL.length < 200000) doc.data = dataURL;
+    else return toast("La imagen pesa mucho para guardarla aquí (máx. ~150 KB)");
+    if(db) await db.collection("rotulos").add(doc);
+    else { const l = leerLocal("taller-rotulos"); l.push({...doc,id:nid(),data:dataURL}); guardarLocal("taller-rotulos", l); cargarCustom(l); }
+    $("#nuevoNombre").value = ""; toast("Rótulo agregado a la biblioteca");
+  }catch(e){ toast("No se pudo subir: " + (e?.code||"error")); }
+});
+async function cargarCustom(docs){
+  const res = [];
+  for(const d of docs){
+    let src = d.data || (d.asset ? "/_blob/" + d.asset : null); if(!src) continue;
+    if(!src.startsWith("data:")){ try{ const b = await (await fetch(src)).blob(); src = await fileADataURL(b); }catch(e){} }
+    res.push({grupo:d.grupo||"planta", ref:"u_"+d.id, nombre:d.nombre||"Rótulo", tipo:"img", w:80, color:NEGRO, rol:"", p:{}, a:{src, w:d.w||300, h:d.h||150, mono:false}, docId:d.id});
+  }
+  LIB_CUSTOM = res; dibujarBiblioteca(); render();
+}
+
+/* ---------- Exportar PNG ---------- */
+async function exportarPNG(){
+  const {s, TW, TH} = dibujarPlano(true);
+  const css = getComputedStyle(document.documentElement);
+  const kraft = css.getPropertyValue("--kraft").trim()||"#d4af6d", edge = css.getPropertyValue("--kraft-edge").trim()||"#8a6a32";
+  const defs = $("#defsInner").innerHTML;
+  const pad = 20, esc2 = 4;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${(TW+2*pad)*esc2}" height="${(TH+2*pad+24)*esc2}" viewBox="${-pad} ${-pad-24} ${TW+2*pad} ${TH+2*pad+24}">
+    <defs>${defs}</defs><rect x="${-pad}" y="${-pad-24}" width="${TW+2*pad}" height="${TH+2*pad+24}" fill="#ffffff"/>
+    <text x="0" y="-12" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#222">${esc(S.tipo)} · ${esc(S.nombre)} · ${esc(geom().t.d)}</text>
+    ${s.replaceAll("var(--kraft-edge)",edge).replaceAll("var(--kraft)",kraft)}</svg>`;
+  try{
+    const url = URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));
+    const img = new Image(); await new Promise((ok,mal)=>{ img.onload=ok; img.onerror=mal; img.src=url; });
+    const cv = document.createElement("canvas"); cv.width = img.width; cv.height = img.height; cv.getContext("2d").drawImage(img,0,0); URL.revokeObjectURL(url);
+    const blob = await new Promise(ok=>cv.toBlob(ok,"image/png"));
+    await descargas.save({filename:`${S.tipo} - ${S.nombre}.png`.replace(/[\\/:*?"<>|]/g,"-"), data:blob});
+  }catch(e){ if(e?.code!=="declined") toast("No se pudo generar el PNG"); }
+}
+
+/* ---------- Pestañas y controles ---------- */
+function mostrarPanel(p){
+  document.querySelectorAll(".pestanas button").forEach(b=>b.setAttribute("aria-selected", b.dataset.p===p));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("activo", x.id==="p-"+p));
+  if(p==="disenos") panelDisenos(); if(p==="ideas") panelIdeas(); if(p==="plantillas") panelPlantillas();
+}
+document.querySelectorAll(".pestanas button").forEach(b=>b.addEventListener("click",()=>mostrarPanel(b.dataset.p)));
+function seg(id, cb){ document.querySelectorAll(`#${id} button`).forEach(b=>b.addEventListener("click",()=>{ document.querySelectorAll(`#${id} button`).forEach(x=>x.setAttribute("aria-pressed", x===b)); cb(b.dataset.v); })); }
+seg("segColores", v=>{ S.colores=v; dibujarBiblioteca(); render(); });
+seg("segVista", v=>{ S.vista=v; $("#vistas").dataset.v=v; setTimeout(dibujar3D,30); });
+$("#filtro").onchange = e=>{ S.filtro=e.target.value; render(); };
+$("#caraActiva").onchange = e=>{ S.cara=e.target.value; dibujarPlano(); };
+$("#deshacer").onclick = deshacer;
+$("#tipo").innerHTML = TIPOS.map(t=>`<option value="${t.k}">${t.k} · ${esc(t.d)}</option>`).join("");
+$("#tipo").onchange = e=>cambiarTipo(e.target.value);
+
+/* ---------- Arranque ---------- */
+(function iniciar(){
+  let b = null; try{ b = JSON.parse(localStorage.getItem("taller-borrador")||"null"); }catch(e){}
+  if(b && b.items && b.items.length){ S.tipo=b.tipo; S.items=b.items; S.nombre=b.nombre||S.nombre; S.disenoId=b.disenoId||null; }
+  $("#tipo").value = S.tipo; llenarCaras(); dibujarBiblioteca(); panelPlantillas();
+  if(!S.items.length) cargarEjemplo(); else render();
+  DISENOS = leerLocal("taller-disenos"); IDEAS = leerLocal("taller-ideas");
+  const locales = leerLocal("taller-rotulos"); if(locales.length) cargarCustom(locales);
+})();
+
+(async function conectar(){
+  for(let i=0; i<20 && !window.claude?.use; i++) await new Promise(r=>setTimeout(r,100));
+  if(!window.claude?.use) { $("#estado").textContent = "Guardado solo en este navegador"; panelDisenos(); return; }
+  const [d, u, a, dl] = await Promise.all(["db","user","assets","downloads"].map(n=>window.claude.use(n).catch(()=>null)));
+  usuario = u; assets = a; descargas = dl;
+  if(!assets){ $("#subidaAyuda").textContent = "PNG con fondo transparente o SVG (máx. ~150 KB): se guarda dentro de la biblioteca."; }
+  try{ miId = u?.id ? await u.id() : null; }catch(e){}
+  if(!d){ $("#estado").textContent = "Guardado solo en este navegador"; panelDisenos(); return; }
+  db = d; $("#estado").textContent = "Conectando…";
+  const timer = setTimeout(()=>{ $("#estado").textContent = "Sin respuesta del almacenamiento; reintentando"; }, 10000);
+  const ok = ()=>{ clearTimeout(timer); $("#estado").textContent = "Diseños e ideas compartidos"; };
+  const fallo = e=>{ clearTimeout(timer); $("#estado").textContent = "Guardado compartido no disponible"; };
+  db.collection("disenos").orderBy("actualizado","desc").onSnapshot(s=>{ if(!s.metadata.fromCache) ok(); DISENOS = s.docs.map(x=>({id:x.id, ...x.data()})); if($("#p-disenos").classList.contains("activo")) panelDisenos(); }, fallo);
+  db.collection("ideas").orderBy("fecha","desc").onSnapshot(s=>{ IDEAS = s.docs.map(x=>({id:x.id, ...x.data()})); if($("#p-ideas").classList.contains("activo")) panelIdeas(); }, ()=>{});
+  db.collection("rotulos").orderBy("creado","asc").onSnapshot(s=>{ cargarCustom(s.docs.map(x=>({id:x.id, ...x.data()}))); }, ()=>{});
+  panelDisenos();
+})();
+</script>
+</body>
+</html>
