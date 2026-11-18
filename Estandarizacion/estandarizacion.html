@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estandarización de cajas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Informe técnico: columna de lectura con tablas y dos gráficos; kraft como acento del tema */
+  --bg:#f3efe7; --panel:#fffdf8; --line:#ddd4c3; --text:#24211b; --muted:#6a6252; --accent:#1d5f7c; --kraft:#c9a25f;
+  --s1:#2a78d6; --s2:#eb6834; --ok:#2e7d32; --warn:#b26a00;
+  --display:"Oswald","Arial Narrow",sans-serif; --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#191815; --panel:#22201c; --line:#3a362e; --text:#ece6d8; --muted:#a59c89; --accent:#62acd0; --kraft:#b8924f;
+  --s1:#3987e5; --s2:#d95926; --ok:#66bb6a; --warn:#e0a040; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#191815; --panel:#22201c; --line:#3a362e; --text:#ece6d8; --muted:#a59c89; --accent:#62acd0; --kraft:#b8924f;
+  --s1:#3987e5; --s2:#d95926; --ok:#66bb6a; --warn:#e0a040; color-scheme:dark;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 var(--body)}
+main{max-width:1060px;margin:0 auto;padding:28px 20px 60px}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:34px;line-height:1.1;text-transform:uppercase}
+h2{font-size:23px;text-transform:uppercase;margin-top:42px;padding-bottom:6px;border-bottom:2px solid var(--kraft)}
+h3{font-size:18px;margin-top:22px}
+p,li{max-width:72ch}
+.sub{color:var(--muted);margin:8px 0 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:22px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.tile b{display:block;font:600 30px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.tile span{font-size:13px;color:var(--muted)}
+.tile.dest{border-color:var(--accent)}
+.tabla{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1.2 var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:color-mix(in srgb,var(--kraft) 14%,var(--panel))}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font:600 11px/1 var(--body);padding:4px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.pill.ok{color:var(--ok);border-color:var(--ok)} .pill.warn{color:var(--warn);border-color:var(--warn)}
+.caja{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:12px 16px;margin:14px 0}
+.caja.alerta{border-left-color:var(--warn)}
+.grafico{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0;position:relative}
+.grafico h3{margin:0 0 4px}
+.grafico .nota{font-size:13px;color:var(--muted);margin:0 0 8px}
+.leyenda{display:flex;gap:16px;font-size:13px;color:var(--muted);margin:4px 0 6px}
+.leyenda i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg text{font-family:var(--body)}
+.tt{position:absolute;pointer-events:none;background:var(--text);color:var(--panel);font-size:13px;padding:6px 9px;border-radius:6px;opacity:0;transition:opacity .12s;white-space:nowrap;z-index:2}
+.horizontes{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;margin-top:14px}
+.horizonte{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.horizonte h3{margin:0 0 2px}
+.horizonte .cuando{font-size:13px;color:var(--muted)}
+.horizonte ul{padding-left:18px;margin:8px 0 0}
+.horizonte li{margin:6px 0;font-size:15px}
+ol.refs{font-size:13.5px;padding-left:26px}
+ol.refs li{margin:5px 0;max-width:none}
+a{color:var(--accent)}
+sup a{text-decoration:none;font-size:11px}
+.pie{font-size:13px;color:var(--muted);margin-top:30px}
+@media (max-width:560px){h1{font-size:27px} body{font-size:15px}}
+</style>
+</head>
+<body>
+<main>
+<h1>Estandarización de cajas: patrones y propuestas</h1>
+<p class="sub">Análisis de las 98 referencias activas de <b>Cajas tipos</b> (fichas técnicas del proveedor), con evidencia científica de apoyo. Base de datos: medidas internas, hoja, cartón, partición, división y tablas de estiba de cada ficha.</p>
+
+<div class="tiles">
+  <div class="tile"><b>98</b><span>referencias activas, cada una con su caja impresa</span></div>
+  <div class="tile"><b>273</b><span>códigos de material hoy (caja + partición + división)</span></div>
+  <div class="tile"><b>11</b><span>familias de botella detrás de los 22 tipos</span></div>
+  <div class="tile dest"><b>≈ 38</b><span>códigos posibles con cajas por familia y rótulo en planta (−86 %)</span></div>
+  <div class="tile dest"><b>+20 %</b><span>botellas por estiba en las x12 de Aguardiente, cambiando 3 mm</span></div>
+</div>
+
+<h2>1. Qué encontramos</h2>
+
+<h3>La botella define la caja, no el producto ni el mercado</h3>
+<p>Midiendo la celda de la partición de cada ficha aparecen <b>11 familias de botella</b>. Dentro de cada familia, los tipos se diferencian solo en la altura o en cuántas botellas lleva la caja. Variedad, grado y mercado no cambian la estructura: solo cambian el arte.</p>
+<div class="tabla"><table>
+<thead><tr><th>Familia de botella</th><th>Tipos</th><th>Celda (mm)</th><th>Alto int. (mm)</th><th>Unidades</th><th class="n">Refs</th></tr></thead>
+<tbody>
+<tr><td>F1 · Petaca 375 / 330 ml (Aguardiente, Doble Anís)</td><td>01, 02, 22, 16</td><td>≈ 78 × 60</td><td>200 · 185 · 208 · 200</td><td>x30 (01, 02, 22) · x24 (16)</td><td class="n">20</td></tr>
+<tr><td>F2 · Aguardiente 700 / 750 / 1000 ml</td><td>17, 05, 19, 03</td><td>96 × 81</td><td>210 · 264 · 264 · 208</td><td>x12 (17, 05, 19) · x20 (03)</td><td class="n">24</td></tr>
+<tr><td>F3 · Redonda 750 ml (Ron 3 años, Doble Anís 30°)</td><td>18, 10, 04</td><td>88 – 93</td><td>253 · 253 · 252</td><td>x12 (18, 04) · x20 (10)</td><td class="n">8</td></tr>
+<tr><td>F4 · Ron 1000 ml</td><td>06</td><td>94 × 94</td><td>292</td><td>x12</td><td class="n">1</td></tr>
+<tr><td>F5 · Ron premium 700 / 750 ml (8 y 12 años, crema)</td><td>11, 13</td><td>127 × 108</td><td>218 · 222</td><td>x12 (11) · x6 (13)</td><td class="n">10</td></tr>
+<tr><td>F6 · Ron 375 ml redonda</td><td>09, 21</td><td>69 × 69</td><td>218 · 218</td><td>x30 (09) · x24 (21)</td><td class="n">5</td></tr>
+<tr><td>F7 · Ron 8 años 375 ml</td><td>12</td><td>104 × 85</td><td>173</td><td>x20</td><td class="n">1</td></tr>
+<tr><td>F8 · Garrafa 1750 / 2000 ml</td><td>07, 08</td><td>124 · 128</td><td>298 · 320</td><td>x6</td><td class="n">14</td></tr>
+<tr><td>F9 · Multicapa 1050 ml (bandeja troquelada)</td><td>14</td><td>70 × 79</td><td>231</td><td>x12</td><td class="n">3</td></tr>
+<tr><td>F10 · Multicapa 260 ml (bandeja troquelada)</td><td>15</td><td>50 × 53</td><td>129</td><td>x24</td><td class="n">5</td></tr>
+<tr><td>Especiales (estuches, vodka, Ron Pink)</td><td>20, OTROS</td><td>varias</td><td>varias</td><td>x6 · x12</td><td class="n">7</td></tr>
+</tbody></table></div>
+
+<h3>Seis patrones que permiten reducir cajas</h3>
+<div class="tabla"><table>
+<thead><tr><th>#</th><th>Patrón</th><th>Dónde aparece</th><th>Qué permite</th></tr></thead>
+<tbody>
+<tr><td>P1</td><td><b>Misma celda, distinta altura.</b> La botella de 1000 ml usa la misma celda (96 × 81) que la de 750 ml; solo es más alta.</td><td>F2: TIPO 17 (alto 210) y TIPO 05/19 (alto 264)</td><td>Una sola huella y una sola división; cambia solo la altura. Opción: caja de dos alturas desde una misma lámina.</td></tr>
+<tr><td>P2</td><td><b>Mismo envase, distinto conteo.</b></td><td>x12/x20 (F2, F3) · x24/x30 (F1, F6) · x6/x12 (F5)</td><td>Si comercialmente se acepta un solo conteo por familia, desaparece una caja por familia.</td></tr>
+<tr><td>P3</td><td><b>Medio módulo.</b> Dos cajas x6 de Ron premium ocupan casi exactamente una x12 (323 × 255 frente a la mitad de 507 × 326).</td><td>F5: TIPO 13 y TIPO 11</td><td>Trabajar con un solo módulo x6 y armar la x12 como dos x6.</td></tr>
+<tr><td>P4</td><td><b>Casi iguales.</b> Diferencias de 2 a 23 mm entre tipos con la misma botella.</td><td>TIPO 01 · 02 · 22 (x30 petaca) · TIPO 07 · 08 (garrafas) · TIPO 04 · 18 (redonda x12)</td><td>Unificar en la medida mayor y absorber la diferencia con la partición.</td></tr>
+<tr><td>P5</td><td><b>El proveedor ya estandarizó las divisiones.</b> Todas las divisiones salen de 5 tamaños de lámina (p. ej. 1110 × 1029 sirve a los TIPO 05, 07, 08, 17, 18 y 19).</td><td>Todos los tipos</td><td>Partición y división pueden ser códigos comunes por familia, sin impresión.</td></tr>
+<tr><td>P6</td><td><b>Nacional y exportación son la misma caja.</b> Cambian cartón (C540 / C620) y cierre licorera, no la medida.</td><td>TIPO 07, 13 y los pares 05/19</td><td>Decidir el cartón por la carga y la humedad que soporta, con pruebas, en lugar de por el mercado.</td></tr>
+</tbody></table></div>
+
+<h3>Estiba: hay espacio que hoy se pierde</h3>
+<p>Calculamos cuántas cajas caben por tendido en la estiba de 1,20 × 1,00 m (medida exterior estimada = interior + 8 mm) y lo comparamos con las tablas de estiba impresas en las fichas.</p>
+<div class="grafico" id="g-estiba">
+  <h3>Botellas por estiba: hoy y posible</h3>
+  <p class="nota">Hoy = tabla de estiba de la ficha. Posible = cálculo con la misma estiba y un alto de carga de 1.355 mm.</p>
+  <div class="leyenda"><span><i style="background:var(--s1)"></i>Hoy (ficha)</span><span><i style="background:var(--s2)"></i>Posible</span></div>
+  <svg id="svgEstiba" role="img" aria-label="Botellas por estiba hoy y posible por tipo" width="100%"></svg>
+  <div class="tt" id="ttEstiba"></div>
+</div>
+<div class="tabla"><table>
+<thead><tr><th>Tipo</th><th>Hoy (ficha)</th><th>Posible</th><th class="n">Ganancia</th><th>Qué cambia</th></tr></thead>
+<tbody>
+<tr><td>TIPO 05 · x12 1000 ml</td><td>10 cajas × 4 tendidos = 480 bot.</td><td>12 × 4 = 576 bot.</td><td class="n">+20 %</td><td>Nada en la caja. La huella (≈ 392 × 250 mm) cabe 3 × 4 en la estiba. Revisar la tabla de estiba.</td></tr>
+<tr><td>TIPO 17 · x12 750/700 ml</td><td>10 × 6 = 720 bot.</td><td>12 × 6 = 864 bot.</td><td class="n">+20 %</td><td>Bajar el ancho interior de 245 a 242 mm, igual al TIPO 05/19. La celda de 750 ml cabe en la de 1000 ml.</td></tr>
+<tr><td>TIPO 02 · x30 330 ml</td><td>7 × 5 = 1.050 bot.</td><td>7 × 6 = 1.260 bot.</td><td class="n">+20 %</td><td>Un tendido más (alto total 1.345 mm). Validar compresión.</td></tr>
+<tr><td>TIPO 16 · x24 375 ml</td><td>10 × 4 = 960 bot.</td><td>9 × 6 = 1.296 bot.</td><td class="n">+35 %</td><td>La ficha pone 10 cajas, que ocupan el 102 % de la estiba, y solo 4 tendidos (1,0 m). Validar compresión.</td></tr>
+</tbody></table></div>
+<div class="caja alerta"><b>Tablas de estiba para corregir:</b>
+  <ul>
+    <li><b>TIPO 06 (60002745) y TIPO 18 (60002942):</b> dicen 14 cajas por tendido, que ocuparían el 130 % y el 113 % de la estiba.</li>
+    <li><b>TIPO 20 (estuches):</b> dice 7 tendidos, que suman 1,82 m de alto.</li>
+  </ul>
+  Son tablas que hoy no se pueden cumplir.</div>
+
+<h3>Cartón por botella</h3>
+<p>Las cajas x6 de garrafa y de Ron premium usan entre 0,13 y 0,14 m² de cartón por botella (caja + partición + división). Las x12 de 750 ml usan alrededor de 0,07 m² y las x30 de 375 ml, entre 0,03 y 0,05 m². Juntar conteos dentro de una familia también reduce el cartón por botella.</p>
+
+<h2>2. Escenarios</h2>
+<div class="grafico" id="g-codigos">
+  <h3>Códigos de material por escenario</h3>
+  <p class="nota">Caja + partición + división. E2 y E3 son estimaciones que se deben confirmar con el proveedor.</p>
+  <svg id="svgCodigos" role="img" aria-label="Códigos de material por escenario" width="100%"></svg>
+  <div class="tt" id="ttCodigos"></div>
+</div>
+<div class="tabla"><table>
+<thead><tr><th>Escenario</th><th class="n">Cajas</th><th class="n">Códigos</th><th>Qué implica</th><th>Riesgo</th></tr></thead>
+<tbody>
+<tr><td><b>E0 · Hoy</b></td><td class="n">98 impresas</td><td class="n">273</td><td>Una caja impresa, una partición y una división por referencia.</td><td>—</td></tr>
+<tr><td><b>E1 · Caja neutra por tipo</b></td><td class="n">22</td><td class="n">≈ 47</td><td>Sin tocar medidas. El proveedor imprime lo fijo y la planta rotula la referencia. Se unen TIPO 05 y 19; las versiones nacional y exportación de los TIPO 07 y 13 se mantienen. Partición y división comunes por tipo.</td><td><span class="pill ok">Bajo</span></td></tr>
+<tr><td><b>E2 · Caja por familia de botella</b></td><td class="n">16</td><td class="n">≈ 38</td><td>E1 más ajustes de medida: TIPO 17 a 242 mm, unir 01+02+22, 04+18 y 07+08.</td><td><span class="pill warn">Medio: pruebas BCT y de transporte</span></td></tr>
+<tr><td><b>E3 · Rediseño modular</b></td><td class="n">≈ 12</td><td class="n">≈ 30</td><td>E2 más un conteo por familia, el módulo x6 premium, huellas modulares de la estiba y formatos nuevos (secciones 3C y 4).</td><td><span class="pill warn">Alto: prototipos y decisión comercial</span></td></tr>
+</tbody></table></div>
+<p>E1, E2 y E3 no cuentan las 5 estructuras especiales (estuche de Ron con vaso, estuche Real, vodka, crema y Ron Pink). Conviene tratarlas aparte, como empaques de mercadeo.</p>
+
+<h2>3. Propuestas por horizonte</h2>
+<div class="horizontes">
+  <div class="horizonte"><h3>A · Ya</h3><div class="cuando">0 a 3 meses · sin cambiar medidas</div><ul>
+    <li><b>Caja neutra por tipo y rotulado en planta.</b> Empezar con la x12 de Aguardiente 750 (11 referencias en una caja). Es una estrategia de <i>postergación del empaque</i>: la diferenciación se hace al final. Los estudios la asocian con menos inventario, mejor servicio y menores costos variables<sup><a href="#r5">5</a>,<a href="#r6">6</a>,<a href="#r7">7</a>,<a href="#r8">8</a></sup>.</li>
+    <li>Unir el TIPO 05 y el 19 (misma caja) y volver comunes las particiones y divisiones de cada tipo.</li>
+    <li>Corregir las tablas de estiba imposibles y pasar el TIPO 05/19 a 12 cajas por tendido.</li>
+    <li>Depurar el maestro (Excel y fichas), como señala el diagnóstico.</li>
+  </ul></div>
+  <div class="horizonte"><h3>B · Ajustes de medida</h3><div class="cuando">3 a 9 meses · con pruebas de laboratorio</div><ul>
+    <li><b>TIPO 17 de 245 a 242 mm de ancho.</b> Queda la misma huella que el TIPO 05/19 y se ganan 12 cajas por tendido. Una sola huella y una sola división para toda la familia F2.</li>
+    <li><b>Una x30 petaca</b> (TIPO 01 + 02 + 22) con alto 208 mm. La de 330 ml se acomoda con la partición.</li>
+    <li><b>Una x12 redonda</b> (TIPO 04 + 18) y <b>una x6 garrafa</b> (TIPO 07 + 08).</li>
+    <li>Validar cada cambio con prueba de compresión (BCT) en caja real. La fórmula de McKee puede fallar entre −69 % y +50 % según la proporción de la caja<sup><a href="#r10">10</a>,<a href="#r11">11</a>,<a href="#r9">9</a></sup>.</li>
+  </ul></div>
+  <div class="horizonte"><h3>C · Formatos nuevos</h3><div class="cuando">6 a 18 meses · prototipos</div><ul>
+    <li><b>Huellas modulares de la estiba de 1,20 × 1,00 m:</b> 400 × 250 (12 por tendido), 400 × 333 (9) y 600 × 500 (4). Diseñar la caja desde la estiba mejora el llenado y reduce costos y emisiones<sup><a href="#r1">1</a>,<a href="#r3">3</a>,<a href="#r4">4</a></sup>. Los contenedores modulares estandarizados aumentan la utilización del espacio<sup><a href="#r2">2</a></sup>.</li>
+    <li><b>Caja de dos alturas</b> para la familia F2: una misma lámina con dos líneas de doblez (210 y 264 mm).</li>
+    <li><b>Bandeja con película</b> para la distribución nacional de corta distancia. En botellas de cerveza, cartón con película fue la mejor combinación para amortiguar vibración<sup><a href="#r17">17</a></sup>, y el corrugado atenúa golpes mejor que las canastas plásticas<sup><a href="#r16">16</a></sup>. Hay que validarlo con nuestros envases.</li>
+    <li><b>Refuerzo en vez de cartón más pesado.</b> Postes de esquina interiores subieron la compresión entre 29 % y 38 % en cajas de prueba<sup><a href="#r15">15</a></sup>.</li>
+  </ul></div>
+</div>
+
+<h2>4. Cartón y mercado: decidir con datos</h2>
+<p>Hoy la exportación usa C620 sin cierre licorera y lo nacional, C540 con cierre. La humedad justifica parte de esa diferencia. Por encima de 30 % de humedad relativa la resistencia a la compresión cae, con una curva de segundo grado hasta 90 %<sup><a href="#r12">12</a></sup>. Además, el tiempo bajo carga (fluencia) depende del material y de su variabilidad, no solo de un factor de apilamiento fijo<sup><a href="#r13">13</a></sup>. La revisión de Frank<sup><a href="#r14">14</a></sup> recoge los factores que los modelos de la industria no capturan.</p>
+<div class="caja"><b>Propuesta:</b> definir el cartón de cada familia por un requisito de compresión: carga de la estiba, factor de apilamiento y peor humedad de la ruta. Se mide con pruebas de laboratorio en caja real con su partición. Así se ve si una sola especificación por familia sirve para nacional y exportación, lo que eliminaría el par C540/C620 en los TIPO 07 y 13.</div>
+
+<h2>5. Rotulado en planta: qué dice la evidencia</h2>
+<ul>
+  <li><b>Inkjet directo sobre kraft.</b> Imprime bien textos, lote y código. En color, la diferencia frente al original fue de ΔE 10 a 45 según la superficie del cartón<sup><a href="#r18">18</a></sup>. Por eso los colores de variedad conviene llevarlos en etiqueta o con tinta preimpresa.</li>
+  <li><b>Impresión digital sobre corrugado.</b> Da buena calidad y resiste mejor la luz, aunque queda por debajo del offset en estabilidad y diferencia de color<sup><a href="#r19">19</a></sup>. Sirve para tiradas cortas, prototipos y datos variables, no para reemplazar el arte de marca.</li>
+  <li><b>Rediseño y sobre-empaque.</b> Rediseñar el corrugado tiene beneficios de costo para casi todos los eslabones de la cadena<sup><a href="#r20">20</a></sup>. Las decisiones de empaque funcionan mejor cuando incluyen a logística, proveedores y clientes<sup><a href="#r21">21</a>,<a href="#r22">22</a></sup>.</li>
+</ul>
+
+<h2>6. Plan de validación</h2>
+<div class="tabla"><table>
+<thead><tr><th>Prueba</th><th>Para qué</th><th>Familias</th></tr></thead>
+<tbody>
+<tr><td>Compresión (BCT) en caja llena, acondicionada a 50 % y a 85–90 % HR</td><td>Elegir el cartón por familia y confirmar los tendidos</td><td>F1, F2, F3, F8</td></tr>
+<tr><td>Simulación de transporte: vibración y caída (protocolos tipo ASTM D4169 / ISTA)</td><td>Confirmar que la partición unificada protege la botella más pequeña</td><td>F1 (330 ml en caja de 375), F3, F8</td></tr>
+<tr><td>Estiba piloto 12 por tendido</td><td>Comprobar la medida exterior real y el amarre</td><td>F2 (TIPO 05/19 y 17)</td></tr>
+<tr><td>Prueba de rotulado en planta (inkjet + etiqueta)</td><td>Legibilidad del ITF-14 y color de variedad</td><td>F2 piloto</td></tr>
+<tr><td>Cotización consolidada</td><td>Precio por caja con volumen agregado y menos cambios de clisé</td><td>Todas</td></tr>
+</tbody></table></div>
+
+<h2>7. Decisiones que necesitamos de ustedes</h2>
+<ul>
+  <li><b>Conteos:</b> ¿se puede tener un solo conteo por familia? (x12 o x20 en 750 ml nacional; x24 o x30 en 375 ml; x6 o x12 en Ron premium).</li>
+  <li><b>Cierre licorera:</b> ¿es requisito del cliente nacional o se puede eliminar?</li>
+  <li><b>Mercados:</b> ¿hay exigencias de exportación (USA, Europa) sobre cartón, conteo o marcación que limiten la unificación?</li>
+  <li><b>Equipos:</b> ¿hay forma de armar o encajonar automáticamente? Eso abre o cierra formatos como el <i>wrap-around</i> o la bandeja con película.</li>
+</ul>
+
+<h2>Referencias</h2>
+<p class="sub">Búsqueda en Consensus (Elicit no estuvo disponible: el plan de la cuenta no incluye acceso por API).</p>
+<ol class="refs">
+  <li id="r1"><a href="https://consensus.app/papers/details/w:10e816a7-a953-4fb8-b645-a73b5983e5ea/?utm_source=claude_desktop">Rethinking the Box for Sustainable Logistics</a> — García Arca et al., 2020, Sustainability (43 citas).</li>
+  <li id="r2"><a href="https://consensus.app/papers/details/w:8c2f07c2-fb41-4eed-a6c2-c0659d52cc45/?utm_source=claude_desktop">A decomposition-based approach for the selection of standardized modular containers</a> — Lin et al., 2014, Int. J. Production Research (75 citas).</li>
+  <li id="r3"><a href="https://consensus.app/papers/details/w:75e26ad1-28a0-49be-aca1-f35ab2c4cff8/?utm_source=claude_desktop">A Sustainable Packaging Logistics Framework for Reducing Greenhouse Gas Emissions in Food Supply Chains</a> — Verros et al., 2026, Applied Sciences.</li>
+  <li id="r4"><a href="https://consensus.app/papers/details/w:4d7d53af-55a8-495b-b626-3b38d7846d62/?utm_source=claude_desktop">Packaging design, fill rate and road freight decarbonisation: A literature review and a future research agenda</a> — Ahmad et al., 2022, Cleaner Logistics and Supply Chain (50 citas).</li>
+  <li id="r5"><a href="https://consensus.app/papers/details/w:75133907-7574-4a6f-857c-c48177c60b91/?utm_source=claude_desktop">A partial-postponement decision cost model</a> — Graman, 2009, European Journal of Operational Research (54 citas).</li>
+  <li id="r6"><a href="https://consensus.app/papers/details/w:7b33cba2-f114-49a0-aee4-30a4817319b8/?utm_source=claude_desktop">An empirical test of inventory, service and cost benefits from a postponement strategy</a> — Davila et al., 2006, Int. J. Production Research (43 citas).</li>
+  <li id="r7"><a href="https://consensus.app/papers/details/w:c9eb6d1c-16ce-4794-8b95-935b266e8918/?utm_source=claude_desktop">Application and evaluation of packaging postponement strategy to boost supply chain responsiveness: a case study</a> — Seth et al., 2015, Production Planning &amp; Control (52 citas).</li>
+  <li id="r8"><a href="https://consensus.app/papers/details/w:a7234be2-2967-4ac7-8c9b-14059836f488/?utm_source=claude_desktop">A Historical Review of Postponement Research</a> — Zinn, 2019, Journal of Business Logistics (40 citas).</li>
+  <li id="r9"><a href="https://consensus.app/papers/details/w:9e884c95-31e9-4883-b815-a3f6c2a717cc/?utm_source=claude_desktop">Box compression analysis of world-wide data spanning 46 years</a> — Urbanik et al., 2006, Wood and Fiber Science (67 citas).</li>
+  <li id="r10"><a href="https://consensus.app/papers/details/w:5a9d0cdf-6d93-458e-ae50-9cb626461c98/?utm_source=claude_desktop">Experimental Verification of McKee Formula</a> — Aloumi et al., 2015, Int. J. Food and Fermentation Technology.</li>
+  <li id="r11"><a href="https://consensus.app/papers/details/w:3ffe77da-bd18-4e63-ad6c-1f1d8c422b64/?utm_source=claude_desktop">The Role of Buckling in the Estimation of Compressive Strength of Corrugated Cardboard Boxes</a> — Garbowski et al., 2020, Materials (54 citas).</li>
+  <li id="r12"><a href="https://consensus.app/papers/details/w:2bfe69bc-72d0-46c7-8053-eed31b41a907/?utm_source=claude_desktop">Relative Humidity and Absolute Moisture Content Effects on the Compression Strength of Corrugated Boxes</a> — Brown et al., 2024, Journal of Testing and Evaluation.</li>
+  <li id="r13"><a href="https://consensus.app/papers/details/w:26a5c54c-b950-4bc1-88f3-3ad5be565646/?utm_source=claude_desktop">Predicting creep lifetime performance in edgewise compression of containerboards and for stacked corrugated board boxes</a> — Holmvall, 2021, Packaging Technology and Science.</li>
+  <li id="r14"><a href="https://consensus.app/papers/details/w:74ab7259-7e51-4ef9-a047-761c26948b55/?utm_source=claude_desktop">Corrugated Box Compression—A Literature Survey</a> — Frank, 2013, Packaging Technology and Science (127 citas).</li>
+  <li id="r15"><a href="https://consensus.app/papers/details/w:4bc333fa-5c24-4d22-bb86-00a897f3ac92/?utm_source=claude_desktop">Corrugated Box Compression Strength Enhancement</a> — Duckworth et al., 2019, Int. J. Food and Fermentation Technology.</li>
+  <li id="r16"><a href="https://consensus.app/papers/details/w:e350a1b9-c53e-449c-a408-4db3244e8872/?utm_source=claude_desktop">Measurement and analysis of vibration and shock levels for truck transport in Belgium with respect to packaged beer during transit</a> — Paternoster et al., 2017, Food Packaging and Shelf Life (42 citas).</li>
+  <li id="r17"><a href="https://consensus.app/papers/details/w:8b53a52c-89c0-47ff-a635-24b28dc55290/?utm_source=claude_desktop">The performance of beer packaging: Vibration damping and thermal insulation</a> — Paternoster et al., 2017, Food Packaging and Shelf Life (46 citas).</li>
+  <li id="r18"><a href="https://consensus.app/papers/details/w:5c44c71a-fa71-4316-970b-80fcc4fcd55b/?utm_source=claude_desktop">Influence of the surface characteristics of corrugated cardboard on the quality of inkjet printing</a> — Zorenko et al., 2021, Eastern-European Journal of Enterprise Technologies.</li>
+  <li id="r19"><a href="https://consensus.app/papers/details/w:8b963f62-36b5-4809-9d3e-3f983c4dfd2d/?utm_source=claude_desktop">Devising a procedure for examining the quality of prints of digital and offset printing on corrugated cardboard</a> — Khadzhynova et al., 2020, Eastern-European Journal of Enterprise Technologies.</li>
+  <li id="r20"><a href="https://consensus.app/papers/details/w:f35458c4-4219-4a9b-9129-2d3a95e27655/?utm_source=claude_desktop">Packaging redesign – benefits for the environment and the community</a> — Georgakoudis et al., 2018, Int. J. Sustainable Engineering.</li>
+  <li id="r21"><a href="https://consensus.app/papers/details/w:842144d4-5e48-465e-8558-6a2279e2235b/?utm_source=claude_desktop">Packaging logistics in supply chain practice – current state, trade-offs and improvement potential</a> — Pålsson et al., 2016, Int. J. Logistics Research and Applications (109 citas).</li>
+  <li id="r22"><a href="https://consensus.app/papers/details/w:4eaa9e34-4e83-41b2-a0c0-54cdcf7d8c7e/?utm_source=claude_desktop">Packaging and logistics interactions in retail supply chains</a> — Hellström et al., 2006, Packaging Technology and Science (282 citas).</li>
+</ol>
+<p class="pie">Supuestos del cálculo de estiba: medida exterior = interior + 8 mm (cartón corrugado sencillo), altura de caja + 15 mm, alto máximo de carga 1.355 mm sobre una estiba de 145 mm, patrones de corte en guillotina (el proveedor logra 10 por tendido en el TIPO 17 con un patrón en molinete). Las cifras de E2 y E3 se deben confirmar con el proveedor.</p>
+</main>
+
+<script>
+(function(){
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  function tooltip(svg, tt){
+    const cont = svg.parentElement;
+    svg.querySelectorAll("[data-tip]").forEach(el=>{
+      el.addEventListener("pointerenter",()=>{ tt.textContent = el.dataset.tip; tt.style.opacity = 1; });
+      el.addEventListener("pointermove",ev=>{ const r = cont.getBoundingClientRect(); tt.style.left = (ev.clientX - r.left + 12) + "px"; tt.style.top = (ev.clientY - r.top - 34) + "px"; });
+      el.addEventListener("pointerleave",()=>{ tt.style.opacity = 0; });
+    });
+  }
+  function barra(x, y, w, h, r, fill){ // barra horizontal con extremo redondeado (4px) anclado a la base
+    r = Math.min(r, w, h/2);
+    return `<path d="M${x} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${y+h-r} Q${x+w} ${y+h} ${x+w-r} ${y+h} H${x} Z" fill="${fill}"/>`;
+  }
+  // ---- Botellas por estiba (dos series) ----
+  const est = [["TIPO 05 · x12 1000 ml",480,576],["TIPO 17 · x12 750 ml",720,864],["TIPO 02 · x30 330 ml",1050,1260],["TIPO 16 · x24 375 ml",960,1296]];
+  function dibEstiba(){
+    const svg = document.getElementById("svgEstiba"), W = svg.clientWidth || 700, L = Math.min(190, W*0.34), R = 56, bh = 13, gap = 2, grupo = 2*bh+gap+18;
+    const H = est.length*grupo + 22, max = 1400, sx = v => (W-L-R)*v/max;
+    let s = "";
+    for(let t=0;t<=1400;t+=350){ const x = L+sx(t); s += `<line x1="${x}" y1="0" x2="${x}" y2="${H-20}" stroke="${css("--line")}" stroke-width="1"/><text x="${x}" y="${H-5}" font-size="11" fill="${css("--muted")}" text-anchor="middle">${t.toLocaleString("es-CO")}</text>`; }
+    est.forEach(([n,a,p],i)=>{ const y = i*grupo + 4;
+      s += `<text x="${L-10}" y="${y+bh+3}" font-size="13" fill="${css("--text")}" text-anchor="end">${n}</text>`;
+      s += `<g data-tip="${n} · hoy ${a.toLocaleString("es-CO")} botellas">${barra(L, y, sx(a), bh, 4, css("--s1"))}<rect x="${L}" y="${y-2}" width="${W-L}" height="${bh+3}" fill="transparent"/></g>`;
+      s += `<g data-tip="${n} · posible ${p.toLocaleString("es-CO")} botellas (+${Math.round((p/a-1)*100)} %)">${barra(L, y+bh+gap, sx(p), bh, 4, css("--s2"))}<rect x="${L}" y="${y+bh+gap-1}" width="${W-L}" height="${bh+3}" fill="transparent"/></g>`;
+      s += `<text x="${L+sx(a)+6}" y="${y+bh-2}" font-size="12" fill="${css("--muted")}">${a.toLocaleString("es-CO")}</text>`;
+      s += `<text x="${L+sx(p)+6}" y="${y+2*bh+gap-2}" font-size="12" fill="${css("--text")}" font-weight="600">${p.toLocaleString("es-CO")}</text>`;
+    });
+    svg.setAttribute("height", H); svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.innerHTML = s; tooltip(svg, document.getElementById("ttEstiba"));
+  }
+  // ---- Códigos por escenario (una serie) ----
+  const esc = [["E0 · Hoy",273],["E1 · Caja neutra por tipo",47],["E2 · Caja por familia",38],["E3 · Rediseño modular",30]];
+  function dibCodigos(){
+    const svg = document.getElementById("svgCodigos"), W = svg.clientWidth || 700, L = Math.min(200, W*0.36), R = 50, bh = 22, paso = 34;
+    const H = esc.length*paso + 22, max = 300, sx = v => (W-L-R)*v/max;
+    let s = "";
+    for(let t=0;t<=300;t+=100){ const x = L+sx(t); s += `<line x1="${x}" y1="0" x2="${x}" y2="${H-20}" stroke="${css("--line")}" stroke-width="1"/><text x="${x}" y="${H-5}" font-size="11" fill="${css("--muted")}" text-anchor="middle">${t}</text>`; }
+    esc.forEach(([n,v],i)=>{ const y = i*paso + 4;
+      s += `<text x="${L-10}" y="${y+bh/2+5}" font-size="13" fill="${css("--text")}" text-anchor="end">${n}</text>`;
+      s += `<g data-tip="${n}: ${v} códigos${i?` (−${Math.round((1-v/273)*100)} % frente a hoy)`:""}">${barra(L, y, sx(v), bh, 4, css("--s1"))}<rect x="${L}" y="${y}" width="${W-L}" height="${bh}" fill="transparent"/></g>`;
+      s += `<text x="${L+sx(v)+6}" y="${y+bh/2+5}" font-size="13" fill="${css("--text")}" font-weight="600">${i?"≈ ":""}${v}</text>`;
+    });
+    svg.setAttribute("height", H); svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.innerHTML = s; tooltip(svg, document.getElementById("ttCodigos"));
+  }
+  function todo(){ dibEstiba(); dibCodigos(); }
+  todo(); new ResizeObserver(todo).observe(document.querySelector("main"));
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", todo);
+  new MutationObserver(todo).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+})();
+</script>
+</body>
+</html>

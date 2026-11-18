@@ -1,0 +1,4000 @@
+[
+{
+"code": "60000604",
+"tipo": "OTROS",
+"activo": true,
+"desc": "CAJA X 12 VODKA GUALA NP 750",
+"n": 12,
+"vol": 750,
+"producto": "Vodka",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 320,
+"A": 240,
+"H": 325,
+"hoja": "575x1170",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.673",
+"grid": [
+4,
+3
+],
+"celda": [
+80.0,
+80.0
+],
+"paginas": 3,
+"areas": [
+null,
+0.437,
+0.037
+],
+"hojas": [
+"575 x 1170",
+"661x661",
+"750X690"
+]
+},
+{
+"code": "60002004",
+"tipo": "OTROS",
+"activo": true,
+"desc": "CAJA X 6 AGTE ANTIOQUEÑO REAL 750",
+"n": 6,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 318,
+"A": 318,
+"H": 200,
+"hoja": "528x1322",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.698",
+"grid": [
+3,
+2
+],
+"celda": [
+106.0,
+159.0
+],
+"paginas": 3,
+"areas": [
+0.698,
+0.187,
+0.079
+],
+"hojas": [
+"528 x 1322",
+"433x433",
+"720x924"
+]
+},
+{
+"code": "60002739",
+"tipo": "OTROS",
+"activo": true,
+"desc": "CAJA X 12 CREMA DE RON 375 NI",
+"n": 12,
+"vol": 375,
+"producto": "Licor de ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 340,
+"A": 308,
+"H": 177,
+"hoja": "495x1346",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.666",
+"grid": [
+4,
+3
+],
+"celda": [
+85.0,
+102.7
+],
+"paginas": 3,
+"areas": [
+0.666,
+0.279,
+0.079
+],
+"hojas": [
+"495 x 1346",
+"529x529",
+"720x924"
+]
+},
+{
+"code": "60003019",
+"tipo": "OTROS",
+"activo": true,
+"desc": "CAJA X 6 LICOR RON PINK 750",
+"n": 6,
+"vol": 750,
+"producto": "Licor de ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 318,
+"A": 212,
+"H": 238,
+"hoja": "460x1110",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.511",
+"grid": [
+3,
+2
+],
+"celda": [
+106.0,
+106.0
+],
+"paginas": 2,
+"areas": [
+0.511,
+0.176
+],
+"hojas": [
+"460 x 1110",
+"419 x 419"
+]
+},
+{
+"code": "60002020",
+"tipo": "OTROS",
+"activo": false,
+"desc": "CAJA X 6 RON GRAN SOLERA 750",
+"n": 6,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 327,
+"A": 217,
+"H": 290,
+"hoja": "522x1138",
+"carton": "C620KW",
+"cierre": "",
+"area": "0.594",
+"grid": [
+3,
+2
+],
+"celda": [
+109.0,
+108.5
+],
+"paginas": 2,
+"areas": [
+null,
+null
+],
+"hojas": [
+"522 x 1138",
+null
+]
+},
+{
+"code": "60003020",
+"tipo": "OTROS",
+"activo": false,
+"desc": "CAJA X 6 AGTE REAL 24° 750",
+"n": 6,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 318,
+"A": 212,
+"H": 238,
+"hoja": "460x1110",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.511",
+"grid": [
+3,
+2
+],
+"celda": [
+106.0,
+106.0
+],
+"paginas": 2,
+"areas": [
+null,
+0.176
+],
+"hojas": [
+"460 x 1110",
+"419x419"
+]
+},
+{
+"code": "60002544",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 AGTE DOBLE ANIS 24° 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 200,
+"hoja": "512x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.822",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+null,
+0.495,
+0.135
+],
+"hojas": [
+"512 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002566",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 AGTE SIN AZ 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 198,
+"hoja": "510x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.819",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 5,
+"areas": [
+null,
+0.495,
+0.135
+],
+"hojas": [
+"510 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002567",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 AGTE TRAD 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 198,
+"hoja": "510x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.819",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 5,
+"areas": [
+null,
+0.495,
+0.135
+],
+"hojas": [
+"510 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002568",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 AGTE 24° 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 198,
+"hoja": "510x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.819",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 5,
+"areas": [
+null,
+0.495,
+0.135
+],
+"hojas": [
+"510 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002573",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 DOBLE ANIS SIN AZ 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 200,
+"hoja": "512x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.822",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+0.822,
+0.495,
+0.135
+],
+"hojas": [
+"512 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002574",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 DOBLE ANIS TRAD 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 200,
+"hoja": "512x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.822",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+0.822,
+0.495,
+0.135
+],
+"hojas": [
+"512 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002576",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 DOBLE ANIS TRAD PET 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "PET",
+"L": 476,
+"A": 302,
+"H": 200,
+"hoja": "512x1606",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.822",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+0.822,
+0.496,
+0.135
+],
+"hojas": [
+"512 x 1606",
+"704x704",
+"1128x1398"
+]
+},
+{
+"code": "60002577",
+"tipo": "TIPO 01",
+"activo": true,
+"desc": "CAJA X 30 DOBLE ANIS SIN AZ PET 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "PET",
+"L": 476,
+"A": 302,
+"H": 200,
+"hoja": "512x1606",
+"carton": "C620KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.822",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+0.822,
+0.496,
+0.135
+],
+"hojas": [
+"512 x 1606",
+"704x704",
+"1128x1398"
+]
+},
+{
+"code": "60002570",
+"tipo": "TIPO 01",
+"activo": false,
+"desc": "CAJA X 30 RON PERU 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Ron",
+"mercado": "Perú",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 200,
+"hoja": "512x1606",
+"carton": "C540KW",
+"cierre": "",
+"area": "0.822",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+null,
+null,
+null
+],
+"hojas": [
+"512 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002572",
+"tipo": "TIPO 01",
+"activo": false,
+"desc": "CAJA X 30 AGTE TRAD PERU 375 KIT",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Perú",
+"envase": "Vidrio",
+"L": 476,
+"A": 302,
+"H": 198,
+"hoja": "510x1606",
+"carton": "C540KW",
+"cierre": "",
+"area": "0.819",
+"grid": [
+6,
+5
+],
+"celda": [
+79.3,
+60.4
+],
+"paginas": 3,
+"areas": [
+null,
+0.495,
+0.135
+],
+"hojas": [
+"510 x 1606",
+"704x704",
+"1128x1368"
+]
+},
+{
+"code": "60002463",
+"tipo": "TIPO 02",
+"activo": true,
+"desc": "CAJA X 30 AGTE DOBLE ANIS 330",
+"n": 30,
+"vol": 330,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 467,
+"A": 297,
+"H": 185,
+"hoja": "491x1578",
+"carton": "C620KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.775",
+"grid": [
+6,
+5
+],
+"celda": [
+77.8,
+59.4
+],
+"paginas": 3,
+"areas": [
+0.775,
+0.648,
+0.091
+],
+"hojas": [
+"491 x 1578",
+"805X805",
+"1160X1122"
+]
+},
+{
+"code": "60002464",
+"tipo": "TIPO 02",
+"activo": true,
+"desc": "CAJA X 30 AGTE DOBLE ANIS SIN AZ 330",
+"n": 30,
+"vol": 330,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 467,
+"A": 297,
+"H": 185,
+"hoja": "491x1578",
+"carton": "C620KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.775",
+"grid": [
+6,
+5
+],
+"celda": [
+77.8,
+59.4
+],
+"paginas": 3,
+"areas": [
+0.775,
+0.648,
+0.091
+],
+"hojas": [
+"491 x 1578",
+"805X805",
+"1160X1122"
+]
+},
+{
+"code": "60002578",
+"tipo": "TIPO 03",
+"activo": true,
+"desc": "CAJA X 20 AGTE TRAD 750 KIT",
+"n": 20,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 482,
+"A": 324,
+"H": 208,
+"hoja": "542x1662",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.901",
+"grid": [
+5,
+4
+],
+"celda": [
+96.4,
+81.0
+],
+"paginas": 3,
+"areas": [
+0.901,
+0.378,
+0.135
+],
+"hojas": [
+"542 x 1662",
+"615x615",
+"1128x1398"
+]
+},
+{
+"code": "60002579",
+"tipo": "TIPO 03",
+"activo": true,
+"desc": "CAJA X 20 AGTE SIN AZ 750 KIT",
+"n": 20,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 482,
+"A": 324,
+"H": 208,
+"hoja": "542x1662",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.901",
+"grid": [
+5,
+4
+],
+"celda": [
+96.4,
+81.0
+],
+"paginas": 3,
+"areas": [
+0.901,
+0.378,
+0.135
+],
+"hojas": [
+"542 x 1662",
+"615x615",
+"1128x1398"
+]
+},
+{
+"code": "60002580",
+"tipo": "TIPO 03",
+"activo": true,
+"desc": "CAJA X 20 AGTE 24° 750 KIT",
+"n": 20,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 482,
+"A": 324,
+"H": 208,
+"hoja": "542x1662",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.901",
+"grid": [
+5,
+4
+],
+"celda": [
+96.4,
+81.0
+],
+"paginas": 5,
+"areas": [
+0.901,
+0.378,
+0.135
+],
+"hojas": [
+"542 x 1662",
+"615x615",
+"1128x1398"
+]
+},
+{
+"code": "60001472",
+"tipo": "TIPO 04",
+"activo": true,
+"desc": "CAJA X 12 AGTE DOBLE ANIS 30° 750",
+"n": 12,
+"vol": 750,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 278,
+"H": 252,
+"hoja": "544x1350",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.734",
+"grid": [
+4,
+3
+],
+"celda": [
+93.0,
+92.7
+],
+"paginas": 3,
+"areas": [
+0.734,
+0.393,
+0.096
+],
+"hojas": [
+"544 x 1350",
+"627X627",
+"1032x1056"
+]
+},
+{
+"code": "60001615",
+"tipo": "TIPO 04",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ DOBLE ANIS 30 750",
+"n": 12,
+"vol": 750,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 278,
+"H": 252,
+"hoja": "542x1350",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.732",
+"grid": [
+4,
+3
+],
+"celda": [
+93.0,
+92.7
+],
+"paginas": 3,
+"areas": [
+0.732,
+0.393,
+0.096
+],
+"hojas": [
+"542 x 1350",
+"627X627",
+"1032x1056"
+]
+},
+{
+"code": "60002581",
+"tipo": "TIPO 05",
+"activo": true,
+"desc": "CAJA X 12 AGTE TRAD 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.293,
+null
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002582",
+"tipo": "TIPO 05",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.293,
+0.08
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1140x1059"
+]
+},
+{
+"code": "60002583",
+"tipo": "TIPO 05",
+"activo": true,
+"desc": "CAJA X 12 AGTE 24° 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 5,
+"areas": [
+0.672,
+0.294,
+0.08
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002612",
+"tipo": "TIPO 06",
+"activo": false,
+"desc": "CAJA X 12 RON 3 AÑOS GENE EXP 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Ron",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 377,
+"A": 282,
+"H": 292,
+"hoja": "584x1368",
+"carton": "",
+"cierre": "SIN CIERRE",
+"area": "",
+"grid": [
+4,
+3
+],
+"celda": [
+94.2,
+94.0
+],
+"paginas": 3,
+"areas": [
+null,
+0.464,
+0.089
+],
+"hojas": [
+"584 x 1368",
+"681x681",
+"1110x1029"
+]
+},
+{
+"code": "60002745",
+"tipo": "TIPO 06",
+"activo": true,
+"desc": "CAJA X 12 RON 3 AÑOS 1.000 NI",
+"n": 12,
+"vol": 1000,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 377,
+"A": 282,
+"H": 292,
+"hoja": "584x1368",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "1.000",
+"grid": [
+4,
+3
+],
+"celda": [
+94.2,
+94.0
+],
+"paginas": 3,
+"areas": [
+0.799,
+0.463,
+0.091
+],
+"hojas": [
+"584 x 1368",
+"681x681",
+"1160x1122"
+]
+},
+{
+"code": "60002413",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.0804
+],
+"hojas": [
+"560 x 1288",
+"504X504",
+"1110x1029"
+]
+},
+{
+"code": "60002414",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE SIN AZ 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.0804,
+0.254
+],
+"hojas": [
+"560 x 1288",
+"1110x1029",
+"504X504"
+]
+},
+{
+"code": "60002415",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE 24° 1750 KIT",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.254,
+0.0804
+],
+"hojas": [
+"560 x 1288",
+"504X504",
+"1110x1029"
+]
+},
+{
+"code": "60002456",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE TRAD USA 1750 KIT",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.08
+],
+"hojas": [
+"560 x 1288",
+"504x504",
+"1110x1029"
+]
+},
+{
+"code": "60002457",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE SIN AZ USA 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.08
+],
+"hojas": [
+"560 x 1288",
+"504x504",
+"1110x1029"
+]
+},
+{
+"code": "60002458",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE SIN AZ 24° USA 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.08
+],
+"hojas": [
+"560 x 1288",
+"504x504",
+"1110x1029"
+]
+},
+{
+"code": "60002459",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE DOBLE ANIS TRAD 1750 KIT",
+"n": 6,
+"vol": 1750,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.254,
+0.0804
+],
+"hojas": [
+"560 x 1288",
+"504X504",
+"1110x1029"
+]
+},
+{
+"code": "60002460",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE DOBLE ANIS SIN AZ 1750 KIT",
+"n": 6,
+"vol": 1750,
+"producto": "Doble Anís",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.254,
+0.0804
+],
+"hojas": [
+"560 x 1288",
+"504X504",
+"1110x1029"
+]
+},
+{
+"code": "60002663",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE SIN AZ 24° GEN EXP 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.08
+],
+"hojas": [
+"560 x 1288",
+"504x504",
+"1110 x 1029"
+]
+},
+{
+"code": "60002664",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE SIN AZ GEN EXP 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.08
+],
+"hojas": [
+"560 x 1288",
+"504x504",
+"1110 x 1029"
+]
+},
+{
+"code": "60002665",
+"tipo": "TIPO 07",
+"activo": true,
+"desc": "CAJA X 6 AGTE GEN EXP 1750",
+"n": 6,
+"vol": 1750,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 372,
+"A": 247,
+"H": 298,
+"hoja": "560x1288",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.721",
+"grid": [
+3,
+2
+],
+"celda": [
+124.0,
+123.5
+],
+"paginas": 3,
+"areas": [
+0.721,
+0.254,
+0.08
+],
+"hojas": [
+"560 x 1288",
+"504x504",
+"1110 x 1029"
+]
+},
+{
+"code": "60002584",
+"tipo": "TIPO 08",
+"activo": true,
+"desc": "CAJA X 6 AGTE TRAD 2000 KIT",
+"n": 6,
+"vol": 2000,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 386,
+"A": 256,
+"H": 320,
+"hoja": "586x1334",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.782",
+"grid": [
+3,
+2
+],
+"celda": [
+128.7,
+128.0
+],
+"paginas": 3,
+"areas": [
+null,
+0.169,
+0.08
+],
+"hojas": [
+"586 x 1334",
+"412x412",
+"1110x1029"
+]
+},
+{
+"code": "60002585",
+"tipo": "TIPO 08",
+"activo": true,
+"desc": "CAJA X 6 AGTE SIN AZ 2000 KIT",
+"n": 6,
+"vol": 2000,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 386,
+"A": 256,
+"H": 320,
+"hoja": "586x1334",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.782",
+"grid": [
+3,
+2
+],
+"celda": [
+128.7,
+128.0
+],
+"paginas": 3,
+"areas": [
+0.782,
+0.169,
+0.08
+],
+"hojas": [
+"586 x 1334",
+"412x412",
+"1110x1029"
+]
+},
+{
+"code": "60002746",
+"tipo": "TIPO 08",
+"activo": true,
+"desc": "CAJA X 6 RON 3 AÑOS 2.000 NI",
+"n": 6,
+"vol": 2000,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 386,
+"A": 256,
+"H": 320,
+"hoja": "586x1334",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "2.000",
+"grid": [
+3,
+2
+],
+"celda": [
+128.7,
+128.0
+],
+"paginas": 3,
+"areas": [
+0.782,
+0.17,
+0.08
+],
+"hojas": [
+"586 x 1334",
+"412x412",
+"1110x1029"
+]
+},
+{
+"code": "60002587",
+"tipo": "TIPO 08",
+"activo": false,
+"desc": "CAJA X 6 RON PERU 2000 KIT",
+"n": 6,
+"vol": 2000,
+"producto": "Ron",
+"mercado": "Perú",
+"envase": "Vidrio",
+"L": 386,
+"A": 256,
+"H": 320,
+"hoja": "586x1334",
+"carton": "C540KW",
+"cierre": "",
+"area": "0.782",
+"grid": [
+3,
+2
+],
+"celda": [
+128.7,
+128.0
+],
+"paginas": 3,
+"areas": [
+null,
+null,
+0.0804
+],
+"hojas": [
+"586 x 1334",
+"412x412",
+"1110x1029"
+]
+},
+{
+"code": "60002741",
+"tipo": "TIPO 09",
+"activo": true,
+"desc": "CAJA X 30 LICOR RON MEDELLÍN 375 NI",
+"n": 30,
+"vol": 375,
+"producto": "Licor de ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 417,
+"A": 348,
+"H": 218,
+"hoja": "576x1580",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.910",
+"grid": [
+6,
+5
+],
+"celda": [
+69.5,
+69.6
+],
+"paginas": 3,
+"areas": [
+0.91,
+0.736,
+0.091
+],
+"hojas": [
+"576 x 1580",
+"858x858",
+"1160X1122"
+]
+},
+{
+"code": "60002743",
+"tipo": "TIPO 09",
+"activo": true,
+"desc": "CAJA X 30 RON 3 AÑOS 375 NI",
+"n": 30,
+"vol": 375,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 417,
+"A": 348,
+"H": 218,
+"hoja": "576x1580",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.910",
+"grid": [
+6,
+5
+],
+"celda": [
+69.5,
+69.6
+],
+"paginas": 3,
+"areas": [
+0.91,
+0.736,
+0.091
+],
+"hojas": [
+"576 x 1580",
+"858x858",
+"1160X1122"
+]
+},
+{
+"code": "60002754",
+"tipo": "TIPO 09",
+"activo": true,
+"desc": "CAJA X 30 RON DORADO 375 NI",
+"n": 30,
+"vol": 375,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 417,
+"A": 348,
+"H": 218,
+"hoja": "576x1580",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.910",
+"grid": [
+6,
+5
+],
+"celda": [
+69.5,
+69.6
+],
+"paginas": 3,
+"areas": [
+0.91,
+0.736,
+0.091
+],
+"hojas": [
+"576 x 1580",
+"858X858",
+"1160X1122"
+]
+},
+{
+"code": "60002742",
+"tipo": "TIPO 10",
+"activo": true,
+"desc": "CAJA X 20 LICOR RON MEDELLÍN 750 NI",
+"n": 20,
+"vol": 750,
+"producto": "Licor de ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 442,
+"A": 354,
+"H": 253,
+"hoja": "617x1642",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "1.013",
+"grid": [
+5,
+4
+],
+"celda": [
+88.4,
+88.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.687,
+0.091
+],
+"hojas": [
+"617 x 1642",
+"829x829",
+"1160X1122"
+]
+},
+{
+"code": "60002744",
+"tipo": "TIPO 10",
+"activo": true,
+"desc": "CAJA X 20 RON 3 AÑOS 750 NI",
+"n": 20,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 442,
+"A": 354,
+"H": 253,
+"hoja": "617x1642",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "1.013",
+"grid": [
+5,
+4
+],
+"celda": [
+88.4,
+88.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.687,
+0.091
+],
+"hojas": [
+"617 x 1642",
+"829x829",
+"1160x1122"
+]
+},
+{
+"code": "60002755",
+"tipo": "TIPO 10",
+"activo": true,
+"desc": "CAJA X 20 RON DORADO 750 NI",
+"n": 20,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 442,
+"A": 354,
+"H": 253,
+"hoja": "617x1642",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "1.013",
+"grid": [
+5,
+4
+],
+"celda": [
+88.4,
+88.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.687,
+0.091
+],
+"hojas": [
+"617 x 1642",
+"829X829",
+"1160X1122"
+]
+},
+{
+"code": "60002752",
+"tipo": "TIPO 11",
+"activo": true,
+"desc": "CAJA X 12 RON 8 AÑOS 750 NI",
+"n": 12,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 507,
+"A": 326,
+"H": 218,
+"hoja": "554x1716",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.951",
+"grid": [
+4,
+3
+],
+"celda": [
+126.8,
+108.7
+],
+"paginas": 3,
+"areas": [
+0.951,
+0.432,
+0.135
+],
+"hojas": [
+"554 x 1716",
+"657x657",
+"1128x1368"
+]
+},
+{
+"code": "60002753",
+"tipo": "TIPO 11",
+"activo": true,
+"desc": "CAJA X 12 RON 12 AÑOS 750 NI",
+"n": 12,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 507,
+"A": 326,
+"H": 218,
+"hoja": "554x1716",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.951",
+"grid": [
+4,
+3
+],
+"celda": [
+126.8,
+108.7
+],
+"paginas": 3,
+"areas": [
+null,
+0.432,
+0.135
+],
+"hojas": [
+"554 x 1716",
+"657x657",
+"1128X1368"
+]
+},
+{
+"code": "60002751",
+"tipo": "TIPO 12",
+"activo": true,
+"desc": "CAJA X 20 RON 8 AÑOS 375 NI",
+"n": 20,
+"vol": 375,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 522,
+"A": 340,
+"H": 173,
+"hoja": "523x1774",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.928",
+"grid": [
+5,
+4
+],
+"celda": [
+104.4,
+85.0
+],
+"paginas": 3,
+"areas": [
+0.928,
+0.504,
+0.135
+],
+"hojas": [
+"523 x 1774",
+"710x710",
+"1128x1368"
+]
+},
+{
+"code": "60002740",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 LICOR CREMA DE RON 750 NI",
+"n": 6,
+"vol": 750,
+"producto": "Licor de ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3,
+"areas": [
+0.586,
+0.172,
+0.08
+],
+"hojas": [
+"486 x 1206",
+"415x415",
+"720x924"
+]
+},
+{
+"code": "60002946",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 8 AÑOS EXPO 35° 750 NI",
+"n": 6,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3,
+"areas": [
+0.586,
+0.08,
+0.172
+],
+"hojas": [
+"486 x 1206",
+"720x924",
+"415x415"
+]
+},
+{
+"code": "60002947",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 12 AÑOS EXPO 35° 750 NI",
+"n": 6,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3,
+"areas": [
+0.586,
+0.08,
+0.172
+],
+"hojas": [
+"486 x 1206",
+"720x924",
+"415x415"
+]
+},
+{
+"code": "60002954",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 8 AÑOS USA 40° 750 NI",
+"n": 6,
+"vol": 750,
+"producto": "Ron",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3,
+"areas": [
+0.586,
+0.172,
+0.08
+],
+"hojas": [
+"486 x 1206",
+"415x415",
+"720x924"
+]
+},
+{
+"code": "60002955",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 12 AÑOS USA 40° 750 NI",
+"n": 6,
+"vol": 750,
+"producto": "Ron",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3,
+"areas": [
+0.586,
+0.172,
+0.08
+],
+"hojas": [
+"486 x 1206",
+"415x415",
+"720x924"
+]
+},
+{
+"code": "60002961",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 8 AÑOS EUROPA 40° 700 NI",
+"n": 6,
+"vol": 700,
+"producto": "Ron",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3,
+"areas": [
+0.586,
+0.172,
+0.079
+],
+"hojas": [
+"486 x 1206",
+"415x415",
+"720x924"
+]
+},
+{
+"code": "60002962",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 12 AÑOS EUROPA 40° 700 NI",
+"n": 6,
+"vol": 700,
+"producto": "Ron",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 323,
+"A": 255,
+"H": 222,
+"hoja": "486x1206",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.586",
+"grid": [
+3,
+2
+],
+"celda": [
+107.7,
+127.5
+],
+"paginas": 3
+},
+{
+"code": "60002963",
+"tipo": "TIPO 13",
+"activo": true,
+"desc": "CAJA X 6 RON 5 AÑOS EUROPA 40° 700 NI",
+"n": 6,
+"vol": 700,
+"producto": "Ron",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 318,
+"A": 250,
+"H": 214,
+"hoja": "474x1186",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.562",
+"grid": [
+3,
+2
+],
+"celda": [
+106.0,
+125.0
+],
+"paginas": 3
+},
+{
+"code": "60002073",
+"tipo": "TIPO 14",
+"activo": true,
+"desc": "CAJA X 12 AGTE TETRA NP 1050",
+"n": 12,
+"vol": 1050,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 280,
+"A": 238,
+"H": 231,
+"hoja": "993x1836",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.477",
+"grid": [
+4,
+3
+],
+"celda": [
+70.0,
+79.3
+],
+"paginas": 2,
+"areas": [
+0.477,
+null
+],
+"hojas": [
+"993x1836",
+null
+]
+},
+{
+"code": "60002074",
+"tipo": "TIPO 14",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ TETRA NP 1050",
+"n": 12,
+"vol": 1050,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 280,
+"A": 238,
+"H": 231,
+"hoja": "993x1836",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.477",
+"grid": [
+4,
+3
+],
+"celda": [
+70.0,
+79.3
+],
+"paginas": 2,
+"areas": [
+0.477,
+null
+],
+"hojas": [
+"993x1836",
+null
+]
+},
+{
+"code": "60002769",
+"tipo": "TIPO 14",
+"activo": true,
+"desc": "CAJA X 12 RON 3 AÑOS TETRA 1.050 NI",
+"n": 12,
+"vol": 1050,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 280,
+"A": 238,
+"H": 231,
+"hoja": "993x1836",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.477",
+"grid": [
+4,
+3
+],
+"celda": [
+70.0,
+79.3
+],
+"paginas": 1,
+"areas": [
+0.477
+],
+"hojas": [
+"993x1836"
+]
+},
+{
+"code": "60002075",
+"tipo": "TIPO 14",
+"activo": false,
+"desc": "CAJA X 12 RON TETRA NP 1050",
+"n": 12,
+"vol": 1050,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 280,
+"A": 238,
+"H": 231,
+"hoja": "993x1836",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.477",
+"grid": [
+4,
+3
+],
+"celda": [
+70.0,
+79.3
+],
+"paginas": 1,
+"areas": [
+null
+],
+"hojas": [
+"993x1836"
+]
+},
+{
+"code": "60002077",
+"tipo": "TIPO 15",
+"activo": true,
+"desc": "CAJA X 24 AGTE TETRA NP 260",
+"n": 24,
+"vol": 260,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 297,
+"A": 212,
+"H": 129,
+"hoja": "741x1760",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.345",
+"grid": [
+6,
+4
+],
+"celda": [
+49.5,
+53.0
+],
+"paginas": 1,
+"areas": [
+0.345
+],
+"hojas": [
+"741x1760"
+]
+},
+{
+"code": "60002079",
+"tipo": "TIPO 15",
+"activo": true,
+"desc": "CAJA X 24 AGTE SIN AZ TETRA NP 260",
+"n": 24,
+"vol": 260,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 297,
+"A": 212,
+"H": 129,
+"hoja": "741x1760",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.345",
+"grid": [
+6,
+4
+],
+"celda": [
+49.5,
+53.0
+],
+"paginas": 1,
+"areas": [
+0.345
+],
+"hojas": [
+"741x1760"
+]
+},
+{
+"code": "60002081",
+"tipo": "TIPO 15",
+"activo": true,
+"desc": "CAJA X 24 AGTE 24° TETRA 260",
+"n": 24,
+"vol": 260,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 297,
+"A": 212,
+"H": 129,
+"hoja": "741x1760",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.345",
+"grid": [
+6,
+4
+],
+"celda": [
+49.5,
+53.0
+],
+"paginas": 1,
+"areas": [
+0.345
+],
+"hojas": [
+"741x1760"
+]
+},
+{
+"code": "60002465",
+"tipo": "TIPO 15",
+"activo": true,
+"desc": "CAJA X 24 RON DORADO TETRA 260",
+"n": 24,
+"vol": 260,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 297,
+"A": 212,
+"H": 129,
+"hoja": "741x1760",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.345",
+"grid": [
+6,
+4
+],
+"celda": [
+49.5,
+53.0
+],
+"paginas": 1,
+"areas": [
+0.345
+],
+"hojas": [
+"741x1760"
+]
+},
+{
+"code": "60002767",
+"tipo": "TIPO 15",
+"activo": true,
+"desc": "CAJA X 24 RON 3 AÑOS TETRA 260 NI",
+"n": 24,
+"vol": 260,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Tetra",
+"L": 297,
+"A": 212,
+"H": 129,
+"hoja": "741x1760",
+"carton": "B540KW",
+"cierre": "",
+"area": "0.345",
+"grid": [
+6,
+4
+],
+"celda": [
+49.5,
+53.0
+],
+"paginas": 1,
+"areas": [
+0.345
+],
+"hojas": [
+"741x1760"
+]
+},
+{
+"code": "60002038",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJA X 24 AGTE GENE EXP 375 KIT",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+0.729,
+0.344,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002040",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJA X 24 AGTE SIN AZ GENE EXP 375 KIT",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+0.729,
+0.345,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002395",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJA X 24 AGTE SIN AZ 24° USA 375",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+0.729,
+0.345,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002522",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJAX24 AGTE SIN AZ 24° GENERICA EXP 375 KIT",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+0.729,
+0.344,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002589",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJA X 24 AGTE SIN AZ USA 375 KIT",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+0.729,
+0.344,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002590",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJA X 24 AGTE TRAD USA 375 KIT",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+null,
+0.344,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002903",
+"tipo": "TIPO 16",
+"activo": true,
+"desc": "CAJA X 24 AGTE ANTIO ANTIO 24° 375",
+"n": 24,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 385,
+"A": 302,
+"H": 200,
+"hoja": "512x1424",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.729",
+"grid": [
+6,
+4
+],
+"celda": [
+64.2,
+75.5
+],
+"paginas": 3,
+"areas": [
+0.729,
+0.345,
+0.096
+],
+"hojas": [
+"512 x 1424",
+"587x587",
+"1032x1056"
+]
+},
+{
+"code": "60002592",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE TRAD EUROPA 700 KIT",
+"n": 12,
+"vol": 700,
+"producto": "Aguardiente",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "463x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.606",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.606,
+0.294,
+0.0804
+],
+"hojas": [
+"463 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002593",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ EUROPA 700 KIT",
+"n": 12,
+"vol": 700,
+"producto": "Aguardiente",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+null,
+0.294,
+0.0804
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002594",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ USA 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+null,
+0.294,
+0.0804
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002595",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE TRAD USA 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.0804
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002596",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE 24° EUROPA 700 KIT",
+"n": 12,
+"vol": 700,
+"producto": "Aguardiente",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.0804
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002597",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE 24° USA 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.31,
+0.08
+],
+"hojas": [
+"464 x 1308",
+"557x557",
+"1110x1029"
+]
+},
+{
+"code": "60002600",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ CHILE 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Chile",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.08
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002608",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE TRAD GENE EXP 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.08
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002609",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ GENE EXP 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.08
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110 x 1029"
+]
+},
+{
+"code": "60002652",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE 24° GENE EXP 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.08
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110 x 1029"
+]
+},
+{
+"code": "60002904",
+"tipo": "TIPO 17",
+"activo": true,
+"desc": "CAJA X 12 AGTE ANTIO ANTIO 24° 750",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+0.607,
+0.294,
+0.08
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002598",
+"tipo": "TIPO 17",
+"activo": false,
+"desc": "CAJA X 12 AGTE SIN AZ PERU 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Perú",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "",
+"cierre": "SIN CIERRE",
+"area": "",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+null,
+null,
+null
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002599",
+"tipo": "TIPO 17",
+"activo": false,
+"desc": "CAJA X 12 AGTE TRAD PERU 750 KIT",
+"n": 12,
+"vol": 750,
+"producto": "Aguardiente",
+"mercado": "Perú",
+"envase": "Vidrio",
+"L": 384,
+"A": 245,
+"H": 210,
+"hoja": "464x1308",
+"carton": "C540KW",
+"cierre": "",
+"area": "0.607",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+81.7
+],
+"paginas": 3,
+"areas": [
+null,
+0.294,
+0.0804
+],
+"hojas": [
+"464 x 1308",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002942",
+"tipo": "TIPO 18",
+"activo": true,
+"desc": "CAJA X 12 RON 3 AÑOS EXPO 35° 750 NI",
+"n": 12,
+"vol": 750,
+"producto": "Ron",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 350,
+"A": 262,
+"H": 253,
+"hoja": "525x1274",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.669",
+"grid": [
+4,
+3
+],
+"celda": [
+87.5,
+87.3
+],
+"paginas": 3,
+"areas": [
+0.669,
+0.377,
+0.08
+],
+"hojas": [
+"525 x 1274",
+"614x614",
+"1110x1029"
+]
+},
+{
+"code": "60002951",
+"tipo": "TIPO 18",
+"activo": true,
+"desc": "CAJA X 12 RON 3 AÑOS USA 40° 750 NI",
+"n": 12,
+"vol": 750,
+"producto": "Ron",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 350,
+"A": 262,
+"H": 253,
+"hoja": "525x1274",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.669",
+"grid": [
+4,
+3
+],
+"celda": [
+87.5,
+87.3
+],
+"paginas": 3,
+"areas": [
+0.669,
+0.377,
+0.08
+],
+"hojas": [
+"525 x 1274",
+"614x614",
+"1110x1029"
+]
+},
+{
+"code": "60002959",
+"tipo": "TIPO 18",
+"activo": true,
+"desc": "CAJA X 12 RON 3 AÑOS EUROPA 40° 700 NI",
+"n": 12,
+"vol": 700,
+"producto": "Ron",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 350,
+"A": 262,
+"H": 253,
+"hoja": "525x1274",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.669",
+"grid": [
+4,
+3
+],
+"celda": [
+87.5,
+87.3
+],
+"paginas": 3,
+"areas": [
+0.669,
+0.377,
+0.08
+],
+"hojas": [
+"525 x 1274",
+"614x614",
+"1110x1029"
+]
+},
+{
+"code": "60002393",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE 24° USA 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.294,
+0.0804
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002603",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE TRAD USA 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.294,
+0.0804
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002604",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ USA 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.294,
+0.08
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002605",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE 24° EUROP 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.294,
+0.0804
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002606",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE TRAD GENE EXP 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.294,
+0.08
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110 x 1029"
+]
+},
+{
+"code": "60002607",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE SIN AZ GENE EXP 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+null,
+0.294,
+0.08
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110 x 1029"
+]
+},
+{
+"code": "60002905",
+"tipo": "TIPO 19",
+"activo": true,
+"desc": "CAJA X 12 AGTE ANTIO ANTIO 24° 1000",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.672",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+0.672,
+0.294,
+0.08
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002524",
+"tipo": "TIPO 19",
+"activo": false,
+"desc": "CAJAX12 AGTE SINAZ 24° GENERICA EXP 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 261,
+"hoja": "513x1302",
+"carton": "C620KW",
+"cierre": "",
+"area": "0.668",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 2,
+"areas": [
+null,
+null
+],
+"hojas": [
+"513 x 1302",
+null
+]
+},
+{
+"code": "60002601",
+"tipo": "TIPO 19",
+"activo": false,
+"desc": "CAJA X 12 AGTE SIN AZ EUROPA 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "",
+"cierre": "",
+"area": "",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+null,
+null,
+0.0804
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002602",
+"tipo": "TIPO 19",
+"activo": false,
+"desc": "CAJA X 12 AGTE TRAD EUROPA 1000 KIT",
+"n": 12,
+"vol": 1000,
+"producto": "Aguardiente",
+"mercado": "Europa",
+"envase": "Vidrio",
+"L": 384,
+"A": 242,
+"H": 264,
+"hoja": "516x1302",
+"carton": "",
+"cierre": "SIN CIERRE",
+"area": "",
+"grid": [
+4,
+3
+],
+"celda": [
+96.0,
+80.7
+],
+"paginas": 3,
+"areas": [
+null,
+null,
+null
+],
+"hojas": [
+"516 x 1302",
+"542x542",
+"1110x1029"
+]
+},
+{
+"code": "60002897",
+"tipo": "TIPO 20",
+"activo": true,
+"desc": "CAJA X 6 ESTUCHE RON 5 AÑOS + 1 VASO NI",
+"n": 6,
+"vol": null,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 444,
+"A": 360,
+"H": 224,
+"hoja": "594x1658",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.985",
+"grid": [
+3,
+2
+],
+"celda": [
+148.0,
+180.0
+],
+"paginas": 1,
+"areas": [
+null
+],
+"hojas": [
+"594 x 1658"
+]
+},
+{
+"code": "60002898",
+"tipo": "TIPO 20",
+"activo": true,
+"desc": "CAJA X 6 ESTUCHE RON 8 AÑOS + 1 VASO NI",
+"n": 6,
+"vol": null,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 444,
+"A": 360,
+"H": 224,
+"hoja": "594x1658",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.985",
+"grid": [
+3,
+2
+],
+"celda": [
+148.0,
+180.0
+],
+"paginas": 1,
+"areas": [
+0.985
+],
+"hojas": [
+"594 x 1658"
+]
+},
+{
+"code": "60002899",
+"tipo": "TIPO 20",
+"activo": true,
+"desc": "CAJA X 6 ESTUCHE RON 12 AÑOS + 1 VASO NI",
+"n": 6,
+"vol": null,
+"producto": "Ron",
+"mercado": "Nacional",
+"envase": "Vidrio",
+"L": 444,
+"A": 360,
+"H": 224,
+"hoja": "594x1658",
+"carton": "C540KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.985",
+"grid": [
+3,
+2
+],
+"celda": [
+148.0,
+180.0
+],
+"paginas": 1,
+"areas": [
+0.985
+],
+"hojas": [
+"594 x 1658"
+]
+},
+{
+"code": "60002941",
+"tipo": "TIPO 21",
+"activo": true,
+"desc": "CAJA X 24 RON 3 AÑOS EXPO 35° 375 NI",
+"n": 24,
+"vol": 375,
+"producto": "Ron",
+"mercado": "Exportación",
+"envase": "Vidrio",
+"L": 414,
+"A": 274,
+"H": 218,
+"hoja": "508x1426",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.724",
+"grid": [
+6,
+4
+],
+"celda": [
+69.0,
+68.5
+],
+"paginas": 3,
+"areas": [
+0.724,
+0.561,
+0.096
+],
+"hojas": [
+"508 x 1426",
+"749X749",
+"1032x1056"
+]
+},
+{
+"code": "60002950",
+"tipo": "TIPO 21",
+"activo": true,
+"desc": "CAJA X 24 RON 3 AÑOS USA 40° 375 NI",
+"n": 24,
+"vol": 375,
+"producto": "Ron",
+"mercado": "USA",
+"envase": "Vidrio",
+"L": 414,
+"A": 274,
+"H": 218,
+"hoja": "508x1426",
+"carton": "C620KF",
+"cierre": "SIN CIERRE",
+"area": "0.724",
+"grid": [
+6,
+4
+],
+"celda": [
+69.0,
+68.5
+],
+"paginas": 3,
+"areas": [
+0.724,
+0.561,
+0.096
+],
+"hojas": [
+"508 x 1426",
+"749X749",
+"1032x1056"
+]
+},
+{
+"code": "60002794",
+"tipo": "TIPO 22",
+"activo": true,
+"desc": "CAJA X 30 AGTE PET 375",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "PET",
+"L": 473,
+"A": 298,
+"H": 208,
+"hoja": "518x1592",
+"carton": "C620KW",
+"cierre": "CIERRE LICORERA",
+"area": "0.825",
+"grid": [
+6,
+5
+],
+"celda": [
+78.8,
+59.6
+],
+"paginas": 3,
+"areas": [
+null,
+0.729,
+0.1349
+],
+"hojas": [
+"518 x 1592",
+"854x854",
+"1128x1368"
+]
+},
+{
+"code": "60002799",
+"tipo": "TIPO 22",
+"activo": true,
+"desc": "CAJA X 30 AGTE SIN AZ PET 375",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "PET",
+"L": 473,
+"A": 298,
+"H": 208,
+"hoja": "518x1592",
+"carton": "C620KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.825",
+"grid": [
+6,
+5
+],
+"celda": [
+78.8,
+59.6
+],
+"paginas": 3,
+"areas": [
+null,
+0.729,
+0.1349
+],
+"hojas": [
+"518 x 1592",
+"854x854",
+"1128x1368"
+]
+},
+{
+"code": "60002804",
+"tipo": "TIPO 22",
+"activo": true,
+"desc": "CAJA X 30 AGTE 24° SIN AZ PET 375",
+"n": 30,
+"vol": 375,
+"producto": "Aguardiente",
+"mercado": "Nacional",
+"envase": "PET",
+"L": 473,
+"A": 298,
+"H": 208,
+"hoja": "518x1592",
+"carton": "C620KF",
+"cierre": "CIERRE LICORERA",
+"area": "0.825",
+"grid": [
+6,
+5
+],
+"celda": [
+78.8,
+59.6
+],
+"paginas": 3,
+"areas": [
+null,
+0.729,
+0.1349
+],
+"hojas": [
+"518 x 1592",
+"854x854",
+"1128x1368"
+]
+}
+]
