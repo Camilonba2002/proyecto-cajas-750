@@ -18,6 +18,10 @@ Herramienta visual para trabajar el rotulado de las cajas: poner, quitar y mover
 - **Descargas:** ficha de diseño en PDF con la estructura y el tamaño de página de las fichas del tipo
   (encabezado técnico, plano con cotas y ampliación de rótulos), PNG de la caja desarmada y JSON.
 - **Diseños e ideas:** quedan guardados dentro del artefacto.
+- **Zona reservada para planta:** rectángulo rojo punteado que marca dónde el proveedor no imprime.
+- **Piloto:** la pestaña Diseños trae los 13 diseños del piloto de la caja neutra x12 750 (`piloto.json`,
+  que sale de `Piloto CE-12-750/disenos_piloto.json`). Un diseño puede cambiar el código, las notas y las
+  medidas que salen en su ficha PDF.
 
 ## Cómo se construyó
 1. `fuente/extraer_todo.py` recorre los PDF:

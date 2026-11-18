@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Piloto caja neutra x12 750</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Plan de piloto: columna de lectura, mismo sistema visual del informe de estandarización */
+  --bg:#f3efe7; --panel:#fffdf8; --line:#ddd4c3; --text:#24211b; --muted:#6a6252; --accent:#1d5f7c; --kraft:#c9a25f;
+  --prov:#1d1d1b; --planta:#c62f2a; --ok:#2e7d32; --warn:#b26a00; --hoja:#ffffff;
+  --display:"Oswald","Arial Narrow",sans-serif; --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#191815; --panel:#22201c; --line:#3a362e; --text:#ece6d8; --muted:#a59c89; --accent:#62acd0; --kraft:#b8924f;
+  --prov:#ece6d8; --planta:#ef6a5f; --ok:#66bb6a; --warn:#e0a040; --hoja:#f4f1ea; color-scheme:dark;}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 var(--body)}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:34px;line-height:1.1;text-transform:uppercase}
+h2{font-size:23px;text-transform:uppercase;margin-top:44px;padding-bottom:6px;border-bottom:2px solid var(--kraft)}
+h3{font-size:18px;margin-top:20px}
+p,li{max-width:74ch}
+.sub{color:var(--muted);margin:8px 0 0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:10px;margin-top:22px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.tile b{display:block;font:600 28px/1.1 var(--display);font-variant-numeric:tabular-nums}
+.tile b small{font-size:17px;color:var(--muted);font-weight:500}
+.tile span{font-size:13px;color:var(--muted)}
+.tabla{overflow-x:auto;margin:14px 0;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1.2 var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:color-mix(in srgb,var(--kraft) 14%,var(--panel))}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td.mono{font-variant-numeric:tabular-nums;letter-spacing:.02em;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font:600 11px/1 var(--body);padding:4px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap;margin-left:4px}
+.pill.ok{color:var(--ok);border-color:var(--ok)} .pill.warn{color:var(--warn);border-color:var(--warn)} .pill.rec{color:var(--accent);border-color:var(--accent)}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(0,0,0,.2)}
+.caja{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:12px 16px;margin:14px 0}
+.caja.alerta{border-left-color:var(--warn)}
+.marco{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;margin:14px 0}
+.marco img{display:block;width:100%;height:auto;border-radius:6px;background:var(--hoja)}
+.dos{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:12px;align-items:start}
+@media (max-width:820px){.dos{grid-template-columns:1fr}}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.seg button{font:500 14px var(--body);color:var(--text);background:none;border:0;padding:7px 12px;cursor:pointer;min-height:36px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.controles{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+.refs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.refs button{font:500 13px var(--body);color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;min-height:36px;display:inline-flex;align-items:center;gap:6px}
+.refs button[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.refs button .estrella{color:var(--ok);font-weight:600}
+.ficha dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:8px 0 0;font-size:14px}
+.ficha dt{color:var(--muted)} .ficha dd{margin:0}
+.ficha h3{margin:2px 0 0;font-size:17px}
+.leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:2px 0 4px}
+.leyenda i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:14px}
+.opcion{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.opcion.rec{border-color:var(--accent);border-width:2px}
+.opcion h3{margin:0 0 4px}
+.opcion ul{padding-left:18px;margin:8px 0 0} .opcion li{margin:5px 0;font-size:15px}
+.gantt{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:14px 0;overflow-x:auto}
+.g{display:grid;grid-template-columns:minmax(210px,1.4fr) repeat(8,minmax(46px,1fr));gap:4px 3px;min-width:640px;align-items:center}
+.g .sem{font:600 12px var(--body);color:var(--muted);text-align:center}
+.g .fase{font-size:14px;line-height:1.3;padding-right:8px}
+.g .fase small{display:block;color:var(--muted);font-size:12px}
+.g .barra{height:22px;border-radius:5px;background:var(--accent)}
+.g .barra.hito{background:var(--ok)}
+.g .vacio{height:22px;border-radius:5px;background:color-mix(in srgb,var(--line) 45%,transparent)}
+pre.solicitud{white-space:pre-wrap;font:14px/1.55 var(--body);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.btn{font:500 14px var(--body);color:#fff;background:var(--accent);border:0;border-radius:8px;padding:8px 14px;cursor:pointer;min-height:36px}
+a{color:var(--accent)}
+.pie{font-size:13px;color:var(--muted);margin-top:30px}
+ul.archivos{font-size:15px} ul.archivos code{font-size:13px}
+@media (max-width:560px){h1{font-size:27px} body{font-size:15px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Piloto · Caja neutra x12 750/700 ml</h1>
+  <p class="sub">TIPO 17, aguardiente de exportación: 11 referencias activas pasan a una sola caja. El proveedor imprime solo lo fijo en una tinta y la planta rotula marca, variedad, volumen, destino, frases legales e ITF-14. Código provisional: <b>CE-12-750</b> (por asignar en el maestro de materiales).</p>
+  <div class="tiles">
+    <div class="tile"><b>11 <small>→</small> 1</b><span>cajas impresas distintas</span></div>
+    <div class="tile"><b>33 <small>→</small> 3</b><span>códigos de material: caja, partición y división</span></div>
+    <div class="tile"><b>5 <small>→</small> 1</b><span>tintas del proveedor en el grupo (hoy 2 por caja)</span></div>
+    <div class="tile"><b>11 <small>→</small> 1</b><span>juegos de clichés</span></div>
+    <div class="tile"><b>60 <small>→</small> 72</b><span>cajas por estiba con la versión B (+20 %)</span></div>
+    <div class="tile"><b>8</b><span>semanas de piloto</span></div>
+  </div>
+</header>
+
+<h2>1. La caja que entrega el proveedor</h2>
+<p>Misma estructura de hoy (RSC, cartón C620KF kraft, sin cierre licorera). Lleva una sola tinta, Negro 90, con lo que es igual en las 11 referencias. Las zonas en rojo punteado quedan <b>sin impresión</b>: ahí rotula la planta.</p>
+<div class="controles">
+  <div class="seg" id="segVer" role="group" aria-label="Versión de la caja">
+    <button data-v="A" aria-pressed="true">Versión A · 384 × 245 × 210</button>
+    <button data-v="B" aria-pressed="false">Versión B · 384 × 242 × 210</button>
+  </div>
+</div>
+<div class="dos">
+  <div class="marco"><img id="imgNeutra" src="img/neutra_A.webp" alt="Caja neutra desarmada: impresión fija del proveedor en negro y zonas reservadas para la planta en rojo punteado" width="1500" height="567"></div>
+  <div class="marco"><img id="imgNeutra3d" src="img/neutra_A_3d.webp" alt="Caja neutra armada en 3D" width="732" height="513">
+    <p id="txtVer" style="font-size:14px;margin:10px 4px 2px">Versión A: medidas actuales, sin cambio estructural. Se puede pedir de inmediato.</p></div>
+</div>
+<div class="tabla"><table>
+  <thead><tr><th>Imprime el proveedor (Negro 90)</th><th>Dónde</th><th>Comentario</th></tr></thead>
+  <tbody>
+    <tr><td>Sello Fábrica de Licores de Antioquia</td><td>Tapa (aleta 1) y caras 2 y 4</td><td>Igual en todas las referencias</td></tr>
+    <tr><td>DELICADO / FRAGILE</td><td>Tapa (aleta 1)</td><td>Se unifica (hoy hay 3 versiones del texto)</td></tr>
+    <tr><td>«12 UN. vidrio / Glass bottles»</td><td>Las 4 caras</td><td>Sin volumen: así sirve para 700 y 750 ml</td></tr>
+    <tr><td>Tabla de estiba 1,20 × 1,00 m</td><td>Tapa (aleta 3)</td><td>A: 10 × 6 · B: 12 × 6</td></tr>
+    <tr><td>Certificaciones y reciclaje</td><td>Fondo (aleta 1)</td><td>Igual que hoy</td></tr>
+    <tr><td>Peso «0.339 kg Aprox.»</td><td>Fondo (aleta 3)</td><td>Valor más frecuente en las fichas (6 de 11): confirmar con el proveedor</td></tr>
+  </tbody>
+</table></div>
+
+<h2>2. Lo que rotula la planta</h2>
+<p>Elige una referencia para ver su caja final. «Quién imprime» pinta en negro lo del proveedor y en rojo lo de la planta. «Solo planta» muestra lo que debe salir de la impresora o la etiqueta. Los rótulos de planta son los de la ficha actual de cada referencia, en el mismo lugar; las caras 1 y 3 quedan iguales, y también las caras 2 y 4.</p>
+<div class="refs" id="refs" role="group" aria-label="Referencia"></div>
+<div class="controles">
+  <div class="seg" id="segVista" role="group" aria-label="Vista">
+    <button data-v="tintas" aria-pressed="true">Tintas reales</button>
+    <button data-v="quien" aria-pressed="false">Quién imprime</button>
+    <button data-v="planta" aria-pressed="false">Solo planta</button>
+  </div>
+  <div class="leyenda" id="leyQuien" hidden><span><i style="background:#1d1d1b;outline:1px solid var(--line)"></i>Proveedor</span><span><i style="background:#d0312d"></i>Planta</span></div>
+</div>
+<div class="dos">
+  <div class="marco"><img id="imgRef" src="" alt="" width="1500" height="567"></div>
+  <div class="marco ficha" id="ficha"></div>
+</div>
+
+<h3>Zonas reservadas para la planta</h3>
+<div class="tabla"><table>
+  <thead><tr><th>Zona</th><th>Caras</th><th class="n">Tamaño (mm)</th><th>Contenido</th><th>Varía por</th></tr></thead>
+  <tbody>
+    <tr><td><b>1</b> Marca y variedad</td><td>1 y 3</td><td class="n">194 × 200</td><td>Logo de marca (negro), marca de variedad (Sin azúcar, 24°) y botella de color</td><td>Marca y variedad</td></tr>
+    <tr><td><b>2</b> Volumen, destino e ITF-14</td><td>1 y 3</td><td class="n">160 × 115</td><td>«750 ml / 0.75 L» o «700 ml / 0.7 L», texto de destino y código ITF-14 de 152 × 55 mm (barra de ≈ 1 mm, como hoy)</td><td>Volumen, mercado, código</td></tr>
+    <tr><td><b>3</b> Señal de color</td><td>2 y 4</td><td class="n">38 × 59</td><td>Botella de color de la variedad</td><td>Variedad</td></tr>
+    <tr><td><b>4</b> Volumen</td><td>2 y 4</td><td class="n">130 × 21</td><td>Volumen</td><td>Volumen</td></tr>
+    <tr><td><b>5</b> Frases legales</td><td>2 y 4</td><td class="n">≈ 222 × 40</td><td>Frases de Colombia, de Chile o ninguna (USA)</td><td>Mercado</td></tr>
+  </tbody>
+</table></div>
+<div class="caja">La planta rotula solo las 4 caras, con la caja armada. El logo pequeño que hoy va en la tapa se quita: imprimirlo exige un cabezal arriba de la caja y no aporta a la identificación en bodega, porque la marca va en las caras.</div>
+
+<h2>3. Cómo imprime la planta</h2>
+<p>Los logos de marca son negros en las 11 referencias. Solo la variedad lleva color: azul para Sin azúcar, rojo para Tradicional y verde para 24°. La revisión de la evidencia mostró que el inkjet de color directo sobre kraft se desvía mucho del tono (ΔE de 10 a 45) y que el negro se imprime bien. Por eso el color conviene llevarlo en etiqueta (ver el <a href="https://claude.ai/artifact/4VCr6cWgLj7SSLTPYG2SML">informe de estandarización</a>, sección 5).</p>
+<div class="opciones">
+  <div class="opcion rec"><h3>Opción 1 · Inkjet negro + etiqueta de color <span class="pill rec">recomendada</span></h3>
+    <ul><li>Inkjet de alta resolución en línea para el logo, el volumen, el destino, el ITF-14 y las frases legales.</li>
+    <li>Etiqueta pequeña a color (≈ 100 × 70 mm) en caras 1 y 3 con la marca de variedad y la botella.</li>
+    <li>El color se ve fiel donde importa y el costo variable es bajo.</li>
+    <li>Necesita cabezales que cubran ≈ 160 mm de alto para el logo (o dos cabezales) y un aplicador de etiquetas.</li></ul></div>
+  <div class="opcion"><h3>Opción 2 · Etiqueta completa a color</h3>
+    <ul><li>Una etiqueta por cara principal (≈ 190 × 200 mm) con logo, variedad y botella. El inkjet queda para el ITF-14 y los textos.</li>
+    <li>Es la que mejor reproduce la imagen actual.</li>
+    <li>Es la de mayor costo por caja (2 etiquetas grandes) y la que más consumible pide.</li></ul></div>
+  <div class="opcion"><h3>Opción 3 · Solo inkjet negro</h3>
+    <ul><li>Todo en negro: la variedad se lee por texto («SIN AZÚCAR», «24°») y la botella queda en negro.</li>
+    <li>Es la más barata y la más simple de operar.</li>
+    <li>Se pierde el código de color que hoy ayuda a separar en bodega. Requiere aprobación de mercadeo y logística.</li></ul></div>
+</div>
+
+<h2>4. Alcance: las 11 referencias</h2>
+<p>Las 11 quedan definidas y con su rotulado listo. La corrida en producción se hace con 3 que cubren todas las variantes: genérica (la ficha que sirvió de base), USA (otro destino y sin frases legales) y Europa 700 ml (volumen distinto).</p>
+<div class="tabla"><table>
+  <thead><tr><th>Código</th><th>Descripción</th><th>Mercado</th><th class="n">ml</th><th>Variedad y tinta</th><th>Destino</th><th>Frases</th><th>ITF-14</th></tr></thead>
+  <tbody>
+<!--__TABLA__-->
+  </tbody>
+</table></div>
+<div class="caja alerta">Los ITF-14 se leyeron de las fichas del proveedor y su dígito de control se calculó: confirmarlos con el maestro GS1 antes de imprimir. Con la caja neutra, la partición pasa a ser una sola de 542 × 542 (la 60002597 usa hoy 557 × 557) y la división, una sola de 1110 × 1029.</div>
+
+<h2>5. Plan por semanas</h2>
+<div class="gantt"><div class="g" id="gantt"></div></div>
+
+<h2>6. Pruebas y criterios de éxito</h2>
+<div class="tabla"><table>
+  <thead><tr><th>Prueba</th><th>Método</th><th>Muestra</th><th>Criterio para aprobar</th></tr></thead>
+  <tbody>
+    <tr><td>Compresión de la caja (BCT)</td><td>ASTM D642 / ISO 12048, acondicionada a 23 °C y 50 % HR (ISO 187)</td><td>10 cajas A, 10 B y 10 impresas actuales</td><td>A y B no menores que la caja actual, y por encima del BCT requerido</td></tr>
+    <tr><td>Compresión en húmedo</td><td>Igual, acondicionada a 85–90 % HR (contenedor marítimo)</td><td>10 cajas A y 10 B</td><td>Por encima del BCT requerido. Referencia: si la caja llena pesa 15 kg, la de abajo carga 5 × 15 kg ≈ 0,74 kN, y con factor 4 se piden ≈ 2,9 kN</td></tr>
+    <tr><td>Cartón</td><td>ECT, ISO 3037 / TAPPI T 811 (certificado del proveedor)</td><td>Por lote</td><td>Igual al C620KF actual</td></tr>
+    <tr><td>Transporte</td><td>ISTA 3E (carga en estiba) o ASTM D4169: vibración y caídas</td><td>1 estiba A y 1 estiba B</td><td>Cero botellas rotas y particiones sin daño</td></tr>
+    <tr><td>Estiba de la versión B</td><td>Armado de 12 × 6 en estiba de 1,20 × 1,00 m con la caja real</td><td>2 estibas</td><td>Sin voladizo y amarre estable. La huella estimada (392 × 250 mm) no deja holgura en el lado de 1,00 m: medirla</td></tr>
+    <tr><td>Botella en la celda</td><td>Ajuste de la botella en la partición única</td><td>11 referencias, versiones A y B</td><td>Entra y sale sin forzar. Revisar la 60002597, que viene de 557 × 557</td></tr>
+    <tr><td>Código ITF-14</td><td>Verificador ISO/IEC 15416 y lector de bodega o del cliente</td><td>30 cajas por referencia piloto</td><td>Grado ≥ 1,5 (C) y lectura del 100 %</td></tr>
+    <tr><td>Etiqueta y color (opciones 1 y 2)</td><td>Adhesión tras 48 h a 85–90 % HR y comparación de color con el estándar aprobado</td><td>30 etiquetas por variedad</td><td>Sin desprendimiento. Color aprobado por mercadeo (ΔE00 ≤ 3 si se mide)</td></tr>
+    <tr><td>Rotulado en línea</td><td>Corrida a velocidad nominal, con lector que compare el ITF-14 con la orden</td><td>3 referencias, ≈ 120 cajas cada una</td><td>Velocidad ≥ la de la línea y cero cajas con referencia equivocada</td></tr>
+  </tbody>
+</table></div>
+
+<h3>Indicadores que se siguen</h3>
+<div class="tabla"><table>
+  <thead><tr><th>Indicador</th><th>Hoy</th><th>Meta</th><th>Cómo se mide</th></tr></thead>
+  <tbody>
+    <tr><td>Códigos de caja, partición y división</td><td>33</td><td>3</td><td>Maestro de materiales</td></tr>
+    <tr><td>Juegos de clichés</td><td>11</td><td>1</td><td>Proveedor</td></tr>
+    <tr><td>Cajas por estiba</td><td>60</td><td>72 con la versión B</td><td>Estiba armada</td></tr>
+    <tr><td>Costo por caja (caja + rotulado)</td><td>Cotización actual</td><td>Igual o menor; o una diferencia que cubra el menor inventario y la menor obsolescencia</td><td>Cotización y costos de planta</td></tr>
+    <tr><td>Inventario de cajas (días) y cajas obsoletas</td><td>Línea base</td><td>Menor: un solo stock para 11 referencias</td><td>Planeación (MRP)</td></tr>
+    <tr><td>Errores de rotulado</td><td>—</td><td>0</td><td>Lector en línea y auditoría de calidad</td></tr>
+    <tr><td>Daño en transporte</td><td>Línea base</td><td>Igual o menor</td><td>Inspección en destino</td></tr>
+  </tbody>
+</table></div>
+
+<h2>7. Decisiones que hay que tomar</h2>
+<div class="tabla"><table>
+  <thead><tr><th>Decisión</th><th>Recomendación</th><th>Por qué</th><th>Quién</th></tr></thead>
+  <tbody>
+    <tr><td>Versión de la caja</td><td>Corrida con A; B solo en laboratorio y estiba</td><td>A no cambia la estructura. B da +20 % por estiba, pero primero hay que probarla</td><td>Logística y calidad</td></tr>
+    <tr><td>Cómo imprime la planta</td><td>Opción 1: inkjet negro + etiqueta de color</td><td>Color fiel en la variedad, con bajo costo variable</td><td>Producción y mercadeo</td></tr>
+    <tr><td>Logo en la tapa</td><td>Quitarlo</td><td>Se rotula con la caja armada, solo en las caras</td><td>Mercadeo</td></tr>
+    <tr><td>Volumen</td><td>Lo imprime la planta</td><td>Una sola caja para 700 y 750 ml</td><td>Calidad</td></tr>
+    <tr><td>Rojo de Tradicional</td><td>Pasar la 60002608 de Rojo 73 a Rojo 74</td><td>Las demás Tradicional usan Rojo 74</td><td>Mercadeo</td></tr>
+    <tr><td>Partición</td><td>Una sola de 542 × 542</td><td>10 de 11 ya la usan</td><td>Calidad</td></tr>
+    <tr><td>Frases legales en Europa</td><td>Confirmar</td><td>Hoy las referencias de Europa llevan las 3 frases de Colombia</td><td>Comercio exterior</td></tr>
+    <tr><td>Peso impreso</td><td>0.339 kg Aprox.</td><td>Es el valor más frecuente (6 fichas; 4 dicen 0.334 y 1 dice 0.322)</td><td>Proveedor</td></tr>
+    <tr><td>Código del material</td><td>Crear CE-12-750-A (y B si pasa las pruebas)</td><td>Los nombres de esta propuesta son provisionales</td><td>Compras</td></tr>
+  </tbody>
+</table></div>
+
+<h3>Riesgos</h3>
+<div class="tabla"><table>
+  <thead><tr><th>Riesgo</th><th>Cómo se controla</th></tr></thead>
+  <tbody>
+    <tr><td>Caja rotulada con otra referencia</td><td>Plantilla amarrada a la orden de producción, lector del ITF-14 en línea que detiene la línea si no coincide, y liberación del primer lote por calidad</td></tr>
+    <tr><td>Color de variedad fuera de tono</td><td>Etiqueta a color, o color preimpreso, con muestra aprobada por mercadeo</td></tr>
+    <tr><td>Pérdida de resistencia en humedad</td><td>BCT en húmedo y mismo cartón C620KF</td></tr>
+    <tr><td>La versión B no cabe en la estiba</td><td>Medir la caja real; si excede, seguir con A</td></tr>
+    <tr><td>Exigencias de marcado del importador</td><td>Validar con comercio exterior y los clientes antes del primer despacho</td></tr>
+    <tr><td>Equipo de rotulado lento o con paradas</td><td>Prueba a velocidad nominal y stock de cajas impresas actuales como respaldo durante el piloto</td></tr>
+    <tr><td>Cajas impresas que quedan obsoletas</td><td>Consumir el inventario actual antes del cambio y no pedir más cajas impresas para estas referencias</td></tr>
+  </tbody>
+</table></div>
+
+<h2>8. Solicitud al proveedor</h2>
+<p>Texto listo para enviar con las fichas <b>CE-12-750-A ficha.pdf</b> y <b>CE-12-750-B ficha.pdf</b>.</p>
+<pre class="solicitud" id="solicitud">Asunto: Cotización y muestras · caja neutra x12 750/700 ml (CE-12-750)
+
+Buen día.
+
+Queremos reemplazar las 11 cajas impresas del TIPO 17 (60002592, 60002593, 60002594, 60002595, 60002596, 60002597, 60002600, 60002608, 60002609, 60002652 y 60002904) por una sola caja. Les pedimos cotizar y fabricar muestras así:
+
+1. Estructura: la misma de la ficha CD04088122 (60002609). Caja regular, cartón C620KF kraft, sin cierre licorera, medidas internas 384 × 245 × 210 mm, hoja 464 × 1308 mm.
+2. Impresión: 1 tinta, Negro 90, con un solo juego de clichés, según la ficha CE-12-750-A. Va el sello FLA en la tapa y en las caras 2 y 4, DELICADO / FRAGILE, «12 UN. vidrio / Glass bottles» en las 4 caras, la tabla de estiba 10 × 6, las certificaciones y el peso. Las zonas en rojo punteado quedan sin impresión.
+3. Versión B, solo para pruebas: medidas internas 384 × 242 × 210 mm (hoja 462 × 1302 mm) y estiba 12 × 6, según la ficha CE-12-750-B. Indíquennos la partición que corresponde a esta medida.
+4. Partición única de 542 × 542 y división única de 1110 × 1029 para las 11 referencias.
+5. Muestras: 500 cajas de la versión A y 150 de la versión B, con sus particiones y divisiones (o el mínimo de producción de ustedes).
+6. En la cotización, por favor incluyan: el precio por volumen consolidado de las 11 referencias, el BCT y el ECT esperados, el peso de la caja vacía, el costo de los clichés y el tiempo de entrega.
+
+Gracias.</pre>
+<button class="btn" id="copiar" type="button">Copiar texto</button> <span id="copiado" role="status" style="font-size:14px;color:var(--muted)"></span>
+
+<h2>9. Archivos del paquete</h2>
+<p>Están en el repositorio, en la carpeta <b>Piloto CE-12-750</b>. Los 13 diseños también se pueden abrir y modificar en el <a href="https://claude.ai/artifact/PvyeVwiFzGyJMo95ccDTN2">Taller de rótulos</a>, pestaña Diseños, sección «Piloto».</p>
+<ul class="archivos">
+  <li><code>1 Caja neutra (proveedor)/</code>: fichas PDF, planos y vista 3D de las versiones A y B, para enviar al proveedor.</li>
+  <li><code>2 Rotulado de planta por referencia/</code>: por cada una de las 11 referencias, la ficha PDF, el plano «quién imprime» y el plano «solo planta».</li>
+  <li><code>matriz_rotulado.csv</code>: los datos de rotulado de cada referencia (marca, variedad, tinta, volumen, destino, frases, ITF-14 con dígito de control, partición y peso de la ficha).</li>
+  <li><code>disenos_piloto.json</code> y <code>scripts/</code>: los datos de los diseños y cómo se generaron.</li>
+</ul>
+<p class="pie">Fuente: fichas técnicas del proveedor (carpeta Cajas tipos / TIPO 17) y rotulado extraído en el Taller de rótulos. Los colores de las imágenes son simulados. Las medidas, los pesos y los códigos deben confirmarse con el proveedor y el maestro GS1.</p>
+</main>
+<script>
+"use strict";
+const REFS = /*__REFS__*/[];
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const E = {ref: "60002609", vista: "tintas"};
+function seg(id, cb){ document.querySelectorAll(`#${id} button`).forEach(b => b.addEventListener("click", () => { document.querySelectorAll(`#${id} button`).forEach(x => x.setAttribute("aria-pressed", x === b)); cb(b.dataset.v); })); }
+seg("segVer", v => {
+  $("#imgNeutra").src = `img/neutra_${v}.webp`; $("#imgNeutra3d").src = `img/neutra_${v}_3d.webp`;
+  $("#txtVer").textContent = v === "A" ? "Versión A: medidas actuales, sin cambio estructural. Se puede pedir de inmediato." : "Versión B: 3 mm menos de ancho interior. Caben 12 cajas por tendido (72 por estiba, +20 %). Requiere pruebas de compresión, ajuste de botella y estiba.";
+});
+seg("segVista", v => { E.vista = v; $("#leyQuien").hidden = v !== "quien"; pintar(); });
+$("#refs").innerHTML = REFS.map(r => `<button data-c="${r.codigo}" aria-pressed="${r.codigo === E.ref}" title="${esc(r.descripcion)}"><i class="sw" style="background:${r.hex}"></i>${r.codigo}${r.rep ? ' <span class="estrella" aria-label="corrida piloto">★</span>' : ""}</button>`).join("");
+document.querySelectorAll("#refs button").forEach(b => b.addEventListener("click", () => { E.ref = b.dataset.c; document.querySelectorAll("#refs button").forEach(x => x.setAttribute("aria-pressed", x === b)); pintar(); }));
+function pintar(){
+  const r = REFS.find(x => x.codigo === E.ref); if(!r) return;
+  const nombre = {tintas: "tintas reales", quien: "quién imprime", planta: "solo planta"}[E.vista];
+  $("#imgRef").src = `img/${r.codigo}_${E.vista}.webp`; $("#imgRef").alt = `Caja ${r.codigo} desarmada, ${nombre}`;
+  $("#ficha").innerHTML = `<img src="img/${r.codigo}_3d.webp" alt="Caja ${r.codigo} armada en 3D" width="732" height="513">
+    <h3 style="margin-top:10px">${r.codigo} · ${esc(r.descripcion)}</h3>${r.rep ? `<span class="pill ok" style="margin:6px 0 0">★ corrida piloto: ${esc(r.rep)}</span>` : ""}
+    <dl><dt>Marca</dt><dd>${esc(r.marca)}</dd><dt>Variedad</dt><dd><i class="sw" style="background:${r.hex}"></i>${esc(r.variedad)} · ${esc(r.tinta_variedad)}</dd>
+    <dt>Volumen</dt><dd>${esc(r.texto_volumen)}</dd><dt>Mercado</dt><dd>${esc(r.mercado)}</dd><dt>Destino</dt><dd>${esc(r.destino)}</dd>
+    <dt>Frases</dt><dd>${esc(r.frases_legales)}</dd><dt>ITF-14</dt><dd>${esc(r.itf14)} <span class="pill warn">verificar</span></dd>
+    <dt>Ficha actual</dt><dd>${esc(r.ficha_actual)}</dd></dl>${r.nota ? `<p style="font-size:13.5px;color:var(--warn);margin:8px 0 0">${esc(r.nota)}</p>` : ""}`;
+}
+pintar();
+const FASES = [
+  ["Aprobación interna", "Diseño neutro, matriz e ITF-14 con el maestro GS1; elegir cómo imprime la planta", 1, 1],
+  ["Proveedor", "Cotización, ficha oficial, clichés y muestras A y B", 1, 3],
+  ["Rotulado en planta", "Equipo en prueba, plantillas de las 11 referencias y verificación del ITF-14", 2, 4],
+  ["Laboratorio y estiba", "Compresión seca y húmeda, ECT, transporte, estiba B y ajuste de botella", 3, 5],
+  ["Corrida piloto", "60002609, 60002594 y 60002596 en línea, ≈ 120 cajas cada una", 5, 6],
+  ["Despacho y seguimiento", "Inspección en recepción: daño, lectura del código y presentación", 6, 8],
+  ["Decisión", "Costo total y resultados; extender a las 11 referencias y al siguiente tipo", 8, 8, true],
+];
+$("#gantt").innerHTML = `<div></div>` + Array.from({length: 8}, (_, i) => `<div class="sem">S${i + 1}</div>`).join("") +
+  FASES.map(([f, d, a, b, hito]) => `<div class="fase"><b>${f}</b><small>${d}</small></div>` + Array.from({length: 8}, (_, i) => i + 1 >= a && i + 1 <= b ? `<div class="barra${hito ? " hito" : ""}" title="${f}: semana ${a}${b > a ? " a " + b : ""}"></div>` : `<div class="vacio"></div>`).join("")).join("");
+$("#copiar").addEventListener("click", async () => {
+  try{ await navigator.clipboard.writeText($("#solicitud").textContent); $("#copiado").textContent = "Texto copiado"; }
+  catch(e){ const r = document.createRange(); r.selectNodeContents($("#solicitud")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("#copiado").textContent = "Texto seleccionado: cópialo con Ctrl+C"; }
+});
+</script>
+</body>
+</html>

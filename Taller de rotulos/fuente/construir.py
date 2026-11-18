@@ -2,6 +2,7 @@
 - index.html: la plantilla con los rótulos base incrustados.
 - catalogo.json, el/*.png: rotulado real extraído de las fichas (extraer_todo.py).
 - fonts/: Oswald para que la ficha PDF salga con la misma letra.
+- piloto.json: diseños del piloto de la caja neutra x12 750 (si existe la carpeta del piloto).
 Uso: python3 construir.py <carpeta_extraccion>"""
 import base64, json, shutil, sys
 from pathlib import Path
@@ -14,8 +15,16 @@ meta = json.loads((ROT / "meta.json").read_text())
 assets = {k: {"src": "data:image/png;base64," + base64.b64encode((ROT / f"{k}.png").read_bytes()).decode(),
               "w": m["w"], "h": m["h"], "mono": m["modo"] == "mono"} for k, m in meta.items()}
 html = (AQUI / "taller.template.html").read_text(encoding="utf-8").replace("/*__ASSETS__*/{}", json.dumps(assets, separators=(",", ":")))
+
+def piloto():
+    """Diseños del piloto de la caja neutra (Piloto CE-12-750/disenos_piloto.json) -> publicar/piloto.json"""
+    f = RAIZ.parent / "Piloto CE-12-750" / "disenos_piloto.json"
+    if not f.exists(): return
+    d = json.loads(f.read_text(encoding="utf-8"))["disenos"]
+    campos = ("id", "nombre", "tipo", "refCode", "geo", "origen", "items", "extra")
+    (PUB / "piloto.json").write_text(json.dumps({"disenos": [{k: x[k] for k in campos} for x in d]}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 if "--solo-pagina" in sys.argv:
-    (PUB / "index.html").write_text(html, encoding="utf-8"); print("index.html actualizado"); sys.exit(0)
+    (PUB / "index.html").write_text(html, encoding="utf-8"); piloto(); print("index.html actualizado"); sys.exit(0)
 if PUB.exists(): shutil.rmtree(PUB)
 (PUB / "el").mkdir(parents=True); (PUB / "fonts").mkdir()
 (PUB / "index.html").write_text(html, encoding="utf-8")
@@ -44,5 +53,6 @@ for uid, e in cat["elementos"].items():
 (PUB / "catalogo.json").write_text(json.dumps(cat, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 for f in (EXT / "siluetas").glob("*.png"): shutil.copy(f, PUB / "el" / f.name)
 for f in (AQUI / "fonts").glob("*.woff2"): shutil.copy(f, PUB / "fonts" / f.name)
+piloto()
 tam = sum(p.stat().st_size for p in PUB.rglob("*") if p.is_file())
 print("archivos:", sum(1 for p in PUB.rglob("*") if p.is_file()), "· tamaño:", round(tam / 1e6, 1), "MB")

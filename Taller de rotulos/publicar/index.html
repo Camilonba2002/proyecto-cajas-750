@@ -277,6 +277,7 @@ const LIB = [
  ["planta","lote","Lote y fecha","texto",120,NEGRO,{texto:"LOTE: ________\nFECHA: ________"}],
  ["planta","texto","Texto libre","texto",120,NEGRO,{texto:"TEXTO"}],
  ["planta","guia","Guía-señal de color","rect",9,"#1f66b3",{r:3}],
+ ["planta","zona","Zona reservada para planta","zona",150,ROJO_PLANTA,{texto:"ZONA PLANTA",r:0.45}],
  ["planta","logo_aguardiente_antioqueno","Aguardiente Antioqueño","img",175,NEGRO,{}],
  ["planta","logo_antioqueno_antioqueno","Antioqueño Antioqueño","img",175,NEGRO,{}],
  ["planta","marca_sin_azucar","Sin azúcar","img",70,"#1f66b3",{}],
@@ -353,6 +354,7 @@ function tam(it){
     case "itf": return {w, h:w*0.36};
     case "estiba": return {w, h:w*0.5};
     case "rect": return {w, h:w*(it.p.r||3)};
+    case "zona": return {w, h:w*(it.p.r||0.5)};
   }
   return {w, h:w};
 }
@@ -437,6 +439,11 @@ function contenido(it){
       return img + t;
     }
     case "rect": return `<rect width="${r1(w)}" height="${r1(h)}" fill="${col}"/>`;
+    case "zona": {
+      const L = lineas(it), f = Math.min(h/(L.length*1.6+0.6), w/(Math.max(1,...L.map(s=>s.length))*0.62));
+      return `<rect x="0.6" y="0.6" width="${r1(w-1.2)}" height="${r1(h-1.2)}" fill="${col}" fill-opacity=".06" stroke="${col}" stroke-width="1.2" stroke-dasharray="5 3"/>` +
+        L.map((s,i)=>`<text x="${r1(w/2)}" y="${r1(h/2 + f*(i-(L.length-1)/2)*1.25 + f*0.35)}" text-anchor="middle" ${fam} font-weight="500" font-size="${r1(f)}" fill="${col}" opacity=".85">${esc(s)}</text>`).join("");
+    }
   }
   return "";
 }
@@ -530,7 +537,7 @@ function aplicarRot(){ $("#cubo").style.transform = `rotateX(${S.rot.x}deg) rota
 /* ---------- Render general ---------- */
 function render(){ dibujarPlano(); dibujar3D(); panelRotulo(); panelCapas(); leyenda(); medidas(); setTimeout(()=>S.items.forEach(it=>mapaAlfa(srcDe(it))), 50); }
 function medidas(){
-  const r = CAT.referencias[S.refCode], d = r ? r.dims : null;
+  const r = CAT.referencias[S.refCode], d = (S.extra && S.extra.dims) || (r ? r.dims : null);
   $("#medidas").innerHTML = (d?`int. <b>${d[0]} × ${d[1]} × ${d[2]}</b> mm · `:"") + (G.troquel ? `plano <b>${G.TH} × ${G.TW}</b> mm` : `hoja <b>${G.TH} × ${G.TW}</b> mm`);
 }
 function leyenda(){
@@ -539,9 +546,9 @@ function leyenda(){
 }
 
 /* ---------- Historia y borrador ---------- */
-const foto = () => JSON.stringify({tipo:S.tipo, refCode:S.refCode, geo:S.geo, items:S.items, origen:S.origen, nombre:S.nombre});
+const foto = () => JSON.stringify({tipo:S.tipo, refCode:S.refCode, geo:S.geo, items:S.items, origen:S.origen, nombre:S.nombre, extra:S.extra||null});
 function guardarHistoria(){ historia.push(foto()); if(historia.length>80) historia.shift(); }
-async function restaurar(o){ await Promise.all([paquete(o.tipo), asegurarItems(o.items||[])]); S.tipo=o.tipo; S.refCode=o.refCode; S.geo=o.geo; S.items=o.items; S.origen=o.origen||S.origen; S.nombre=o.nombre||S.nombre; S.sel=null; sincronizarSelects(); llenarCaras(); render(); dibujarBiblioteca(); }
+async function restaurar(o){ await Promise.all([paquete(o.tipo), asegurarItems(o.items||[])]); S.tipo=o.tipo; S.refCode=o.refCode; S.geo=o.geo; S.items=o.items; S.origen=o.origen||S.origen; S.nombre=o.nombre||S.nombre; S.extra=o.extra||null; S.sel=null; sincronizarSelects(); llenarCaras(); render(); dibujarBiblioteca(); }
 function deshacer(){ const h = historia.pop(); if(!h) return toast("No hay nada para deshacer"); restaurar(JSON.parse(h)).then(borrador); }
 function borrador(){ try{ localStorage.setItem("taller2-borrador", JSON.stringify({...JSON.parse(foto()), disenoId:S.disenoId})); }catch(e){} }
 
@@ -563,7 +570,7 @@ async function cargarRef(code, modo="copia", nombre){
   await paquete(r.tipo); $("#carga").hidden = true;
   S.tipo = r.tipo; S.refCode = code; S.geo = JSON.parse(JSON.stringify(r.geo));
   S.items = modo==="vacia" ? [] : itemsDeRef(code, modo==="proveedor");
-  S.origen = {modo, code, tipo:r.tipo}; S.sel = null; S.disenoId = null;
+  S.origen = {modo, code, tipo:r.tipo}; S.sel = null; S.disenoId = null; S.extra = null;
   S.nombre = nombre || (modo==="copia" ? nombreRef(code) : modo==="proveedor" ? `${r.tipo} · solo proveedor` : `${r.tipo} · caja vacía`);
   S.cara = G && G.troquel ? "p" : (r.geo.troquel ? "p" : "c1");
   sincronizarSelects(); llenarCaras(); render(); dibujarBiblioteca(); borrador();
@@ -787,6 +794,7 @@ function panelRotulo(){
   const g = geom(), opts = Object.entries(g.caras).map(([id,c])=>`<option value="${id}" ${id===it.cara?"selected":""}>${esc(c.nombre)}</option>`).join("");
   const e = it.tipo==="el" ? CAT.elementos[it.ref] : null;
   let especificos = "";
+  if(it.tipo==="zona") especificos = `<div><label for="fTexto" class="ayuda">Texto de la zona</label><textarea id="fTexto" rows="2">${esc(it.p.texto)}</textarea></div><div class="fila"><label for="fR">Alto / ancho</label><input id="fR" type="number" step="0.05" min="0.05" value="${it.p.r}"></div>`;
   if(it.tipo==="texto") especificos = `<div><label for="fTexto" class="ayuda">Texto (Enter = nueva línea)</label><textarea id="fTexto" rows="3">${esc(it.p.texto)}</textarea></div>`;
   if(it.tipo==="unidades") especificos = `<div class="fila"><label for="fN">Cantidad</label><input id="fN" type="text" value="${esc(it.p.n)}"></div><div class="fila"><label for="fL1">Línea 1</label><input id="fL1" type="text" value="${esc(it.p.l1)}"></div><div class="fila"><label for="fL2">Línea 2</label><input id="fL2" type="text" value="${esc(it.p.l2)}"></div>`;
   if(it.tipo==="itf") especificos = `<div class="fila"><label for="fCod">Código (13)</label><input id="fCod" type="text" inputmode="numeric" maxlength="13" value="${esc(String(it.p.codigo).slice(0,13))}"></div><p class="ayuda">ITF-14 completo: <b>${itfCodigo(it.p.codigo)}</b> (dígito de control calculado).</p>`;
@@ -818,7 +826,7 @@ function panelRotulo(){
   if($("#fN")){ $("#fN").onchange=ev=>p("n",ev.target.value); $("#fL1").onchange=ev=>p("l1",ev.target.value); $("#fL2").onchange=ev=>p("l2",ev.target.value); }
   if($("#fCod")) $("#fCod").onchange = ev=>p("codigo", ev.target.value.replace(/\D/g,""));
   if($("#fT1")){ $("#fT1").onchange=ev=>p("tendido",ev.target.value); $("#fT2").onchange=ev=>p("tendidos",ev.target.value); }
-  if($("#fR")) $("#fR").onchange = ev=>p("r", Math.max(0.2,num(ev.target.value)));
+  if($("#fR")) $("#fR").onchange = ev=>p("r", Math.max(it.tipo==="zona"?0.05:0.2,num(ev.target.value)));
   if($("#fTodos")) $("#fTodos").onchange = ev=>{ S.colorTodos = ev.target.checked; };
   $("#fOcultar").onclick = ()=>cambiar(it,{oculto:!it.oculto});
   $("#fDup").onclick = ()=>duplicar(it.id);
@@ -881,7 +889,7 @@ $("#btnReiniciar").addEventListener("click", ()=>{
 
 /* ---------- Guardado compartido (db) ---------- */
 let db = null, usuario = null, assets = null, descargas = null, miId = null;
-let DISENOS = [], IDEAS = [];
+let DISENOS = [], IDEAS = [], PILOTO = [];
 function panelDisenos(){
   const el = $("#p-disenos");
   const lista = DISENOS.length ? DISENOS.map(d=>`<div class="tarjeta"><b>${esc(d.nombre||"Sin nombre")}</b>
@@ -895,12 +903,15 @@ function panelDisenos(){
     <div class="botones" id="dExport"></div>
     <p class="ayuda">La ficha PDF sale con la misma estructura y tamaño de página de las fichas de ${esc(S.tipo)}: encabezado técnico, plano con cotas y ampliación de rótulos.</p>
     <p class="aviso">${db?"Los diseños quedan guardados en este artefacto y los ve todo el que lo abra.":"Sin conexión al almacenamiento compartido: los diseños se guardan solo en este navegador."}</p>
-    <div class="titulo-sec">Guardados</div><div class="lista">${lista}</div>`;
+    <div class="titulo-sec">Guardados</div><div class="lista">${lista}</div>
+    ${PILOTO.length?`<div class="titulo-sec">Piloto · caja neutra x12 750</div><p class="ayuda">Caja neutra del proveedor y las 11 referencias del TIPO 17 rotuladas en planta. Se abren como diseño nuevo: guárdalo para conservar tus cambios.</p><div class="lista">${PILOTO.map(d=>`<div class="tarjeta"><b>${esc(d.nombre)}</b><span class="meta">${esc(d.tipo)} · ${d.items.filter(i=>i.tipo!=="zona").length} rótulos${d.items.some(i=>i.tipo==="zona")?" · con zonas reservadas":""}</span><div class="acciones"><button class="btn" data-piloto="${esc(d.id)}">Abrir</button></div></div>`).join("")}</div>`:""}`;
   $("#dNombre").onchange = ev=>{ S.nombre = ev.target.value; borrador(); };
   $("#dGuardar").onclick = ()=>guardarDiseno(false);
   if($("#dNuevo")) $("#dNuevo").onclick = ()=>guardarDiseno(true);
   el.querySelectorAll("[data-abrir]").forEach(b=>b.onclick=()=>{ const d = DISENOS.find(x=>x.id===b.dataset.abrir); if(!d) return; guardarHistoria();
-    restaurar({tipo:d.tipo, refCode:d.refCode, geo:d.geo, items:JSON.parse(JSON.stringify(d.items||[])), origen:d.origen, nombre:d.nombre}).then(()=>{ S.disenoId=d.id; borrador(); panelDisenos(); toast("Diseño abierto"); }); });
+    restaurar({tipo:d.tipo, refCode:d.refCode, geo:d.geo, items:JSON.parse(JSON.stringify(d.items||[])), origen:d.origen, nombre:d.nombre, extra:d.extra||null}).then(()=>{ S.disenoId=d.id; borrador(); panelDisenos(); toast("Diseño abierto"); }); });
+  el.querySelectorAll("[data-piloto]").forEach(b=>b.onclick=()=>{ const d = PILOTO.find(x=>x.id===b.dataset.piloto); if(!d) return; guardarHistoria();
+    restaurar(JSON.parse(JSON.stringify({tipo:d.tipo, refCode:d.refCode, geo:d.geo, items:d.items, origen:d.origen, nombre:d.nombre, extra:d.extra||null}))).then(()=>{ S.disenoId=null; borrador(); panelDisenos(); toast("Diseño del piloto abierto"); }); });
   el.querySelectorAll("[data-borrar]").forEach(b=>b.onclick=async()=>{ if(b.dataset.ok!=="1"){ b.dataset.ok="1"; b.textContent="¿Seguro? Borrar"; return; } await borrarDiseno(b.dataset.borrar); });
   const ex = $("#dExport");
   ex.innerHTML = `<button class="btn pri" id="xPdf">Ficha PDF</button><button class="btn" id="xPng">PNG desarmada</button><button class="btn" id="xJson">JSON</button>`;
@@ -910,7 +921,7 @@ function panelDisenos(){
 function guardarLocal(clave, lista){ try{ localStorage.setItem(clave, JSON.stringify(lista)); }catch(e){} }
 function leerLocal(clave){ try{ return JSON.parse(localStorage.getItem(clave)||"[]"); }catch(e){ return []; } }
 async function guardarDiseno(comoNuevo){
-  const doc = {nombre:S.nombre||"Sin nombre", tipo:S.tipo, refCode:S.refCode, geo:S.geo, origen:S.origen, items:S.items, actualizado:Date.now(), autor:miId||""};
+  const doc = {nombre:S.nombre||"Sin nombre", tipo:S.tipo, refCode:S.refCode, geo:S.geo, origen:S.origen, items:S.items, extra:S.extra||null, actualizado:Date.now(), autor:miId||""};
   try{
     if(db){ const ref = (!comoNuevo && S.disenoId) ? db.collection("disenos").doc(S.disenoId) : db.collection("disenos").doc(); await ref.set(doc); S.disenoId = ref.id; }
     else { const id = (!comoNuevo && S.disenoId) || nid(); const l = leerLocal("taller2-disenos").filter(d=>d.id!==id); l.unshift({...doc,id}); guardarLocal("taller2-disenos", l); DISENOS = l; S.disenoId = id; }
@@ -993,17 +1004,19 @@ async function prepararExport(){
 }
 function tintasUsadas(){
   const set = new Map();
-  for(const it of S.items){ if(it.oculto) continue;
+  for(const it of S.items){ if(it.oculto || it.tipo==="zona") continue;
     if(it.color) set.set(nombreTinta(it.color), it.color);
     else if(it.tipo==="el"){ const e = CAT.elementos[it.ref]; if(e) set.set(e.tinta, (TINTAS.find(t=>t[0]===e.tinta)||[0,e.color])[1]); }
     else set.set("Negro 90", NEGRO); }
   return [...set.entries()];
 }
 function fichaSVG(fuentes, paginaPt){
-  const r = CAT.referencias[S.refCode] || {}, meta = r.meta || {}, d = r.dims || ["","",""];
+  const r = CAT.referencias[S.refCode] || {}, meta = {...(r.meta || {}), ...(S.extra || {})}, d = (S.extra && S.extra.dims) || r.dims || ["","",""];
+  if(S.extra && S.extra.dims && !S.extra.hoja_corrugar) meta.hoja_corrugar = `${G.TH} x ${G.TW}`;
   const [PW, PH] = paginaPt, u = PW/1000; // u = unidad relativa al ancho de la página
   const {s, TW, TH} = planoSVG({kraft:"#d4af6d", edge:"#7d5f2a"});
   const fam = "Oswald, 'Arial Narrow', sans-serif", txt = (x,y,t,sz,o={}) => `<text x="${r1(x)}" y="${r1(y)}" font-family="${fam}" font-size="${r1(sz)}" font-weight="${o.w||500}" fill="${o.c||"#1d1d1b"}" text-anchor="${o.a||"start"}">${esc(t)}</text>`;
+  const cabe = (t,ancho,sz) => Math.min(sz, ancho/(Math.max(1,String(t).length)*0.47));
   const caja = (x,y,w,h,fill="#fff") => `<rect x="${r1(x)}" y="${r1(y)}" width="${r1(w)}" height="${r1(h)}" fill="${fill}" stroke="#555" stroke-width="${r1(u*0.6)}"/>`;
   const cab = (x,y,w,h,t) => caja(x,y,w,h,"#5b5f66") + txt(x+w/2,y+h*0.75,t,h*0.72,{w:600,c:"#fff",a:"middle"});
   let o = `<svg xmlns="http://www.w3.org/2000/svg" width="${PW}" height="${PH}" viewBox="0 0 ${PW} ${PH}"><defs><style>${fuentes}</style>${$("#defsInner").innerHTML}</defs><rect width="${PW}" height="${PH}" fill="#fff"/>`;
@@ -1013,7 +1026,7 @@ function fichaSVG(fuentes, paginaPt){
   let x = PW*0.155; const wC = PW*0.33;
   o += cab(x,y0,wC*0.28,fila*0.8,"NIT") + cab(x+wC*0.28,y0,wC*0.72,fila*0.8,"CLIENTE / RAZÓN SOCIAL");
   o += caja(x,y0+fila*0.8,wC*0.28,fila*1.1) + txt(x+wC*0.14,y0+fila*1.65,meta.nit||"901436775",fila*0.75,{a:"middle"}) + caja(x+wC*0.28,y0+fila*0.8,wC*0.72,fila*1.1) + txt(x+wC*0.64,y0+fila*1.65,meta.cliente||"FABRICA DE LICORES Y ALCOHOLES DE ANTIOQUIA",fila*0.7,{w:600,a:"middle"});
-  o += cab(x,y0+fila*1.9,wC,fila*0.8,"REFERENCIA") + caja(x,y0+fila*2.7,wC,fila*1.1) + txt(x+wC/2,y0+fila*3.5,(S.nombre||"").slice(0,70),fila*0.7,{a:"middle"});
+  o += cab(x,y0+fila*1.9,wC,fila*0.8,"REFERENCIA") + caja(x,y0+fila*2.7,wC,fila*1.1) + txt(x+wC/2,y0+fila*3.5,(S.nombre||"").slice(0,80),cabe((S.nombre||"").slice(0,80),wC*0.96,fila*0.7),{a:"middle"});
   o += caja(x,y0+fila*3.8,wC,fila*2.3,"#fff6a8") + txt(x+wC/2,y0+fila*4.6,"NOTAS IMPORTANTES",fila*0.6,{w:600,c:"#b3261e",a:"middle"});
   (meta.notas||[]).slice(0,2).forEach((n,i)=> o += txt(x+wC/2,y0+fila*(5.3+i*0.7),n.slice(0,72),fila*0.55,{w:600,c:"#b3261e",a:"middle"}));
   x += wC + PW*0.008; const wM = PW*0.17;
@@ -1024,7 +1037,7 @@ function fichaSVG(fuentes, paginaPt){
   o += cab(x,y0+fila*4.1,wM*0.66,fila*0.7,"HOJA A CORRUGAR") + cab(x+wM*0.66,y0+fila*4.1,wM*0.34,fila*0.7,"ÁREA mt²");
   o += caja(x,y0+fila*4.8,wM*0.66,fila*1.0) + txt(x+wM*0.33,y0+fila*5.55,meta.hoja_corrugar||`${G.TH} x ${G.TW}`,fila*0.75,{w:600,a:"middle"}) + caja(x+wM*0.66,y0+fila*4.8,wM*0.34,fila*1.0) + txt(x+wM*0.83,y0+fila*5.55,(G.TW*G.TH/1e6).toFixed(3),fila*0.75,{w:600,a:"middle"});
   x += wM + PW*0.008; const wE = PW*0.12;
-  o += cab(x,y0,wE,fila*0.8,"ESTILO DE CAJA") + caja(x,y0+fila*0.8,wE,fila*1.6) + txt(x+wE/2,y0+fila*1.9,(meta.estilo||"—").slice(0,24),fila*0.7,{w:600,a:"middle"});
+  o += cab(x,y0,wE,fila*0.8,"ESTILO DE CAJA") + caja(x,y0+fila*0.8,wE,fila*1.6) + txt(x+wE/2,y0+fila*1.9,(meta.estilo||"—").slice(0,24),cabe((meta.estilo||"—").slice(0,24),wE*0.94,fila*0.7),{w:600,a:"middle"});
   o += cab(x,y0+fila*2.4,wE,fila*0.7,"PEGUE") + caja(x,y0+fila*3.1,wE,fila*1.0) + txt(x+wE/2,y0+fila*3.85,meta.pegue||"—",fila*0.6,{w:600,a:"middle"});
   o += cab(x,y0+fila*4.1,wE,fila*0.7,"ATADOS") + caja(x,y0+fila*4.8,wE,fila*1.0) + txt(x+wE/2,y0+fila*5.55,meta.atados||"—",fila*0.65,{w:600,a:"middle"});
   x += wE + PW*0.008; const wT = PW*0.11, tin = tintasUsadas();
@@ -1032,7 +1045,7 @@ function fichaSVG(fuentes, paginaPt){
   for(let i=0;i<4;i++){ const t = tin[i]; o += caja(x,y0+fila*(0.8+i*1.3),wT,fila*1.3); if(t){ o += txt(x+wT*0.06,y0+fila*(1.7+i*1.3),t[0],fila*0.62,{w:600}) + `<circle cx="${r1(x+wT*0.86)}" cy="${r1(y0+fila*(1.45+i*1.3))}" r="${r1(fila*0.42)}" fill="${t[1]}" stroke="#333" stroke-width="${r1(u*0.4)}"/>`; } }
   x += wT + PW*0.008; const wK = PW - x - PW*0.012;
   [["CÓDIGO PRODUCTO", meta.codigo||"—"],["MATERIAL", meta.material||"—"],["COLOR CARTÓN", meta.color_carton||"KRAFT"],["IMPRESIÓN", meta.impresion||"—"]].forEach(([l,v],i)=>{
-    o += cab(x,y0+fila*i*1.5,wK,fila*0.65,l) + caja(x,y0+fila*(0.65+i*1.5),wK,fila*0.85) + txt(x+wK/2,y0+fila*(1.3+i*1.5),v,fila*0.62,{w:600,a:"middle"}); });
+    o += cab(x,y0+fila*i*1.5,wK,fila*0.65,l) + caja(x,y0+fila*(0.65+i*1.5),wK,fila*0.85) + txt(x+wK/2,y0+fila*(1.3+i*1.5),v,cabe(v,wK*0.94,fila*0.62),{w:600,a:"middle"}); });
   // ---- plano con cotas ----
   const zx = PW*0.012, zy = y0+hh+PH*0.01, zw = PW*0.83, zh = PH*0.52;
   o += caja(zx, zy, zw, zh) + txt(zx+zw/2, zy+fila*1.0, "CONCEPTUALIZACIÓN GRÁFICO - ESTRUCTURAL", fila*0.95, {w:600,c:"#2a4b8d",a:"middle"});
@@ -1050,19 +1063,19 @@ function fichaSVG(fuentes, paginaPt){
   } else o += cota(ox - fila*0.6, oy, ox - fila*0.6, oy+TH*k, String(G.TH), true);
   // ---- columna derecha ----
   const rx = zx+zw+PW*0.008, rw = PW - rx - PW*0.012; let ry = zy;
-  const np = S.items.filter(i=>i.quien==="proveedor"&&!i.oculto).length, nl = S.items.filter(i=>i.quien==="planta"&&!i.oculto).length;
-  o += cab(rx,ry,rw,fila*0.9,"QUIÉN IMPRIME") + caja(rx,ry+fila*0.9,rw,fila*2.6) + `<circle cx="${r1(rx+rw*0.1)}" cy="${r1(ry+fila*1.7)}" r="${r1(fila*0.3)}" fill="#1d1d1b"/>` + txt(rx+rw*0.18,ry+fila*1.9,`Proveedor: ${np} rótulos`,fila*0.65) + `<circle cx="${r1(rx+rw*0.1)}" cy="${r1(ry+fila*2.8)}" r="${r1(fila*0.3)}" fill="#d0312d"/>` + txt(rx+rw*0.18,ry+fila*3.0,`Planta: ${nl} rótulos`,fila*0.65);
+  const np = S.items.filter(i=>i.quien==="proveedor"&&!i.oculto).length, nl = S.items.filter(i=>i.quien==="planta"&&!i.oculto&&i.tipo!=="zona").length, nz = S.items.filter(i=>i.tipo==="zona"&&!i.oculto).length;
+  o += cab(rx,ry,rw,fila*0.9,"QUIÉN IMPRIME") + caja(rx,ry+fila*0.9,rw,fila*2.6) + `<circle cx="${r1(rx+rw*0.1)}" cy="${r1(ry+fila*1.7)}" r="${r1(fila*0.3)}" fill="#1d1d1b"/>` + txt(rx+rw*0.18,ry+fila*1.9,`Proveedor: ${np} rótulos`,fila*0.65) + `<circle cx="${r1(rx+rw*0.1)}" cy="${r1(ry+fila*2.8)}" r="${r1(fila*0.3)}" fill="#d0312d"/>` + txt(rx+rw*0.18,ry+fila*3.0,nz&&!nl?`Planta: ${nz} zonas reservadas`:`Planta: ${nl} rótulos`,fila*0.65);
   ry += fila*3.8;
   o += cab(rx,ry,rw,fila*0.9,"BASE") + caja(rx,ry+fila*0.9,rw,fila*2.6) + txt(rx+rw*0.05,ry+fila*1.9,`Tipo: ${S.tipo}`,fila*0.6) + txt(rx+rw*0.05,ry+fila*2.7,`Ficha de origen: ${S.refCode}`,fila*0.6) + txt(rx+rw*0.05,ry+fila*3.3,(r.archivo||"").split("/").pop().slice(0,34),fila*0.45,{c:"#555"});
   ry += fila*3.8;
   o += cab(rx,ry,rw,fila*0.9,"NOTAS ACLARATORIAS") + caja(rx,ry+fila*0.9,rw,zy+zh-ry-fila*0.9);
-  const notas = ["Negro: impresión fija del proveedor.","Rojo: se imprime en planta.","Colores simulados.","Validar medidas con el proveedor."];
+  const notas = (S.extra && S.extra.aclaratorias) || ["Negro: impresión fija del proveedor.","Rojo: se imprime en planta.","Colores simulados.","Validar medidas con el proveedor."];
   notas.forEach((n,i)=> o += txt(rx+rw*0.05, ry+fila*(1.9+i*0.8), n, fila*0.5));
   // ---- ampliación ----
   const ay = zy+zh+PH*0.01, ah = PH - ay - PH*0.045;
   o += `<rect x="${r1(zx)}" y="${r1(ay)}" width="${r1(PW-2*zx)}" height="${r1(fila*0.95)}" fill="#1f8a4c"/>` + txt(PW/2, ay+fila*0.75, "AMPLIACIÓN TEXTOS, CÓDIGO, LOGO y SELLO", fila*0.75, {w:600,c:"#fff",a:"middle"});
   const vistos = new Set(), amp = [];
-  for(const it of [...S.items].sort((a,b)=>tam(b).w*tam(b).h - tam(a).w*tam(a).h)){ if(it.oculto) continue; const key = it.tipo==="el" ? it.ref : it.tipo+":"+JSON.stringify(it.p)+it.ref; if(vistos.has(key)) continue; vistos.add(key); amp.push(it); if(amp.length>=8) break; }
+  for(const it of [...S.items].sort((a,b)=>tam(b).w*tam(b).h - tam(a).w*tam(a).h)){ if(it.oculto || it.tipo==="zona" || it.tipo==="rect") continue; const key = it.tipo==="el" ? it.ref : it.tipo+":"+JSON.stringify(it.p)+it.ref; if(vistos.has(key)) continue; vistos.add(key); amp.push(it); if(amp.length>=8) break; }
   const celda = (PW-2*zx)/Math.max(4, amp.length), ch = ah - fila*1.3;
   amp.forEach((it,i)=>{ const {w,h} = tam(it), sc = Math.min(celda*0.86/w, ch*0.86/h), cx = zx + i*celda + (celda - w*sc)/2, cy = ay + fila*1.15 + (ch - h*sc)/2;
     o += `<g transform="translate(${r1(cx)} ${r1(cy)}) scale(${sc.toFixed(4)})">${itemSVG({...it, x:0, y:0, rot:0})}</g>`; });
@@ -1122,6 +1135,7 @@ $("#refSel").onchange = e=>{ guardarHistoria(); cargarRef(e.target.value, "copia
   if(b && b.geo && b.items && CAT.referencias[b.refCode]){ await restaurar(b); S.disenoId = b.disenoId||null; }
   else await cargarRef("60002609", "copia");
   DISENOS = leerLocal("taller2-disenos"); IDEAS = leerLocal("taller2-ideas");
+  fetch("piloto.json").then(r=>r.ok?r.json():null).then(p=>{ if(p && p.disenos){ PILOTO = p.disenos; if($("#p-disenos").classList.contains("activo")) panelDisenos(); } }).catch(()=>{});
   const locales = leerLocal("taller2-rotulos"); if(locales.length) cargarCustom(locales);
   $("#carga").hidden = true;
   conectar();
